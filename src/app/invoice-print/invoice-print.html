@@ -1,0 +1,371 @@
+<div *ngIf="loading">
+  Loading invoice...
+</div>
+
+<div *ngIf="!loading && invoice" class="print-page">
+
+  <!-- Screen Header -->
+  <div class="screen-header">
+
+    <button
+      class="back-button"
+      (click)="back()">
+
+      ←
+
+    </button>
+
+    <h2>
+
+      {{ invoice.invoice_number }}
+
+    </h2>
+
+  </div>
+
+  <!-- Printable Paper -->
+  <div class="paper">
+
+    <div class="paper-header">
+
+      <div>
+
+        <h1>GARAGE BILLING SOFTWARE</h1>
+
+        <p>Invoice</p>
+
+      </div>
+
+      <div class="invoice-info">
+
+        <h2>{{ invoice.invoice_number }}</h2>
+
+        <p>
+
+          {{ invoice.invoice_date | date:'dd-MM-yyyy' }}
+
+        </p>
+
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div class="info-grid">
+      <!-- Customer -->
+      <div class="section">
+
+        <h3>Customer Details</h3>
+
+        <div class="row">
+
+          <span>Name</span>
+
+          <strong>{{ invoice.customer_name }}</strong>
+
+        </div>
+
+        <div class="row">
+
+          <span>Phone</span>
+
+          <strong>{{ invoice.phone || '-' }}</strong>
+
+        </div>
+
+      </div>
+
+      <!-- Vehicle -->
+      <div class="section">
+
+        <h3>Vehicle Details</h3>
+
+        <div class="row">
+
+          <span>Registration</span>
+
+          <strong>{{ invoice.vehicle_number }}</strong>
+
+        </div>
+
+        <div class="row">
+
+          <span>Brand</span>
+
+          <strong>{{ invoice.brand || '-' }}</strong>
+
+        </div>
+
+        <div class="row">
+
+          <span>Model</span>
+
+          <strong>{{ invoice.model || '-' }}</strong>
+
+        </div>
+
+        <div class="row">
+
+          <span>Odometer</span>
+
+          <strong>
+
+            {{ invoice.odometer_reading }} KM
+
+          </strong>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Services -->
+
+    <div
+      class="section"
+      *ngIf="invoice.services.length">
+
+      <h3>Services</h3>
+
+      <div class="table-scroll">
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>Service</th>
+
+              <th>Qty</th>
+
+              <th>Rate</th>
+
+              <th>Total</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            <tr
+              *ngFor="let service of invoice.services">
+
+              <td>
+
+                {{ service.service_name }}
+
+              </td>
+
+              <td>
+
+                {{ service.quantity }}
+
+              </td>
+
+              <td>
+
+                ₹{{ service.labour_charge }}
+
+              </td>
+
+              <td>
+
+                ₹{{ service.total_amount }}
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+
+    <!-- Parts -->
+
+    <div
+      class="section"
+      *ngIf="invoice.parts.length">
+
+      <h3>Parts</h3>
+
+      <div class="table-scroll">
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>Part</th>
+
+              <th>Qty</th>
+
+              <th>Rate</th>
+
+              <th>Total</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            <tr
+              *ngFor="let part of invoice.parts">
+
+              <td>
+
+                {{ part.part_name }}
+
+              </td>
+
+              <td>
+
+                {{ part.quantity }}
+
+              </td>
+
+              <td>
+
+                ₹{{ part.unit_price }}
+
+              </td>
+
+              <td>
+
+                ₹{{ part.total_amount }}
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+
+    <!-- Totals -->
+
+    <div class="summary">
+
+      <div class="row">
+
+        <span>Subtotal</span>
+
+        <strong>
+
+          ₹{{ invoice.subtotal }}
+
+        </strong>
+
+      </div>
+
+      <div class="row grand">
+
+        <span>Total Amount</span>
+
+        <strong>
+
+          ₹{{ invoice.total_amount }}
+
+        </strong>
+
+      </div>
+
+      <div class="row">
+
+        <span>Paid Amount</span>
+
+        <strong>
+
+          ₹{{ invoice.paid_amount }}
+
+        </strong>
+
+      </div>
+
+      <div class="row">
+
+        <span>Balance</span>
+
+        <strong>
+
+          ₹{{ invoice.balance_amount }}
+
+        </strong>
+
+      </div>
+
+      <div class="row">
+
+        <span>Status</span>
+
+        <strong>
+
+          {{ invoice.status }}
+
+        </strong>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="footer">
+
+      <p>
+
+        Thank you for visiting our Garage.
+
+      </p>
+
+      <p>
+
+        This is a computer-generated invoice.
+
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- Buttons -->
+
+  <div class="print-actions">
+
+    <button
+      class="pdf"
+      (click)="print()">
+
+      Save PDF
+
+    </button>
+
+    <button
+      class="print"
+      (click)="print()">
+
+      Print
+
+    </button>
+
+  </div>
+
+</div>
+
+<div *ngIf="!loading && !invoice" class="not-found">
+
+  <h1>Invoice not found</h1>
+
+  <button routerLink="/invoices">
+    Back to invoices
+  </button>
+
+</div>

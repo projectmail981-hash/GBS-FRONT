@@ -1,0 +1,160 @@
+/* Top bar layout and more button */
+.top-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 18px 20px;
+	background: linear-gradient(180deg,#ffc107,#ffca28);
+	border-radius: 12px;
+	color: #fff;
+}
+
+.top-bar-left h1 {
+	margin: 0;
+	font-size: 1.4rem;
+}
+
+.top-bar-left p {
+	margin: 4px 0 0;
+	font-size: 0.95rem;
+	opacity: 0.95;
+}
+
+.topbar-more {
+	background: transparent;
+	border: none;
+	color: #fff;
+	font-size: 20px;
+	padding: 6px 10px;
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+.topbar-more:hover {
+	background: rgba(255,255,255,0.08);
+}
+
+.top-bar-left {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.topbar-more-left {
+	width: 34px;
+	height: 34px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #fff;
+	color: #111827;
+	border: none;
+	border-radius: 8px;
+	box-shadow: 0 6px 18px rgba(16,24,40,0.12);
+	cursor: pointer;
+	font-size: 18px;
+	line-height: 1;
+}
+
+.topbar-more-left:hover {
+	transform: translateY(-1px);
+}
+
+.topbar-left-text h1 {
+	margin: 0;
+}
+
+.topbar-left-text p {
+	margin: 4px 0 0;
+	font-size: 0.95rem;
+	opacity: 0.95;
+}
+
+.topbar-more-right {
+	width: 36px;
+	height: 36px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255,255,255,0.12);
+	color: #111827;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 18px;
+	line-height: 1;
+}
+
+.topbar-more-right:hover {
+	background: rgba(255,255,255,0.18);
+	transform: translateY(-1px);
+}
+
+.reports-section {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.reports-section h3 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.report-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.report-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.report-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.report-card:nth-child(1)::before { background: #3b82f6; } /* Blue for Weekly */
+.report-card:nth-child(2)::before { background: #10b981; } /* Green for Monthly */
+.report-card:nth-child(3)::before { background: #f59e0b; } /* Orange for Parts */
+.report-card:nth-child(4)::before { background: #8b5cf6; } /* Purple for Labour */
+
+.report-title {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 500;
+  padding-left: 8px;
+}
+
+.report-value {
+  font-size: 1.25rem;
+  color: #111827;
+  padding-left: 8px;
+}
+
+.quick-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+}

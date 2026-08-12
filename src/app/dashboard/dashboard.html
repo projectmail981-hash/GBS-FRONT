@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="../../styles.css">
+<header class="top-bar">
+  <div class="topbar-left-text"><h1>Garage Billing</h1><p>Vehicle Service &amp; Billing</p></div>
+  <button class="topbar-dashboard-btn" routerLink="/more-options" aria-label="More Options"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><polygon points="17.5,3.5 21,7 17.5,10.5 14,7"></polygon></svg></button>
+</header>
+
+<div class="quick-section">
+  <div class="section-title"><h2>Quick Actions</h2></div>
+  <div class="quick-actions"><button class="action-btn customer-btn" routerLink="/new-customer"><span>New Customer</span></button><button class="action-btn job-btn" routerLink="/new-job-card"><span>New Job Card</span></button></div>
+
+  <div class="reports-section">
+    <h3>Reports</h3>
+    <div class="reports-grid">
+      <div class="report-card">
+        <span class="report-title">Weekly Income</span>
+        <strong class="report-value">&#8377;{{ weeklyIncome }}</strong>
+      </div>
+      <div class="report-card">
+        <span class="report-title">Monthly Income</span>
+        <strong class="report-value">&#8377;{{ monthlyIncome }}</strong>
+      </div>
+      <div class="report-card">
+        <span class="report-title">Parts Profit</span>
+        <strong class="report-value">&#8377;{{ partsProfit }}</strong>
+      </div>
+      <div class="report-card">
+        <span class="report-title">Labour Charge</span>
+        <strong class="report-value">&#8377;{{ labourCharge }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav"><div class="bottom-nav-left"><a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="material-icons" aria-hidden="true">&#127968;</span><small>Dashboard</small></a><a routerLink="/customers" routerLinkActive="active"><span class="material-icons" aria-hidden="true">&#128100;</span><small>Customers</small></a><a routerLink="/job-cards" routerLinkActive="active"><span class="material-icons" aria-hidden="true">&#128295;</span><small>Job Cards</small></a><a routerLink="/invoices" routerLinkActive="active"><span class="material-icons" aria-hidden="true">&#129534;</span><small>Invoices</small></a></div></nav>
+</div>
+
+<div class="recent-section"><h2>Recent Invoices</h2>@if (displayRecentInvoices.length > 0) { @for (invoice of displayRecentInvoices; track invoice.id) {<div class="invoice-card"><div class="invoice-header"><h3>{{ invoice.vehicle_number || invoice.invoice_number }}</h3><span class="{{ invoice.status === 'Paid' ? 'paid' : 'unpaid' }}">{{ invoice.status }}</span></div>
+<p><strong>Invoice :</strong> {{ invoice.invoice_number }}</p><p><strong>Customer :</strong> {{ invoice.customer_name }}</p><p><strong>Amount :</strong> &#8377;{{ invoice.total_amount }}</p><p><strong>Date :</strong> {{ invoice.invoice_date | date:'dd-MM-yyyy'}}</p></div>}} @else {<p class="empty">No recent invoices available</p>}</div>
+
+<div class="pending-section"><h2>Pending Payments</h2>@if (pendingInvoices.length > 0) { @for (invoice of pendingInvoices; track invoice.id) {<div class="pending-card"><div class="pending-header"><h3>{{ invoice.vehicle_number || invoice.invoice_number }}</h3><span class="pending-status">UNPAID</span></div><p><strong>Invoice No :</strong> {{ invoice.invoice_number }}</p><p><strong>Customer :</strong> {{ invoice.customer_name }}</p>
+<div class="pending-footer"><h2>&#8377;{{ invoice.balance_amount }}</h2></div></div>}} @else {<p class="empty">No pending payments available</p>}</div>

@@ -1,0 +1,152 @@
+<div class="container">
+
+    <div class="header">
+        <button class="back-btn" (click)="goBack()">&#8592;</button>
+        <h2>New Job Card</h2>
+    </div>
+
+    <div class="card">
+        <div class="row">
+            <label>&#128100; Customer</label>
+    <select
+    [(ngModel)]="selectedCustomer"
+    (ngModelChange)="onCustomerChange($event)">
+
+    <option value="">Select Customer</option>
+
+    <option
+        *ngFor="let customer of customers"
+        [value]="customer.customer_name">
+
+        {{ customer.customer_name }}
+
+    </option>
+
+</select>
+        </div>
+
+        <div class="row">
+            <label>&#128663; Vehicle Reg No</label>
+            <input type="text" placeholder="TN10YJ1234" [(ngModel)]="vehicleReg" (blur)="validateVehicleReg()">
+            @if (vehicleRegError) {
+                <span class="error-message">{{ vehicleRegError }}</span>
+            }
+        </div>
+
+        <div class="row">
+            <label>&#128663; Vehicle Model</label>
+            <input type="text" placeholder="Hyundai i10" [(ngModel)]="vehicleModel">
+        </div>
+
+        <div class="row">
+            <label>&#128197; Service Date</label>
+            <input type="date" [(ngModel)]="serviceDate">
+        </div>
+
+        <div class="row">
+            <label>&#128200; Odometer Reading</label>
+            <input type="number" placeholder="Enter KM" [(ngModel)]="odometer">
+        </div>
+
+        <div class="row">
+            <label>&#128179; Invoice Status</label>
+            <select [(ngModel)]="status">
+                <option value="Unpaid">Unpaid</option>
+                <option value="Partial">Partial</option>
+                <option value="Paid">Paid</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <label>&#128221; Job Card Status</label>
+            <select [(ngModel)]="jobCardStatus">
+                <option value="Open">Open</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Ready">Ready</option>
+                <option value="Delivered">Delivered</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <h3>&#128295; Services</h3>
+        <button type="button" class="add-btn" (click)="addService()">+ Add</button>
+    </div>
+
+    @if (showServiceForm) {
+        <div class="card item-form">
+            <input type="text" placeholder="Service name" [(ngModel)]="newServiceName">
+            <div class="form-row-dual">
+                <input type="number" placeholder="Quantity" [(ngModel)]="newServiceQty">
+                <input type="number" placeholder="Amount &#8377;" [(ngModel)]="newServiceAmount">
+            </div>
+            <div class="item-form-actions">
+                <button type="button" class="cancel-btn" (click)="showServiceForm = false">Cancel</button>
+                <button type="button" class="confirm-btn" (click)="confirmService()">Add</button>
+            </div>
+        </div>
+    }
+
+    @if (services.length === 0 && !showServiceForm) {
+        <div class="card empty-card">
+            <h3>No Services Added</h3>
+            <p>Add labour/service tasks</p>
+        </div>
+    } @else {
+        @for (svc of services; track svc.id) {
+            <div class="card line-item-card">
+                <div class="line-item-info">
+                    <strong>{{ svc.name }}</strong>
+                    <span>Qty: {{ svc.qty }} &#215; &#8377;{{ svc.rate }} = &#8377;{{ svc.amount }}</span>
+                </div>
+                <button type="button" class="remove-btn" (click)="removeService(svc.id)">&#10005;</button>
+            </div>
+        }
+    }
+
+    <div class="section-title">
+        <h3>&#128230; Parts & Inventory</h3>
+        <button type="button" class="add-btn" (click)="addPart()">+ Add</button>
+    </div>
+
+    @if (showPartForm) {
+        <div class="card item-form">
+            <input type="text" placeholder="Part name" [(ngModel)]="newPartName">
+            <div class="form-row-dual">
+                <input type="number" placeholder="Quantity" [(ngModel)]="newPartQty">
+                <input type="number" placeholder="Amount &#8377;" [(ngModel)]="newPartAmount">
+            </div>
+            <div class="item-form-actions">
+                <button type="button" class="cancel-btn" (click)="showPartForm = false">Cancel</button>
+                <button type="button" class="confirm-btn" (click)="confirmPart()">Add</button>
+            </div>
+        </div>
+    }
+
+    @if (parts.length === 0 && !showPartForm) {
+        <div class="card empty-card">
+            <h3>No Parts Added</h3>
+            <p>Select spare parts from inventory</p>
+        </div>
+    } @else {
+        @for (part of parts; track part.id) {
+            <div class="card line-item-card">
+                <div class="line-item-info">
+                    <strong>{{ part.name }}</strong>
+                    <span>Qty: {{ part.qty }} &#215; &#8377;{{ part.rate }} = &#8377;{{ part.amount }}</span>
+                </div>
+                <button type="button" class="remove-btn" (click)="removePart(part.id)">&#10005;</button>
+            </div>
+        }
+    }
+
+    <h3 class="notes-title">&#128221; Additional Notes</h3>
+    <textarea placeholder="Mechanic observations, remarks..." [(ngModel)]="notes"></textarea>
+
+    <div class="total-card">
+        <span>Total Estimate</span>
+        <h2>&#8377;{{ amount }}</h2>
+    </div>
+
+    <button type="button" class="save-btn" (click)="saveJobCard()">Save Job Card</button>
+</div>

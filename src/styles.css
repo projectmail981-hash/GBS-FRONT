@@ -1,1 +1,3109 @@
-/* You can add global styles to this file, and also import other style files */
+/* Remove default spacing */
+*{
+    box-sizing:border-box;
+    padding:0;
+    margin:0;
+    font-family:arial,sans-serif;
+    
+}
+
+body{
+    margin:0;
+    background:#f4f6fb;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Top Bar */
+
+.top-bar{
+
+    background:  #FEBE10;
+
+    color:white;
+
+    padding:18px 20px 35px;
+
+    border-bottom-left-radius:55px;
+
+
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+/* Title */
+
+.top-bar h1{
+
+    margin:12px 0 8px;
+
+    text-align:center;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    text-align:left;
+
+}
+
+/* Subtitle */
+
+.top-bar p{
+
+    margin:0;
+
+    text-align:center;
+
+    opacity:.9;
+
+    font-size:15px;
+
+   text-align:left;
+
+}
+
+/* Dashboard Button */
+
+.topbar-dashboard-btn {
+
+    width: 44px;
+
+    height: 44px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(255, 255, 255, 0.22);
+
+    color: #ffffff;
+
+    border: none;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    margin-top: 10px;
+
+}
+
+.topbar-dashboard-btn:hover {
+
+    background: rgba(255, 255, 255, 0.32);
+
+    transform: translateY(-1px);
+
+}
+
+.topbar-dashboard-btn:active {
+
+    transform: scale(0.95);
+
+}
+
+.topbar-dashboard-btn svg {
+
+    width: 22px;
+
+    height: 22px;
+
+}
+
+
+/* ================================ */
+
+
+/* job cards */
+.quick-section{
+
+    background:#ffffff;
+
+    margin-top:20px;
+
+    padding:18px;
+
+    border-radius:20px;
+
+    box-shadow:0 6px 16px rgba(0,0,0,.08);
+
+}
+
+.section-title{
+
+    margin-bottom:15px;
+
+}
+
+.section-title h2{
+
+    margin:0;
+
+    font-size:20px;
+
+    color:#222;
+
+}
+
+.search-box{
+
+    display:flex;
+
+    align-items:center;
+
+    background:#f5f5f5;
+
+    border-radius:12px;
+
+    padding:10px 15px;
+
+    margin-bottom:18px;
+
+}
+
+.search-box .material-icons{
+
+    color:#777;
+
+    margin-right:10px;
+
+}
+
+.search-box input{
+
+    flex:1;
+
+    border:none;
+
+    outline:none;
+
+    background:transparent;
+
+    font-size:15px;
+
+}
+
+.quick-search{
+    display:flex;
+    align-items:center;
+    background:#f7f7f7;
+    border:1px solid #ececec;
+    border-radius:14px;
+    padding:10px 14px;
+    margin-bottom:14px;
+}
+
+.quick-search .search-icon{
+    color:#777;
+    font-size:16px;
+    margin-right:10px;
+}
+
+.quick-search input{
+    flex:1;
+    border:none;
+    outline:none;
+    background:transparent;
+    font-size:15px;
+    color:#222;
+}
+
+.quick-actions{
+
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:12px;
+    margin:8px 0 0;
+    
+}
+
+.action-btn{
+    border:none;
+    border-radius:16px;
+    padding:18px 10px;
+    color:rgb(20, 18, 18);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    cursor:pointer;
+
+    box-shadow:0 5px 12px rgba(0,0,0,.12);
+}
+.action-btn .material-icons{
+    font-size:32px;
+}
+.action-btn span:last-child{
+    font-size:14px;
+    font-weight:600;
+}
+.customer-btn{
+    background: white;
+    color: black;
+    font-weight: 800;
+}
+.customer-btn:hover{
+    background: #FEBE10;
+}
+.job-btn{
+
+    background: #FEBE10;
+}
+.job-btn:hover{
+    background: white;
+    color: black;
+}
+
+.action-btn:active{
+
+    transform:scale(.97);
+
+}
+
+@media (max-width: 600px) {
+    .quick-section {
+        padding:16px;
+    }
+
+    .quick-actions {
+        grid-template-columns:1fr;
+    }
+
+    .action-btn {
+        padding:16px 10px;
+    }
+}
+
+/* ============================== */
+
+/* Dashboard Cards */
+.dashboard-cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:10px;
+
+    margin-top:20px;
+    
+
+}
+.h2{
+    font-size: 22px;
+}
+
+.card{
+
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:14px;
+
+    min-height:90px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    box-shadow: rgba(23, 23, 1, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.card-title{
+
+    font-size:14px;
+
+    color:#6b7280;
+
+    font-weight:500;
+
+}
+
+.card-value{
+
+    font-size:26px;
+
+    font-weight:700;
+
+    color:#111827;
+
+}
+
+.dashboard-cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:12px;
+
+    margin-top:18px;
+
+}
+
+/* =================================== */
+/* Recent Invoices */
+.recent-section{
+
+    background:#fff;
+
+    margin-top:20px;
+
+    padding:18px;
+
+    border-radius:20px;
+
+box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.recent-section h2{
+
+    margin:0 0 18px;
+
+    font-size:22px;
+
+    color:#222;
+
+}
+
+/* Search */
+
+.invoice-search{
+
+    display:none;
+
+}
+
+.search-icon{
+
+    font-size:15px;
+
+    margin-right:8px;
+
+}
+
+.invoice-search input{
+
+    flex:1;
+
+    border:none;
+
+    outline:none;
+
+    background:transparent;
+
+    font-size:13px;
+
+}
+
+/* Invoice Card */
+
+.invoice-card{
+
+    background: #ffffff;
+
+    border-radius:15px;
+
+    padding:16px;
+
+    margin-bottom:15px;
+
+    border:1px solid #ececec;
+
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+
+}
+
+.invoice-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:12px;
+
+}
+
+.invoice-header h3{
+
+    margin:0;
+
+    font-size:22px;
+
+}
+
+.invoice-card p{
+
+    margin:6px 0;
+
+    color:#555;
+
+    font-size:14px;
+
+}
+
+.amount{
+
+    text-align:right;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:#FEBE10;
+
+    margin-top:12px;
+
+}
+
+/* Status */
+
+.paid{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+.unpaid{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}   
+/* ==================================== */
+/* Pending Payments */
+.pending-section{
+
+    background:#ffffff;
+
+    margin-top:20px;
+    margin-bottom:90px;
+
+    padding:18px;
+
+    border-radius:20px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.pending-section h2{
+
+    margin:0 0 18px;
+
+    font-size:22px;
+
+    color:#222;
+
+}
+
+.pending-card{
+
+    background:#fff7ed;
+
+    border-left:6px solid #FEBE10;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    margin-bottom:15px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.pending-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:12px;
+
+}
+
+.pending-header h3{
+
+    margin:0;
+
+    font-size:22px;
+
+}
+
+.pending-status{
+
+    background:#fee2e2;
+
+    color:#FEBE10;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+.pending-card p{
+
+    margin:6px 0;
+
+    color:#555;
+
+    font-size:14px;
+
+}
+
+.pending-footer{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-top:12px;
+
+}
+
+.pending-footer h2{
+
+    margin:0;
+
+    color: #FEBE10;
+
+    font-size:24px;
+
+    font-weight: bold;
+
+}
+
+/* ==================================== */
+/* New Customer Form */
+.add-customer{
+
+    max-width:450px;
+
+    margin:auto;
+
+    padding:20px;
+
+    background:#FFFAF0;
+
+    min-height:100vh;
+
+}
+
+.add-customer .header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+}
+
+.add-customer .header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.add-customer h2{
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+}
+.back-btn{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#ffffff;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    font-size:22px;
+
+}
+
+.card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.card h3{
+
+    margin-bottom:18px;
+
+    color:#FEBE10;
+
+}
+
+.field{
+
+    margin-bottom:18px;
+
+}
+
+.field label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:#444;
+
+}
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    box-sizing:border-box;
+
+}
+
+textarea{
+
+    height:90px;
+
+    resize:none;
+
+}
+
+.phone-box{
+
+    display:flex;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+}
+
+.phone-box span{
+
+    width:65px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#f1f3f6;
+
+    font-weight:bold;
+
+}
+
+.phone-box input{
+
+    border:none;
+
+    outline:none;
+
+}
+
+.vehicle-number{
+
+    display:grid;
+
+    grid-template-columns:60px 60px 70px 1fr;
+
+    gap:10px;
+
+    margin:12px 0 20px;
+
+}
+
+.vehicle-number input{
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    text-transform:uppercase;
+
+}
+
+.save-btn{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#FEBE10;
+
+    color:#fff;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.save-btn:hover{
+
+    background:#FEBE10;
+
+}
+/* =================================== */
+/* New Job Card */
+*{
+
+    box-sizing:border-box;
+
+}
+
+body{
+
+    margin:0;
+
+    font-family:Arial,Helvetica,sans-serif;
+
+}
+
+.container{
+
+    max-width:450px;
+
+    margin:auto;
+
+    padding:20px;
+
+    background:#FFFAF0;
+
+    min-height:100vh;
+
+}
+
+.header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:14px;
+
+}
+
+.header h2 {
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+.back-btn{
+
+    width:32px;
+
+    height:32px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:white;
+
+    cursor:pointer;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+
+    font-size:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+.card{
+
+    background:white;
+
+    border-radius:14px;
+
+    padding:14px;
+
+    margin-bottom:14px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+}
+
+.row{
+
+    margin-bottom:12px;
+
+}
+
+.row label{
+
+    display:block;
+
+    margin-bottom:5px;
+
+    font-weight:600;
+
+    font-size:13px;
+
+    color:#444;
+
+}
+
+.row input,
+.row select{
+
+    width:100%;
+
+    padding:9px 11px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    font-size:13px;
+
+}
+
+.section-title{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin:15px 0;
+
+}
+
+.add-btn{
+
+    background:transparent;
+
+    color:#FEBE10;
+
+    border:none;
+
+    border-color:#FEBE10;
+
+    padding:8px 15px;
+
+    border-radius: 20px;
+
+    cursor:pointer;
+
+}
+
+.empty-card{
+
+    text-align:center;
+
+    color:#777;
+
+}
+
+.empty-card h3{
+
+    margin-top:10px;
+
+}
+
+.notes-title{
+
+    margin-bottom:10px;
+
+}
+
+textarea{
+
+    width:100%;
+
+    height:120px;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    border:1px solid #ddd;
+
+    resize:none;
+
+    margin-bottom:20px;
+
+    font-size:15px;
+
+}
+
+.total-card{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:white;
+
+    padding:18px;
+
+    border-radius:15px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+}
+
+.total-card h2{
+
+    color:#FEBE10;
+
+    margin:0;
+
+}
+
+.save-btn{
+
+    width:100%;
+
+    padding:15px;
+
+    background:#FEBE10;
+
+    color:white;
+
+    border:none;
+
+    border-radius:12px;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+/* customer */
+*{
+    box-sizing:border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    margin: 0;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.customers-container{
+
+    background:#FFF5CF;
+    min-height:100vh;
+    padding-bottom:70px;
+
+}
+
+/* Customers page header — title stacked above stat pills */
+
+.customers-header {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    background:#FEBE10;
+    color:white;
+    padding:14px 14px 16px;
+    border-bottom-left-radius:36px;
+    border-bottom-right-radius:36px;
+    width:100%;
+    box-sizing:border-box;
+
+}
+
+.customers-header h1 {
+
+    font-size:24px;
+
+    margin:0 0 8px;
+
+    color:white;
+
+}
+
+/* Keep old .header generic (used by job/invoice pages) */
+
+.header{
+
+    background:#FEBE10;
+    color:white;
+    padding:30px 25px 40px;
+    border-bottom-left-radius:55px;
+    border-bottom-right-radius:55px;
+}
+
+.header h1{
+
+    margin:0 0 25px;
+
+}
+
+.stats{
+
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    width:100%;
+
+}
+
+.stat-card{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
+    background:rgba(255,255,255,.22);
+
+    border:1px solid rgba(255,255,255,.45);
+
+    border-radius:24px;
+
+    padding:8px 14px;
+
+    font-size:13px;
+
+    color:white;
+
+}
+
+/* Emoji icon helpers */
+
+.stat-icon {
+    font-size:16px;
+}
+
+.plate-icon {
+    font-size:13px;
+    margin-right:3px;
+}
+
+.arrow-icon {
+    font-size:22px;
+    font-weight:bold;
+    color:#bbb;
+    line-height:1;
+    margin-top:4px;
+}
+
+.search-icon-emoji {
+    font-size:16px;
+    margin-right:6px;
+}
+
+.search-box{
+
+    margin:20px;
+
+    background:white;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:14px 16px;
+
+    border-radius:15px;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.08);
+
+}
+
+.search-box input{
+
+    border:none;
+
+    outline:none;
+
+    flex:1;
+
+    margin-left:10px;
+
+    font-size:16px;
+
+}
+
+.customer-card{
+
+    margin:20px;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+    gap: 15px;
+
+}
+
+.avatar{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:15px;
+
+    background:#FEBE10;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+}
+
+.customer-info{
+
+    margin-left:15px;
+
+    flex:1;
+
+}
+
+.customer-info h3{
+
+    margin:0;
+
+}
+
+.customer-info p{
+
+    margin-top:6px;
+
+    display:flex;
+
+    align-items:center;
+
+    color:#666;
+
+}
+
+.small{
+
+    font-size:18px;
+
+    margin-right:5px;
+
+}
+
+.customer-right{
+
+    text-align:right;
+
+}
+
+.phone{
+
+    display:block;
+
+    font-weight:bold;
+
+}
+
+.vehicle-count{
+
+    color:#888;
+
+    font-size:14px;
+
+}
+
+.arrow{
+
+    color:#999;
+
+    margin-top:8px;
+
+}
+
+.fab{
+
+    position:fixed;
+
+    bottom:90px;
+
+    right:20px;
+
+    width:65px;
+
+    height:65px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#FEBE10;
+
+    color:white;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 20px rgba(37,99,235,.4);
+
+}
+
+.fab .material-icons{
+
+    font-size:34px;
+
+}
+/* job cards */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.job-container{
+
+    min-height:100vh;
+
+    width:100%;
+
+    max-width:100%;
+
+    overflow-x:hidden;
+
+    background:#FFF5CF;
+
+    padding-bottom:90px;
+
+    box-sizing:border-box;
+
+}
+
+/* Header */
+
+.header{
+
+    background:#FEBE10;
+
+    color:#fff;
+
+    padding:35px 20px;
+
+    border-bottom-left-radius:40px;
+
+    border-bottom-right-radius:40px;
+
+}
+
+.header h1{
+
+    margin-bottom:20px;
+
+    font-size:42px;
+
+}
+
+/* Job-cards header: stack title above tabs */
+
+.job-container .header {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border-bottom-left-radius: 32px;
+
+    /* border-bottom-right-radius: 28px; */
+
+    padding: 24px 18px 20px;
+
+}
+
+.job-container .header h1 {
+
+    font-size: 28px;
+
+    margin-bottom: 14px;
+
+}
+
+/* Tabs */
+
+.status-tabs{
+
+    display:flex;
+
+    gap:8px;
+
+    overflow-x:auto;
+
+    scrollbar-width:none;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+}
+
+.status-tabs::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+.status-tabs button{
+
+    white-space:nowrap;
+
+    flex-shrink:0;
+
+    border:1px solid rgba(255,255,255,.4);
+
+    background:rgba(255,255,255,.2);
+
+    color:white;
+
+    padding:12px 20px;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+}
+
+/* Smaller tabs specifically for job-cards */
+
+.job-container .status-tabs button {
+
+    padding: 7px 13px;
+
+    font-size: 12px;
+
+    border-radius: 20px;
+
+    flex-shrink: 0;
+
+}
+
+.status-tabs .active{
+
+    background:white;
+
+    color:#FEBE10;
+
+    font-weight:bold;
+
+}
+
+/* Search */
+
+.search-box{
+
+    background:white;
+
+    margin:16px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:12px 14px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+    box-sizing:border-box;
+
+    width:calc(100% - 32px);
+
+}
+
+/* Decrease the size of the search box specifically in job cards section */
+.job-container .search-box {
+    padding: 8px 12px;
+    margin: 12px 16px;
+    border-radius: 10px;
+}
+
+.job-container .search-box input {
+    font-size: 13px;
+}
+
+.search-box input{
+
+    border:none;
+
+    outline:none;
+
+    flex:1;
+
+    margin-left:8px;
+
+    font-size:14px;
+
+    min-width:0;
+
+}
+
+.filter{
+
+    margin:0 16px 14px;
+
+    color:#777;
+
+    font-size:13px;
+
+}
+
+/* Card */
+
+.job-card{
+
+    background:white;
+
+    margin:0 16px 16px;
+
+    border-radius:16px;
+
+    padding:12px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+    box-sizing:border-box;
+
+    width:calc(100% - 32px);
+
+}
+
+.top-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:8px;
+
+}
+
+.vehicle-no{
+
+    background:#FFF5CF;
+
+    color:#555;
+
+    padding:4px 8px;
+    font-size: 13px;
+
+    border-radius:8px;
+
+    font-weight:600;
+
+}
+
+.job-id{
+
+    font-weight:bold;
+
+}
+
+.middle-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.middle-row h3{
+
+    margin-bottom:2px;
+    font-size: 16px;
+
+}
+
+.middle-row p{
+
+    color:#777;
+
+}
+
+.price{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#FEBE10;
+
+}
+
+.bottom-row{
+
+    margin-top:10px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.status{
+
+    padding:4px 10px;
+
+    border-radius:20px;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+}
+
+.delivered{
+
+    background:#d1fae5;
+
+    color:#15803d;
+
+}
+
+.empty{
+
+    text-align:center;
+
+    color:#999;
+
+    margin-top:40px;
+
+}
+
+/* Floating Button */
+
+.fab{
+
+    position:fixed;
+
+    right:20px;
+
+    bottom:95px;
+
+    width:70px;
+
+    height:70px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#FEBE10;
+
+    color:white;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.25);
+
+    cursor:pointer;
+
+}
+
+.fab .material-icons{
+
+    font-size:36px;
+
+}
+
+/* Invoices */
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+.invoice-container{
+
+    background:#FFF5CF;
+
+    min-height:100vh;
+
+    padding-bottom:90px;
+
+    width:100%;
+
+    max-width:100%;
+
+    overflow-x:hidden;
+
+    box-sizing:border-box;
+
+}
+
+/* Specific layout overrides for the Invoice Page to make it responsive and beautiful */
+.invoice-container .header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom-left-radius: 32px;
+    border-bottom-right-radius: 28px;
+    padding: 24px 18px 20px;
+}
+
+.invoice-container .header h1 {
+    font-size: 28px;
+    margin-bottom: 14px;
+    color: white;
+}
+
+/* Invoice Tabs */
+.invoice-container .status-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.invoice-container .status-tabs button {
+    padding: 7px 13px;
+    font-size: 12px;
+    border-radius: 20px;
+    flex-shrink: 0;
+}
+
+/* Invoice Search Box */
+.invoice-container .search-box {
+    padding: 8px 12px;
+    margin: 12px 16px;
+    border-radius: 10px;
+    width: calc(100% - 32px);
+    box-sizing: border-box;
+}
+
+.invoice-container .search-box input {
+    font-size: 13px;
+}
+
+.invoice-container .filter {
+    margin: 0 16px 14px;
+    font-size: 13px;
+}
+
+/* Invoice Card */
+.invoice-container .invoice-card {
+    margin: 0 16px 16px;
+    padding: 16px;
+    border-radius: 16px;
+    box-sizing: border-box;
+    width: calc(100% - 32px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.06);
+    border-left: 5px solid #ef4444; /* Default left border highlight color */
+}
+
+/* Top Row of Card */
+.invoice-container .invoice-card .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.invoice-container .invoice-card .vehicle {
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+}
+
+.invoice-container .invoice-card .invoice-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.invoice-container .invoice-card .invoice-no {
+    font-size: 13px;
+}
+
+.invoice-container .invoice-card .badge {
+    padding: 4px 8px;
+    font-size: 11px;
+    border-radius: 12px;
+}
+
+/* Middle Row */
+.invoice-container .invoice-card .middle {
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.invoice-container .invoice-card .middle h2 {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.invoice-container .invoice-card .middle p {
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.invoice-container .invoice-card .middle h3 {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.invoice-container .invoice-card .amount {
+    font-size: 26px;
+    margin-top: 0;
+}
+
+/* Bottom Row */
+.invoice-container .invoice-card .bottom {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+
+/* Header */
+
+.header{
+
+    background:#FEBE10;
+
+    padding:35px 20px;
+
+    color:#fff;
+
+    border-bottom-left-radius:40px;
+
+    border-bottom-right-radius:40px;
+
+}
+
+.header h1{
+
+    margin-bottom:20px;
+
+}
+
+/* Tabs */
+
+.status-tabs{
+
+    display:flex;
+
+    gap:12px;
+
+    overflow-x:auto;
+
+    scrollbar-width:none;
+
+}
+
+.status-tabs::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+.status-tabs button{
+
+    white-space:nowrap;
+
+    border:1px solid rgba(255,255,255,.5);
+
+    background:rgba(255,255,255,.2);
+
+    color:white;
+
+    border-radius:30px;
+
+    padding:12px 20px;
+
+    cursor:pointer;
+
+}
+
+.status-tabs .active{
+
+    background:white;
+
+    color:#FEBE10;
+
+    font-weight:bold;
+
+}
+
+/* Search */
+
+.search-box{
+
+    background:white;
+
+    margin:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:15px;
+
+    border-radius:18px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.search-box input{
+
+    flex:1;
+
+    border:none;
+
+    outline:none;
+
+    margin-left:10px;
+
+    font-size:16px;
+
+}
+
+.filter{
+
+    margin:0 22px;
+
+    color:#666;
+
+}
+
+/* Invoice Card */
+
+.invoice-card{
+
+    background:white;
+
+    margin:20px;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+    border-left:6px solid #ef4444;
+
+}
+
+.top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.vehicle{
+
+    background:#FFF7D6;
+
+    padding:8px 14px;
+
+    border-radius:8px;
+
+    font-weight:600;
+
+}
+
+.invoice-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.invoice-no{
+
+    font-weight:bold;
+
+}
+
+.badge{
+
+    background:#FEE2E2;
+
+    color:#DC2626;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+.middle{
+
+    margin-top:18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+}
+
+.middle h2{
+
+    margin-bottom:6px;
+
+}
+
+.middle p{
+
+    color:#666;
+
+    margin-bottom:10px;
+
+}
+
+.middle h3{
+
+    color:#DC2626;
+
+}
+
+.amount{
+
+    font-size:34px;
+
+    color:#FEBE10;
+
+    font-weight:bold;
+
+}
+
+.bottom{
+
+    margin-top:18px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    color:#666;
+
+}
+
+.empty{
+
+    margin-top:40px;
+
+    text-align:center;
+
+    color:#999;
+
+}
+/* =================================== */
+/* Bottom Navigation */
+
+.bottom-nav{
+
+    position:fixed;
+
+    left:0;
+
+    right:0;
+
+    bottom:0;
+
+    height:54px;
+
+    background:#ffffff;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding: 0 10px;
+
+    box-shadow:0 -2px 10px rgba(0,0,0,.10);
+
+    border-top-left-radius:14px;
+
+    border-top-right-radius:14px;
+
+    z-index:1000;
+
+}
+
+.bottom-nav a{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    color:#7d7d7d;
+    height:100%;
+    transition:.2s;
+    border-radius:12px;
+}
+
+.bottom-nav-left{
+    display:flex;
+    align-items:center;
+    gap: 6px;
+    flex: 1 1 auto;
+    justify-content: space-around;
+}
+
+.bottom-nav-left a{
+    flex:1;
+}
+
+.bottom-nav a.more-only{
+    flex: 0 0 56px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:40px;
+}
+
+.bottom-nav a.more-only small{ display:none; }
+
+.bottom-nav a span{
+
+    font-size:20px;
+
+}
+
+.bottom-nav a small{
+
+    margin-top:2px;
+
+    font-size:9px;
+
+}
+
+.bottom-nav a.active{
+
+    color:#FEBE10;
+
+    font-weight:600;
+
+    background: rgba(254, 190, 16, 0.08);
+
+}
+
+.bottom-nav a:hover{
+
+    background: rgba(254, 190, 16, 0.05);
+
+    color: #FEBE10;
+
+    transform: translateY(-1px);
+
+}
+
+.overview-section{
+
+    background:#fff;
+
+    margin-top:20px;
+
+    padding:18px;
+
+    border-radius:20px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES
+   Covers: Mobile, Small Tablet, Tablet, Desktop
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   SMALL MOBILE  (ÃƒÂ¢Ã¢â‚¬Â°Ã‚Â¤ 360px)
+   ---------------------------------------------------------- */
+@media screen and (max-width: 360px) {
+
+    /* Top Bar */
+    .top-bar {
+        padding: 12px 14px 24px;
+        border-bottom-left-radius: 30px;
+    }
+    .top-bar h1 {
+        font-size: 18px;
+        margin: 12px 0 5px;
+    }
+    .top-bar p {
+        font-size: 12px;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+        grid-template-columns: 1fr 1fr;
+        height: auto;
+        gap: 8px;
+    }
+    .action-btn {
+        padding: 12px 6px;
+        font-size: 12px;
+        border-radius: 12px;
+    }
+    .action-btn span:last-child {
+        font-size: 11px;
+    }
+
+    /* Dashboard Cards */
+    .dashboard-cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .card-value {
+        font-size: 18px;
+    }
+    .card-title {
+        font-size: 11px;
+    }
+
+    /* Vehicle number inputs */
+    .vehicle-number {
+        grid-template-columns: 50px 50px 55px 1fr;
+        gap: 6px;
+    }
+    .vehicle-number input {
+        font-size: 14px;
+        padding: 8px 4px;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+        height: 60px;
+    }
+    .bottom-nav a span {
+        font-size: 20px;
+    }
+    .bottom-nav a small {
+        font-size: 9px;
+    }
+
+    /* Headers */
+    .header h1 {
+        font-size: 24px;
+        margin-bottom: 14px;
+    }
+
+    /* Invoice/Job card amounts */
+    .amount {
+        font-size: 22px;
+    }
+    .price {
+        font-size: 22px;
+    }
+}
+
+/* ----------------------------------------------------------
+   MOBILE  (ÃƒÂ¢Ã¢â‚¬Â°Ã‚Â¤ 480px)
+   ---------------------------------------------------------- */
+@media screen and (max-width: 480px) {
+
+    /* === Global Layout === */
+    body {
+        font-size: 14px;
+    }
+
+    /* === Top Bar (Dashboard header) === */
+    .top-bar {
+        padding: 14px 16px 28px;
+        border-bottom-left-radius: 36px;
+    }
+    .top-bar h1 {
+        font-size: 20px;
+        margin: 14px 0 6px;
+    }
+    .top-bar p {
+        font-size: 13px;
+    }
+
+    /* === Quick Section === */
+    .quick-section {
+        margin-top: 14px;
+        padding: 14px;
+        border-radius: 16px;
+    }
+    .section-title h2 {
+        font-size: 17px;
+    }
+
+    /* === Quick Actions Buttons === */
+    .quick-actions {
+        grid-template-columns: 1fr 1fr;
+        height: auto;
+        gap: 10px;
+        margin: 14px 0;
+    }
+    .action-btn {
+        padding: 14px 8px;
+        border-radius: 14px;
+        gap: 6px;
+    }
+    .action-btn .material-icons {
+        font-size: 24px;
+    }
+    .action-btn span:last-child {
+        font-size: 12px;
+    }
+
+    /* === Dashboard Summary Cards === */
+    .dashboard-cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 14px;
+    }
+    .card {
+        padding: 12px;
+        border-radius: 14px;
+        min-height: 75px;
+    }
+    .card-title {
+        font-size: 12px;
+    }
+    .card-value {
+        font-size: 20px;
+    }
+
+    /* === Overview Section === */
+    .overview-section {
+        padding: 14px;
+        border-radius: 16px;
+        margin-top: 14px;
+    }
+
+    /* === Recent / Pending Sections === */
+    .recent-section,
+    .pending-section {
+        padding: 14px;
+        border-radius: 16px;
+        margin-top: 14px;
+    }
+    .recent-section h2,
+    .pending-section h2 {
+        font-size: 18px;
+        margin: 0 0 14px;
+    }
+
+    /* === Invoice Card === */
+    .invoice-card {
+        padding: 13px;
+        border-radius: 13px;
+        margin-bottom: 12px;
+    }
+    .invoice-header h3 {
+        font-size: 16px;
+    }
+    .invoice-card p {
+        font-size: 12px;
+    }
+    .amount {
+        font-size: 20px;
+    }
+
+    /* === Pending Card === */
+    .pending-card {
+        padding: 13px;
+        border-radius: 13px;
+    }
+    .pending-header h3 {
+        font-size: 16px;
+    }
+    .pending-footer h2 {
+        font-size: 22px;
+    }
+
+    /* === Bottom Nav === */
+    .bottom-nav {
+        height: 64px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+    }
+    .bottom-nav a span {
+        font-size: 22px;
+    }
+    .bottom-nav a small {
+        font-size: 10px;
+        margin-top: 2px;
+    }
+
+    /* === Customers Page === */
+    .customers-container {
+        padding-bottom: 80px;
+    }
+    .header {
+        padding: 10px;
+        border-radius: 0 0 0 35px;
+       
+    }
+    .header h1 {
+        font-size: 26px;
+        margin: 0 0 8px;
+    }
+    .stats {
+        gap: 10px;
+    }
+    .stat-card {
+        padding: 5px;
+        border-radius: 22px;
+        min-width: 100px;
+        font-size: 13px;
+    }
+    .search-box {
+        margin: 14px;
+        padding: 12px 14px;
+        border-radius: 13px;
+    }
+    .customer-card {
+        margin: 12px 14px;
+        padding: 14px;
+        border-radius: 15px;
+        gap: 10px;
+    }
+    .avatar {
+        width: 46px;
+        height: 46px;
+        font-size: 22px;
+        border-radius: 12px;
+    }
+    .customer-info h3 {
+        font-size: 15px;
+    }
+    .customer-info p {
+        font-size: 12px;
+    }
+    .phone {
+        font-size: 13px;
+    }
+    .vehicle-count {
+        font-size: 11px;
+    }
+
+    /* === FAB Button === */
+    .fab {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+        right: 16px;
+        bottom: 78px;
+    }
+    .fab .material-icons {
+        font-size: 28px;
+    }
+
+    /* === Job Cards Page === */
+    .status-tabs {
+        gap: 8px;
+        
+    }
+    
+    .status-tabs button {
+        padding: 9px 14px;
+        font-size: 13px;
+        border-radius: 22px;
+    }
+    .filter {
+        margin: 0 14px 14px;
+        font-size: 12px;
+    }
+    .job-card {
+        margin: 14px;
+        padding: 14px;
+        border-radius: 15px;
+    }
+    .vehicle-no {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+    .job-id {
+        font-size: 13px;
+    }
+    .middle-row h3 {
+        font-size: 15px;
+    }
+    .middle-row p {
+        font-size: 12px;
+    }
+    .price {
+        font-size: 24px;
+    }
+    .status {
+        font-size: 11px;
+        padding: 5px 10px;
+    }
+
+    /* === Invoices Page === */
+    .invoice-container {
+        padding-bottom: 80px;
+    }
+    .vehicle {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+    .invoice-no {
+        font-size: 12px;
+    }
+    .badge {
+        padding: 5px 9px;
+        font-size: 11px;
+    }
+
+    /* === New Customer Form === */
+    .add-customer {
+        max-width: 100%;
+        padding: 14px;
+    }
+    .add-customer h2 {
+        font-size: 20px;
+        margin-bottom: 14px;
+    }
+    .back-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+    .field label {
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+    input,
+    select,
+    textarea {
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 9px;
+    }
+    .phone-box span {
+        width: 52px;
+        font-size: 13px;
+    }
+    .vehicle-number {
+        grid-template-columns: 48px 48px 55px 1fr;
+        gap: 7px;
+        margin: 10px 0 16px;
+    }
+    .vehicle-number input {
+        font-size: 15px;
+        padding: 9px 4px;
+    }
+    .save-btn {
+        padding: 13px;
+        font-size: 15px;
+        border-radius: 11px;
+    }
+
+    /* === New Job Card Form === */
+    .container {
+        max-width: 100%;
+        padding: 14px;
+    }
+    .header {
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+    .row {
+        margin-bottom: 14px;
+    }
+    .row label {
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+    .section-title {
+        margin: 12px 0;
+    }
+    .add-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+    .empty-card h3 {
+        font-size: 14px;
+    }
+    .empty-card p {
+        font-size: 12px;
+    }
+    .notes-title {
+        font-size: 14px;
+    }
+    .total-card {
+        padding: 14px;
+        border-radius: 13px;
+    }
+    .total-card h2 {
+        font-size: 22px;
+    }
+}
+
+/* ----------------------------------------------------------
+   SMALL TABLET  (481px ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 767px)
+   ---------------------------------------------------------- */
+@media screen and (min-width: 481px) and (max-width: 767px) {
+
+    /* Top Bar */
+    .top-bar {
+        padding: 16px 24px 32px;
+        border-bottom-left-radius: 45px;
+    }
+    .top-bar h1 {
+        font-size: 22px;
+    }
+
+    /* Quick Actions ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 2 columns */
+    .quick-actions {
+        grid-template-columns: 1fr 1fr;
+        height: auto;
+        gap: 12px;
+    }
+    .action-btn {
+        padding: 16px 10px;
+    }
+
+    /* Dashboard Cards ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 2 per row */
+    .dashboard-cards {
+        grid-template-columns: 1fr 1fr;
+    }
+    .card-value {
+        font-size: 22px;
+    }
+
+    /* Forms */
+    .add-customer,
+    .container {
+        max-width: 100%;
+        padding: 18px 20px;
+    }
+
+    /* Headers */
+    .header {
+        padding: 26px 22px 36px;
+    }
+    .header h1 {
+        font-size: 30px;
+    }
+
+    /* Customer / Job cards ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ full width */
+    .customer-card,
+    .job-card,
+    .invoice-card {
+        margin: 14px 18px;
+    }
+
+    /* Search */
+    .search-box {
+        margin: 16px 18px;
+    }
+
+    /* Vehicle number */
+    .vehicle-number {
+        grid-template-columns: 60px 60px 70px 1fr;
+    }
+}
+
+/* ----------------------------------------------------------
+   TABLET  (768px ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 1023px)
+   ---------------------------------------------------------- */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+
+    /* Top Bar */
+    .top-bar {
+        padding: 20px 36px 36px;
+        border-bottom-left-radius: 50px;
+    }
+    .top-bar h1 {
+        font-size: 26px;
+    }
+
+    /* Quick Actions ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 2 columns with comfortable width */
+    .quick-actions {
+        grid-template-columns: 1fr 1fr;
+        max-width: 500px;
+        height: auto;
+        gap: 14px;
+    }
+    .action-btn {
+        padding: 18px 14px;
+    }
+
+    /* Dashboard Cards ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 4 per row on tablet */
+    .dashboard-cards {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .card-value {
+        font-size: 24px;
+    }
+
+    /* Recent / Pending */
+    .recent-section,
+    .pending-section {
+        padding: 22px;
+    }
+
+    /* Forms ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ centered and constrained */
+    .add-customer {
+        max-width: 550px;
+    }
+    .container {
+        max-width: 550px;
+    }
+
+    /* Customer cards row */
+    .customers-container {
+        padding-bottom: 90px;
+    }
+    .customer-card {
+        margin: 16px 24px;
+    }
+    .search-box {
+        margin: 18px 24px;
+    }
+
+    /* Job / Invoice cards */
+    .job-card,
+    .invoice-card {
+        margin: 16px 24px;
+    }
+
+    /* Headers */
+    .header {
+        padding: 32px 28px 42px;
+    }
+    .header h1 {
+        font-size: 36px;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+        height: 70px;
+    }
+    .bottom-nav a span {
+        font-size: 26px;
+    }
+    .bottom-nav a small {
+        font-size: 12px;
+    }
+
+    /* FAB */
+    .fab {
+        width: 68px;
+        height: 68px;
+        right: 24px;
+        bottom: 88px;
+    }
+}
+
+/* ----------------------------------------------------------
+   DESKTOP  (ÃƒÂ¢Ã¢â‚¬Â°Ã‚Â¥ 1024px)
+   Shift from mobile-first single-column to side-by-side layout
+   ---------------------------------------------------------- */
+@media screen and (min-width: 1024px) {
+
+    /* === Body / Root layout === */
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #e8ecf5;
+    }
+
+    /* Page wrappers ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ constrain to a comfortable reading width */
+    .customers-container,
+    .job-container,
+    .invoice-container {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Dashboard wrapper */
+    .quick-section,
+    .overview-section,
+    .recent-section,
+    .pending-section {
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Top Bar */
+    .top-bar {
+        padding: 22px 40px 40px;
+        border-bottom-left-radius: 60px;
+        max-width: 900px;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .top-bar h1 {
+        font-size: 32px;
+    }
+    .top-bar p {
+        font-size: 16px;
+    }
+
+    /* Quick Actions ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ side-by-side equal buttons */
+    .quick-actions {
+        grid-template-columns: 1fr 1fr;
+        height: auto;
+        gap: 16px;
+        margin: 20px 0;
+        max-width: 600px;
+    }
+    .action-btn {
+        padding: 20px 16px;
+        font-size: 15px;
+    }
+    .action-btn .material-icons {
+        font-size: 36px;
+    }
+    .action-btn span:last-child {
+        font-size: 15px;
+    }
+
+    /* Dashboard Cards ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 4 columns on desktop */
+    .dashboard-cards {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+    .card-value {
+        font-size: 28px;
+    }
+    .card-title {
+        font-size: 14px;
+    }
+
+    /* Recent & Pending ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ side-by-side */
+    .recent-section h2,
+    .pending-section h2 {
+        font-size: 24px;
+    }
+
+    /* Headers for sub-pages */
+    .header {
+        padding: 36px 32px 48px;
+    }
+    .header h1 {
+        font-size: 42px;
+    }
+
+    /* Search boxes */
+    .search-box {
+        margin: 20px 28px;
+        padding: 16px 20px;
+    }
+
+    /* Customer Cards */
+    .customer-card {
+        margin: 16px 28px;
+        padding: 20px;
+    }
+    .avatar {
+        width: 62px;
+        height: 62px;
+        font-size: 30px;
+    }
+    .customer-info h3 {
+        font-size: 18px;
+    }
+
+    /* Job / Invoice Cards */
+    .job-card,
+    .invoice-card {
+        margin: 16px 28px;
+        padding: 20px;
+    }
+    .price {
+        font-size: 34px;
+    }
+
+    /* Forms ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ nicely centred */
+    .add-customer,
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 28px 32px;
+    }
+
+    /* Vehicle number */
+    .vehicle-number {
+        grid-template-columns: 70px 70px 80px 1fr;
+        gap: 12px;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+        height: 76px;
+        max-width: 900px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: 900px;
+        border-radius: 0;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+    .bottom-nav a span {
+        font-size: 28px;
+    }
+    .bottom-nav a small {
+        font-size: 12px;
+    }
+
+    /* FAB */
+    .fab {
+        width: 72px;
+        height: 72px;
+        right: calc(50% - 450px + 24px);
+        bottom: 90px;
+        border-radius: 20px;
+    }
+    .fab .material-icons {
+        font-size: 38px;
+    }
+
+    /* Status Tabs */
+    .status-tabs button {
+        padding: 12px 22px;
+        font-size: 15px;
+    }
+
+    /* Filter text */
+    .filter {
+        margin: 0 28px 18px;
+        font-size: 14px;
+    }
+}
+
+/* ----------------------------------------------------------
+   WIDE DESKTOP  (ÃƒÂ¢Ã¢â‚¬Â°Ã‚Â¥ 1280px) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ subtle extra spacing
+   ---------------------------------------------------------- */
+@media screen and (min-width: 1280px) {
+
+    .customers-container,
+    .job-container,
+    .invoice-container {
+        max-width: 1000px;
+    }
+
+    .top-bar {
+        max-width: 1000px;
+    }
+
+    .quick-section,
+    .overview-section,
+    .recent-section,
+    .pending-section {
+        max-width: 1000px;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .bottom-nav {
+        width: 1000px;
+    }
+
+    .fab {
+        right: calc(50% - 500px + 24px);
+    }
+
+    .header h1 {
+        font-size: 48px;
+    }
+
+    .add-customer,
+    .container {
+        max-width: 680px;
+    }
+}
+.bottom-nav a:hover{background:transparent;color:#7d7d7d;transform:none}.bottom-nav a.active:hover{background:rgba(254,190,16,.08);color:#FEBE10}.bottom-nav a .material-icons{font-family:inherit;font-style:normal}
+
+/* Pagination Controls */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0 30px;
+}
+.pagination-controls button {
+    background: #FEBE10;
+    color: #111;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.pagination-controls button:disabled {
+    background: #e0e0e0;
+    color: #999;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+.pagination-controls span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}

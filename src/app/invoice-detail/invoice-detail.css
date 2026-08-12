@@ -1,0 +1,48 @@
+.invoice-detail-page{min-height:100vh;background:#fffaf0;color:#17233a;padding-bottom:28px}.detail-hero{min-height:190px;padding:28px 24px;background:linear-gradient(135deg,#FEBE10,#FEBE10);color:#fff;border-radius:0 0 34px 34px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start}.icon-button{width:42px;height:42px;border:0;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:30px;cursor:pointer}.invoice-title-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.hero-title h1{font-size:28px;margin:4px 0}.hero-title p,.hero-total span{margin:0;color:rgba(255,255,255,.76)}.hero-total{text-align:right;padding-top:9px}.hero-total strong{font-size:32px;display:block}.status-pill{padding:7px 12px;border-radius:18px;background:rgba(255,255,255,.22);font-weight:700}.status-pill.paid{background:#dcfce7;color:#16713a}.status-pill.partial{background:#fef3c7;color:#a16207}.status-pill.unpaid{background:#fee2e2;color:#dc2626}.customer-card,.totals-card,.line-card{margin:20px 18px;background:#fff;border-radius:18px;box-shadow:0 5px 18px rgba(24,50,90,.09)}.customer-card{padding:20px}.customer-heading{display:flex;gap:15px;align-items:center}.initial{width:54px;height:54px;display:grid;place-items:center;border-radius:50%;background:#fff5cf;color:#17233a;font-size:25px;font-weight:700}.customer-heading h2{margin:0 0 5px}.customer-heading p,.vehicle-grid p{margin:0;color:#6b7280}.vehicle-grid{border-top:1px solid #e5e7eb;margin-top:18px;padding-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:20px}.vehicle-grid span,.totals-card span{display:block;color:#64748b;font-size:13px;text-transform:uppercase}.vehicle-grid strong{display:block;font-size:19px;margin:5px 0}.line-section>h2{font-size:20px;margin:25px 20px 10px}.line-section h2 small{font-size:13px;background:#fff5cf;color:#17233a;padding:3px 8px;border-radius:10px}.line-card{margin-top:0;overflow:hidden}.line{padding:17px 20px;display:flex;justify-content:space-between;gap:12px}.line small{color:#64748b}.section-total{padding:16px 20px;background:#fff5cf;display:flex;justify-content:space-between;color:#17233a}.totals-card{padding:20px}.totals-card>div{display:flex;justify-content:space-between;padding:7px 0}.totals-card hr{border:0;border-top:1px solid #e5e7eb;margin:9px 0}.totals-card strong{font-size:19px}.totals-card .grand span,.totals-card .grand strong{font-size:21px;font-weight:700;color:#17233a}.totals-card .due span,.totals-card .due strong{color:#dc2626}.detail-actions{display:flex;gap:12px;margin:22px 18px}.detail-actions button{flex:1;border:0;border-radius:12px;padding:16px;font-size:16px;font-weight:700;cursor:pointer}.secondary-action{background:#fff5cf;color:#17233a}.primary-action{background:#FEBE10;color:#fff}.primary-action:disabled{opacity:.5;cursor:default}.missing{padding:40px;text-align:center}.missing button{margin-top:16px;padding:12px 18px;border:0;border-radius:9px;background:#FEBE10;color:#fff}@media(max-width:600px){.detail-hero{grid-template-columns:auto 1fr;padding:22px 18px}.hero-total{grid-column:2;text-align:left;padding:0}.hero-total strong{font-size:28px}}
+.detail-hero{color:#17233a}.detail-hero .icon-button{background:rgba(255,255,255,.45);color:#17233a}.detail-hero .hero-title p,.detail-hero .hero-total span{color:rgba(23,35,58,.78)}.primary-action,.missing button{color:#17233a}@media(max-width:600px){.detail-hero{min-height:0;grid-template-columns:42px minmax(0,1fr);gap:12px;padding:18px 16px 22px;border-radius:0 0 24px 24px}.hero-title h1{font-size:23px;overflow-wrap:anywhere}.hero-title p{font-size:13px;line-height:1.45}.hero-total{grid-column:1/-1;text-align:left;padding:4px 0 0}.hero-total strong{font-size:27px}.customer-card,.totals-card,.line-card{margin:14px 12px;border-radius:14px}.customer-card,.totals-card{padding:16px}.customer-heading{gap:11px}.initial{width:44px;height:44px;font-size:20px;flex:0 0 44px}.customer-heading h2{font-size:18px;overflow-wrap:anywhere}.vehicle-grid{grid-template-columns:1fr;gap:14px;margin-top:14px;padding-top:14px}.vehicle-grid strong{font-size:17px}.line-section>h2{font-size:18px;margin:20px 14px 8px}.line{padding:14px 16px;align-items:start}.line span{min-width:0;overflow-wrap:anywhere}.line strong{white-space:nowrap;font-size:14px}.section-total{padding:14px 16px}.totals-card strong{font-size:17px}.totals-card .grand span,.totals-card .grand strong{font-size:19px}.detail-actions{position:sticky;bottom:0;margin:18px 0 0;padding:12px;background:rgba(255,250,240,.96);gap:8px}.detail-actions button{padding:14px 8px;font-size:14px}.missing{padding:28px 16px}}
+
+/* Modal Styles */
+.dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 16px;
+}
+.dialog-card {
+    width: min(100%, 420px);
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 20px 54px rgba(0, 0, 0, 0.18);
+}
+.dialog-card h3 {
+    margin: 0 0 16px;
+    font-size: 20px;
+    color: #111827;
+}
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+.secondary-btn, .primary-btn {
+    border: none;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.secondary-btn {
+    background: #f3f4f6;
+    color: #111827;
+}
+.primary-btn {
+    background: #febe10;
+    color: #111827;
+}

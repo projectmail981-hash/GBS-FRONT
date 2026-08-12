@@ -1,0 +1,172 @@
+<link rel="stylesheet" href="../../styles.css">
+<!-- New Customer Form -->
+<div class="add-customer">
+    <div class="header">
+        <button class="back-btn" (click)="goBack()">
+            &#8592;
+        </button>
+        <h2>Add Customer</h2>
+    </div>
+
+    <!-- Customer Information -->
+
+    <div class="card">
+
+        <h3>&#128100; Customer Information</h3>
+
+        <div class="field">
+
+            <label>&#128100; Customer Name</label>
+
+            <input type="text" placeholder="Enter customer name" [(ngModel)]="customerName">
+
+        </div>
+
+        <div class="field">
+
+            <label>&#128222; Phone Number</label>
+
+            <div class="phone-box">
+
+                <span>+91</span>
+
+                <input type="tel" placeholder="Enter phone number" [(ngModel)]="phoneNumber">
+
+            </div>
+
+            <p class="field-error" *ngIf="duplicateError">{{ duplicateError }}</p>
+
+        </div>
+
+        <div class="field">
+
+            <label>&#128203; Address</label>
+
+            <textarea placeholder="Enter address" [(ngModel)]="address"></textarea>
+
+        </div>
+
+    </div>
+
+    <!-- Vehicle Information -->
+
+    <div class="card">
+
+        <div class="vehicle-section-header">
+            <h3>&#128663; Vehicle Information</h3>
+            <button type="button" class="add-vehicle-btn" (click)="addVehicle()">
+                +add vehicle
+            </button>
+        </div>
+
+        @for (vehicle of vehicles; track vehicle; let i = $index) {
+            @if (i > 0) {
+                <div class="vehicle-divider"></div>
+            }
+
+            <label>Vehicle Registration Number</label>
+
+            <div class="vehicle-number">
+
+                <input maxlength="2" placeholder="TN" [(ngModel)]="vehicle.state">
+
+                <input maxlength="2" placeholder="65" [(ngModel)]="vehicle.district">
+
+                <input maxlength="2" placeholder="AB" [(ngModel)]="vehicle.series">
+
+                <input maxlength="4" placeholder="1234" [(ngModel)]="vehicle.number">
+
+            </div>
+
+            <div class="field">
+
+                <label> Vehicle Type</label>
+
+                <select>
+
+                    <option>Car</option>
+
+                    <option>Bike</option>
+
+                    <option>Scooter</option>
+
+                    <option>Truck</option>
+
+                </select>
+
+            </div>
+
+            <div class="field">
+
+                <label>Fuel Type</label>
+
+                <select>
+
+                    <option>Petrol</option>
+
+                    <option>Diesel</option>
+
+                    <option>Electric</option>
+
+                    <option>CNG</option>
+
+                </select>
+
+            </div>
+
+            <div class="field">
+
+                <label> Brand</label>
+
+                <input type="text" placeholder="Honda" [(ngModel)]="vehicle.brand">
+
+            </div>
+
+            <div class="field">
+
+                <label> Model</label>
+
+                <input type="text" placeholder="Activa 6G" [(ngModel)]="vehicle.model">
+
+            </div>
+
+            <div class="field">
+
+                <label> Year (Optional)</label>
+
+                <input type="number" placeholder="2024" [(ngModel)]="vehicle.year">
+
+            </div>
+        }
+
+    </div>
+
+    <!-- Save -->
+
+    <button type="button" class="save-btn" (click)="saveCustomer()">
+
+        Save Customer
+
+    </button>
+
+    <div class="bottom-confirm" *ngIf="showConfirmBottom">
+        <div class="bottom-confirm-card">
+            <p>Customer created</p>
+            <div class="confirm-actions">
+                <button type="button" class="secondary-btn" (click)="cancelCreateCustomer()">Cancel</button>
+                <button type="button" class="primary-btn" (click)="confirmCustomerSave()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="dialog-backdrop" *ngIf="showSuccessDialog">
+        <div class="dialog-card">
+            <h3>Customer Created Successfully</h3>
+            <p style="margin-bottom: 20px; color: #4b5563;">Would you like to create a job card for this customer now?</p>
+            <div class="dialog-actions">
+                <button type="button" class="secondary-btn" (click)="cancelReturn()">Cancel</button>
+                <button type="button" class="primary-btn" (click)="goToNewJobCard()">Create Job Card</button>
+            </div>
+        </div>
+    </div>
+</div>

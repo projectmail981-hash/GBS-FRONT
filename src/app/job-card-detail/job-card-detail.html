@@ -1,0 +1,186 @@
+<div *ngIf="job; else loading" class="job-detail">
+
+
+  <div class="header">
+
+    <button class="back-btn" (click)="back()">
+      ←
+    </button>
+
+    <div class="title">
+      <h2>JOB-{{ job.job_id }}</h2>
+      <p>{{ job.service_date | date:'dd-MM-yyyy' }}</p>
+    </div>
+
+    <div class="status">
+      {{ job.status }}
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>Customer Details</h3>
+
+    <div class="row">
+      <span>Name</span>
+      <strong>{{ job.customer_name }}</strong>
+    </div>
+
+    <div class="row">
+      <span>Phone</span>
+      <strong>{{ job.phone }}</strong>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>Vehicle Details</h3>
+
+    <div class="row">
+      <span>Registration</span>
+      <strong>{{ job.vehicle_number }}</strong>
+    </div>
+
+    <div class="row">
+      <span>Brand</span>
+      <strong>{{ job.brand }}</strong>
+    </div>
+
+    <div class="row">
+      <span>Model</span>
+      <strong>{{ job.model }}</strong>
+    </div>
+
+    <div class="row">
+      <span>Odometer</span>
+      <strong>{{ job.odometer_reading }} KM</strong>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>Services</h3>
+
+    <div
+      class="item"
+      *ngFor="let service of job.services">
+
+      <div>
+
+        <strong>{{ service.service_name }}</strong>
+
+        <p>
+          Qty : {{ service.quantity }}
+        </p>
+
+      </div>
+
+      <div>
+
+        ₹{{ service.total_amount }}
+
+      </div>
+
+    </div>
+
+    <div class="total">
+
+      Total :
+      ₹{{ totalServices() }}
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>Parts</h3>
+
+    <div
+      class="item"
+      *ngFor="let part of job.parts">
+
+      <div>
+
+        <strong>{{ part.part_name }}</strong>
+
+        <p>
+          Qty : {{ part.quantity }}
+        </p>
+
+      </div>
+
+      <div>
+
+        ₹{{ part.total_amount }}
+
+      </div>
+
+    </div>
+
+    <div class="total">
+
+      Total :
+      ₹{{ totalParts() }}
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>Notes</h3>
+
+    <p>{{ job.notes || 'No Notes' }}</p>
+
+  </div>
+
+
+  <div class="grand-total">
+
+    Grand Total
+
+    <span>
+      ₹{{ grandTotal() }}
+    </span>
+
+  </div>
+
+  <div class="action-card" *ngIf="job.status === 'Open'">
+      <button class="btn btn-progress" (click)="updateStatus('In Progress')">In Progress</button>
+  </div>
+
+  <div class="action-card" *ngIf="job.status === 'In Progress'">
+      <button class="btn btn-completed" style="background:#2196F3" (click)="updateStatus('Ready')">Ready</button>
+  </div>
+
+  <div class="action-card" *ngIf="job.status === 'Ready'">
+      <button class="btn btn-completed" (click)="updateStatus('Completed')">Completed</button>
+  </div>
+
+  <div class="action-card" *ngIf="job.status === 'Completed'">
+      <button class="btn btn-progress" (click)="generateBill()" [disabled]="isBilled || isGenerating" [class.btn-completed]="isBilled">
+        {{ isBilled ? 'Bill Generated' : (isGenerating ? 'Generating...' : 'Generate Bill') }}
+      </button>
+  </div>
+
+</div>
+
+
+<ng-template #loading>
+
+  <div class="loading">
+
+    Loading Job Card...
+
+  </div>
+
+</ng-template>

@@ -1,0 +1,19 @@
+.status.open {
+  background: #FFF5CF;
+  color: #FEBE10;
+}
+
+.status.in-progress {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.status.ready {
+  background: #FFF5CF;
+  color: #FEBE10;
+}
+
+.status.delivered {
+  background: #d1fae5;
+  color: #15803d;
+}

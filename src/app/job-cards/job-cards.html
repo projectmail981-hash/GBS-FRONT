@@ -1,0 +1,223 @@
+<div class="job-container">
+
+  <!-- Header -->
+
+  <div class="header">
+
+    <h1>Job Cards</h1>
+
+    <div class="status-tabs">
+
+      <button
+        [class.active]="selectedFilter==='All'"
+        (click)="selectFilter('All')">
+        All
+      </button>
+
+      <button
+        [class.active]="selectedFilter==='Open'"
+        (click)="selectFilter('Open')">
+        Open
+      </button>
+
+      <button
+        [class.active]="selectedFilter==='In Progress'"
+        (click)="selectFilter('In Progress')">
+        In Progress
+      </button>
+
+      <button
+        [class.active]="selectedFilter==='Ready'"
+        (click)="selectFilter('Ready')">
+        Ready
+      </button>
+
+      <button
+        [class.active]="selectedFilter==='Completed'"
+        (click)="selectFilter('Completed')">
+        Completed
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Search -->
+
+  <div class="search-box">
+
+    <span>🔍</span>
+
+    <input
+      type="text"
+      placeholder="Search Customer or Vehicle"
+      [(ngModel)]="searchQuery"
+      (input)="filterJobCards()">
+
+  </div>
+
+  <div class="filter">
+
+    ⏰ All Active • Latest Job Cards
+
+  </div>
+
+  <!-- Job Cards -->
+
+  <div class="job-list" style="margin-bottom:24px;">
+
+    <div
+      class="job-placeholder"
+      *ngIf="paginatedJobCards.length===0">
+
+      <p>No Job Cards Found</p>
+
+    </div>
+
+    <button
+
+      *ngFor="let job of paginatedJobCards"
+
+      type="button"
+
+      class="job-card"
+
+      (click)="openJobCard(job.job_id)">
+
+      <div class="top-row">
+
+        <span class="vehicle-no">
+
+          {{ job.vehicle_number }}
+
+        </span>
+
+        <span class="job-id">
+
+          JOB-{{ job.job_id }}
+
+        </span>
+
+      </div>
+
+      <div class="middle-row">
+
+        <div>
+
+          <h3>
+
+            {{ job.customer_name }}
+
+          </h3>
+
+          <p>
+
+            📅 {{ job.service_date | date:'dd-MM-yyyy' }}
+
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="bottom-row">
+
+        <span
+          class="status"
+          [ngClass]="getStatusClass(job.status)">
+
+          {{ job.status }}
+
+        </span>
+
+      </div>
+
+    </button>
+
+    <!-- Pagination -->
+
+    <div
+      class="pagination-controls"
+      *ngIf="totalPages>1">
+
+      <button
+        (click)="previousPage()"
+        [disabled]="currentPage===1">
+
+        Previous
+
+      </button>
+
+      <span>
+
+        Page {{currentPage}} of {{totalPages}}
+
+      </span>
+
+      <button
+        (click)="nextPage()"
+        [disabled]="currentPage===totalPages">
+
+        Next
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Floating Button -->
+
+  <button
+    class="fab"
+    routerLink="/new-job-card">
+
+    <span>+</span>
+
+  </button>
+
+  <!-- Bottom Navigation -->
+
+  <nav class="bottom-nav">
+
+    <div class="bottom-nav-left">
+
+      <a routerLink="/dashboard">
+
+        <span>🏠</span>
+
+        <small>Dashboard</small>
+
+      </a>
+
+      <a routerLink="/customers">
+
+        <span>👤</span>
+
+        <small>Customers</small>
+
+      </a>
+
+      <a
+        routerLink="/job-cards"
+        routerLinkActive="active">
+
+        <span>🔧</span>
+
+        <small>Job Cards</small>
+
+      </a>
+
+      <a routerLink="/invoices">
+
+        <span>🧾</span>
+
+        <small>Invoices</small>
+
+      </a>
+
+    </div>
+
+  </nav>
+
+</div>

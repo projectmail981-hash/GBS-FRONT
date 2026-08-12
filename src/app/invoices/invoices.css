@@ -1,0 +1,114 @@
+.load-more-btn {
+  display: block;
+  width: calc(100% - 32px);
+  margin: 8px 16px 24px;
+  padding: 14px;
+  border: 2px solid #FEBE10;
+  background: transparent;
+  color: #FEBE10;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.invoice-card {
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.invoice-card:active {
+  transform: scale(0.98);
+}
+
+.invoice-card.status-paid {
+  border-left-color: #22c55e;
+}
+
+.invoice-card.status-partial {
+  border-left-color: #f59e0b;
+}
+
+.badge.paid {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.badge.partial {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.badge.unpaid {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 480px) {
+  .middle {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .amount {
+    font-size: 1.25rem !important;
+  }
+
+  .invoice-right {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+@media(max-width:600px){
+  .invoice-container .invoice-card{margin:0 16px 12px;padding:12px 14px;border-radius:14px}
+  .invoice-container .invoice-card .top{gap:6px}
+  .invoice-container .invoice-card .vehicle{padding:4px 8px}
+  .invoice-container .invoice-card .invoice-right{gap:6px}
+  .invoice-container .invoice-card .badge{padding:3px 7px}
+  .invoice-container .invoice-card .middle{margin-top:8px}
+  .invoice-container .invoice-card .middle h2{font-size:17px;margin:0 0 2px}
+  .invoice-container .invoice-card .middle p{display: none !important;}
+  .invoice-container .invoice-card .middle h3{margin:2px 0 0}
+  .invoice-container .invoice-card .amount{font-size: 1.25rem !important;}
+  .invoice-container .invoice-card .bottom{margin-top:5px}
+}
+
+/* Global Overrides to match job cards */
+.invoice-card {
+  padding: 12px 16px !important;
+  margin: 0 16px 12px !important;
+  border-radius: 14px !important;
+}
+
+/* Hide duplicate invoice number in middle section */
+.invoice-card .middle p {
+  display: none !important;
+}
+
+/* Reduce amount size */
+.invoice-card .amount {
+  font-size: 1.25rem !important;
+  font-weight: 700;
+}
+
+/* Fix badge colors by using the correct parent status class */
+.invoice-card.status-paid .badge {
+  background: #dcfce7 !important;
+  color: #16a34a !important;
+}
+
+.invoice-card.status-partial .badge {
+  background: #fef3c7 !important;
+  color: #d97706 !important;
+}
+
+.invoice-card.status-unpaid .badge {
+  background: #fee2e2 !important;
+  color: #dc2626 !important;
+}

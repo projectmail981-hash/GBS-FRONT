@@ -1,0 +1,266 @@
+<div class="invoice-container">
+
+  <div class="header">
+
+    <h1>Invoices</h1>
+
+    <div class="status-tabs">
+
+      <button
+        [class.active]="selectedFilter==='All'"
+        (click)="selectFilter('All')">
+
+        All
+
+      </button>
+
+      <button
+        [class.active]="selectedFilter==='Unpaid'"
+        (click)="selectFilter('Unpaid')">
+
+        Unpaid
+
+      </button>
+
+      <button
+        [class.active]="selectedFilter==='Partial'"
+        (click)="selectFilter('Partial')">
+
+        Partial
+
+      </button>
+
+      <button
+        [class.active]="selectedFilter==='Paid'"
+        (click)="selectFilter('Paid')">
+
+        Paid
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="search-box">
+
+    <span>🔍</span>
+
+    <input
+      type="text"
+      placeholder="Search customer, vehicle or invoice"
+      [(ngModel)]="searchQuery"
+      (input)="onSearch()">
+
+  </div>
+
+
+  <div class="filter">
+
+    🧾 Total Invoices :
+    {{ invoices.length }}
+
+  </div>
+
+
+  <div
+    class="empty"
+    *ngIf="paginatedInvoices.length==0">
+
+    No invoices found
+
+  </div>
+
+
+  <div
+
+    *ngFor="let inv of paginatedInvoices"
+
+    class="invoice-card"
+
+    [ngClass]="'status-'+inv.status.toLowerCase()"
+
+    (click)="openInvoice(inv.invoice_id)">
+
+    <div class="top">
+
+      <div class="vehicle">
+
+        🚗
+
+        {{ inv.vehicle_number }}
+
+      </div>
+
+      <div class="invoice-right">
+
+        <span class="invoice-no">
+
+          {{ inv.invoice_number }}
+
+        </span>
+
+        <span class="badge">
+
+          {{ inv.status }}
+
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="middle">
+
+      <div>
+
+        <h2>
+
+          {{ inv.customer_name }}
+
+        </h2>
+
+        <p>
+
+          Invoice #
+
+          {{ inv.invoice_number }}
+
+        </p>
+
+        <h3 *ngIf="inv.balance_amount>0">
+
+          Due :
+
+          ₹{{ inv.balance_amount }}
+
+        </h3>
+
+      </div>
+
+      <div class="amount">
+
+        ₹{{ inv.total_amount }}
+
+      </div>
+
+    </div>
+
+
+    <div class="bottom">
+
+      <span>
+
+        📅
+
+        {{ formatDate(inv.invoice_date) }}
+
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div
+    class="pagination-controls"
+    *ngIf="totalPages>1">
+
+    <button
+
+      (click)="previousPage()"
+
+      [disabled]="currentPage==1">
+
+      Previous
+
+    </button>
+
+
+    <span>
+
+      Page
+
+      {{ currentPage }}
+
+      of
+
+      {{ totalPages }}
+
+    </span>
+
+
+    <button
+
+      (click)="nextPage()"
+
+      [disabled]="currentPage==totalPages">
+
+      Next
+
+    </button>
+
+  </div>
+
+
+  <nav class="bottom-nav">
+
+    <div class="bottom-nav-left">
+
+      <a
+
+        routerLink="/dashboard"
+
+        routerLinkActive="active"
+
+        [routerLinkActiveOptions]="{exact:true}">
+
+        <span>🏠</span>
+
+        <small>Dashboard</small>
+
+      </a>
+
+      <a
+
+        routerLink="/customers"
+
+        routerLinkActive="active">
+
+        <span>👤</span>
+
+        <small>Customers</small>
+
+      </a>
+
+      <a
+
+        routerLink="/job-cards"
+
+        routerLinkActive="active">
+
+        <span>🔧</span>
+
+        <small>Job Cards</small>
+
+      </a>
+
+      <a
+
+        routerLink="/invoices"
+
+        routerLinkActive="active">
+
+        <span>🧾</span>
+
+        <small>Invoices</small>
+
+      </a>
+
+    </div>
+
+  </nav>
+
+</div>

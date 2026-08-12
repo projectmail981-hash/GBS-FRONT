@@ -1,0 +1,93 @@
+<link rel="stylesheet" href="../../styles.css">
+<div class="customers-container">
+
+    <!-- Header -->
+
+    <div class="header customers-header">
+
+        <h1>Customers</h1>
+        <div class="customer-count-label">{{ customers.length }} customer{{ customers.length === 1 ? '' : 's' }}</div>
+
+        <div class="stats"></div>
+
+    </div>
+
+    <!-- Search -->
+
+    <div class="search-box">
+
+        <span class="search-icon-emoji">🔎</span>
+
+        <input
+            type="text"
+            placeholder="Search by name or phone..."
+            [(ngModel)]="searchQuery"
+            (input)="onSearch()">
+
+    </div>
+
+    <!-- Customer Card -->
+
+    @if (customers.length > 0) {
+        @for (customer of paginatedCustomers; track customer.phone) {
+            <div class="customer-card">
+                <div class="avatar">{{ customer.customer_name.charAt(0).toUpperCase() }}</div>
+                <div class="customer-info">
+                    <h3>{{ customer.customer_name }}</h3>
+                    <p><span class="plate-icon">📞</span> {{ customer.phone }}</p>
+                    <p>{{ customer.address }}</p>
+                </div>
+                <div class="customer-right">
+                    <span class="vehicle-count">Added</span>
+                    <span class="arrow-icon">›</span>
+                </div>
+            </div>
+        }
+        
+        <div class="pagination-controls" *ngIf="totalPages > 1">
+            <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+        </div>
+    } @else {
+        <div class="customer-placeholder">
+            <p>No customers to display</p>
+        </div>
+    }
+
+    <!-- Floating Button -->
+
+    <button class="fab" routerLink="/new-customer">
+
+        <span>➕</span>
+
+    </button>
+
+    <!-- bottom nav bar -->
+    <nav class="bottom-nav">
+        <div class="bottom-nav-left">
+        <a routerLink="/dashboard"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact:true}">
+            <span class="material-icons">🏠</span>
+            <small>Dashboard</small>
+        </a>
+        <a routerLink="/customers"
+           routerLinkActive="active">
+            <span class="material-icons">👤</span>
+            <small>Customers</small>
+        </a>
+        <a routerLink="/job-cards"
+           routerLinkActive="active">
+            <span class="material-icons">🔧</span>
+            <small>Job Cards</small>
+        </a>
+        <a routerLink="/invoices"
+           routerLinkActive="active">
+             <span class="material-icons">🧾</span>
+            <small>Invoices</small>
+        </a>
+        </div>
+    </nav>
+
+</div>
