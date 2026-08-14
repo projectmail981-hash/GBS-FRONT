@@ -80,14 +80,21 @@ export class NewJobcard implements OnInit {
   parts: LineItem[] = [];
 
   newServiceName = '';
-  newServiceQty = 1;
-  newServiceAmount = 0;
+  newServiceQty: number | null = null;
+  newServiceAmount: string = '';
   newPartName = '';
-  newPartQty = 1;
-  newPartAmount = 0;
+  newPartQty: number | null = null;
+  newPartAmount: string = '';
   showServiceForm = false;
   showPartForm = false;
   isSaving = false;
+
+  showManualPartForm = false;
+  newManualPartName = '';
+  newManualPartQty: number | null = null;
+  newManualPartUnitPrice: number | null = null;
+  newManualPartSellingPrice: number | null = null;
+  newManualPartAmount: string = '';
 
   constructor(
     private router: Router,
@@ -200,8 +207,8 @@ export class NewJobcard implements OnInit {
       amount
     });
     this.newServiceName = '';
-    this.newServiceQty = 1;
-    this.newServiceAmount = 0;
+    this.newServiceQty = null;
+    this.newServiceAmount = '';
     this.showServiceForm = false;
   }
 
@@ -243,13 +250,14 @@ export class NewJobcard implements OnInit {
   
   updatePartAmount(): void {
     if (this.selectedInventoryItem) {
-      this.newPartAmount = this.selectedInventoryItem.selling_price * this.newPartQty;
+      const amount = this.selectedInventoryItem.selling_price * (this.newPartQty || 1);
+      this.newPartAmount = `₹ ${amount.toFixed(2)}`;
     }
   }
 
   onPartQtyChange(): void {
-    if (this.newPartQty < 1) this.newPartQty = 1;
-    if (this.selectedInventoryItem && this.newPartQty > this.selectedInventoryItem.stock_quantity) {
+    if (this.newPartQty !== null && this.newPartQty < 1) this.newPartQty = 1;
+    if (this.selectedInventoryItem && this.newPartQty !== null && this.newPartQty > this.selectedInventoryItem.stock_quantity) {
       alert("Quantity exceeds available stock!");
       this.newPartQty = this.selectedInventoryItem.stock_quantity;
     }
@@ -274,10 +282,74 @@ export class NewJobcard implements OnInit {
       amount
     } as any);
     this.newPartName = '';
-    this.newPartQty = 1;
-    this.newPartAmount = 0;
+    this.newPartQty = null;
+    this.newPartAmount = '';
     this.selectedInventoryItem = null;
     this.showPartForm = false;
+  }
+
+  selectManualPart(): void {
+    this.closeInventorySheet();
+    this.showManualPartForm = true;
+    this.newManualPartName = '';
+    this.newManualPartQty = null;
+    this.newManualPartUnitPrice = null;
+    this.newManualPartSellingPrice = null;
+    this.newManualPartAmount = '';
+    this.cdr.detectChanges();
+  }
+
+  onManualPartCalc(): void {
+    const qty = this.validQuantity(this.newManualPartQty);
+    const price = this.nonNegative(this.newManualPartSellingPrice);
+    if (this.newManualPartQty !== null && this.newManualPartSellingPrice !== null) {
+      this.newManualPartAmount = `₹ ${(qty * price).toFixed(2)}`;
+    } else {
+      this.newManualPartAmount = '';
+    }
+  }
+
+  confirmManualPart(): void {
+    const name = this.newManualPartName.trim();
+    if (!name) return;
+
+    const qty = this.validQuantity(this.newManualPartQty);
+    const unitPrice = this.nonNegative(this.newManualPartUnitPrice);
+    const sellingPrice = this.nonNegative(this.newManualPartSellingPrice);
+    const amount = this.nonNegative(this.newManualPartAmount);
+
+    const newItem: InventoryItem = {
+      part_name: name,
+      category: 'General',
+      stock_quantity: qty,
+      unit_price: unitPrice,
+      mrp: sellingPrice,
+      selling_price: sellingPrice,
+      supplier: ''
+    };
+
+    this.inventoryService.addPart(newItem).subscribe({
+      next: (res: any) => {
+        const newPartId = res.part_id; 
+        this.parts.push({
+          id: `part-${Date.now()}-${this.parts.length}`,
+          part_id: newPartId,
+          name,
+          type: 'Part',
+          qty,
+          rate: sellingPrice,
+          amount
+        } as any);
+
+        this.showManualPartForm = false;
+        this.loadInventory();
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Unable to save manual part', err);
+        alert('Failed to save manual part to inventory.');
+      }
+    });
   }
 
   removePart(id: string): void {
@@ -360,6 +432,9 @@ export class NewJobcard implements OnInit {
   }
 
   private toNumber(value: unknown): number {
+    if (typeof value === 'string') {
+      value = value.replace(/[^\d.-]/g, '');
+    }
     const numberValue = Number(value);
     return Number.isFinite(numberValue) ? numberValue : 0;
   }

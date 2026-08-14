@@ -8,27 +8,6 @@
   <div class="section-title"><h2>Quick Actions</h2></div>
   <div class="quick-actions"><button class="action-btn customer-btn" routerLink="/new-customer"><span>New Customer</span></button><button class="action-btn job-btn" routerLink="/new-job-card"><span>New Job Card</span></button></div>
 
-  <div class="reports-section">
-    <h3>Reports</h3>
-    <div class="reports-grid">
-      <div class="report-card">
-        <span class="report-title">Weekly Income</span>
-        <strong class="report-value">&#8377;{{ weeklyIncome }}</strong>
-      </div>
-      <div class="report-card">
-        <span class="report-title">Monthly Income</span>
-        <strong class="report-value">&#8377;{{ monthlyIncome }}</strong>
-      </div>
-      <div class="report-card">
-        <span class="report-title">Parts Profit</span>
-        <strong class="report-value">&#8377;{{ partsProfit }}</strong>
-      </div>
-      <div class="report-card">
-        <span class="report-title">Labour Charge</span>
-        <strong class="report-value">&#8377;{{ labourCharge }}</strong>
-      </div>
-    </div>
-  </div>
 
   <nav class="bottom-nav"><div class="bottom-nav-left"><a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="material-icons" aria-hidden="true">&#127968;</span><small>Dashboard</small></a><a routerLink="/customers" routerLinkActive="active"><span class="material-icons" aria-hidden="true">&#128100;</span><small>Customers</small></a><a routerLink="/job-cards" routerLinkActive="active"><span class="material-icons" aria-hidden="true">&#128295;</span><small>Job Cards</small></a><a routerLink="/invoices" routerLinkActive="active"><span class="material-icons" aria-hidden="true">&#129534;</span><small>Invoices</small></a></div></nav>
 </div>

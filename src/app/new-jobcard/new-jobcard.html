@@ -78,7 +78,7 @@
             <input type="text" placeholder="Service name" [(ngModel)]="newServiceName">
             <div class="form-row-dual">
                 <input type="number" placeholder="Quantity" [(ngModel)]="newServiceQty">
-                <input type="number" placeholder="Amount &#8377;" [(ngModel)]="newServiceAmount">
+                <input type="text" placeholder="Amount &#8377;" [(ngModel)]="newServiceAmount" (focus)="newServiceAmount = newServiceAmount.replace('₹ ', '')" (blur)="newServiceAmount = newServiceAmount ? '₹ ' + newServiceAmount : ''">
             </div>
             <div class="item-form-actions">
                 <button type="button" class="cancel-btn" (click)="showServiceForm = false">Cancel</button>
@@ -114,7 +114,7 @@
             <input type="text" placeholder="Part name" [(ngModel)]="newPartName" readonly style="background: #f8fafc;">
             <div class="form-row-dual">
                 <input type="number" placeholder="Quantity" [(ngModel)]="newPartQty" (ngModelChange)="onPartQtyChange()">
-                <input type="number" placeholder="Amount &#8377;" [(ngModel)]="newPartAmount" readonly style="background: #f8fafc;">
+                <input type="text" placeholder="Amount &#8377;" [(ngModel)]="newPartAmount" readonly style="background: #f8fafc;">
             </div>
             <div class="item-form-actions">
                 <button type="button" class="cancel-btn" (click)="showPartForm = false">Cancel</button>
@@ -123,7 +123,25 @@
         </div>
     }
 
-    @if (parts.length === 0 && !showPartForm) {
+    @if (showManualPartForm) {
+        <div class="card item-form manual-part-form">
+            <input type="text" placeholder="Part name" [(ngModel)]="newManualPartName">
+            <div class="form-row-dual">
+                <input type="number" placeholder="Quantity" [(ngModel)]="newManualPartQty" (ngModelChange)="onManualPartCalc()">
+                <input type="number" placeholder="Unit Price (Cost)" [(ngModel)]="newManualPartUnitPrice">
+            </div>
+            <div class="form-row-dual" style="margin-top: 10px;">
+                <input type="number" placeholder="Selling Price" [(ngModel)]="newManualPartSellingPrice" (ngModelChange)="onManualPartCalc()">
+                <input type="text" placeholder="Amount &#8377;" [(ngModel)]="newManualPartAmount" readonly style="background: #f8fafc;">
+            </div>
+            <div class="item-form-actions" style="margin-top: 12px;">
+                <button type="button" class="cancel-btn" (click)="showManualPartForm = false">Cancel</button>
+                <button type="button" class="confirm-btn" (click)="confirmManualPart()">Add</button>
+            </div>
+        </div>
+    }
+
+    @if (parts.length === 0 && !showPartForm && !showManualPartForm) {
         <div class="card empty-card">
             <h3>No Parts Added</h3>
             <p>Select spare parts from inventory</p>
@@ -159,6 +177,12 @@
     <button class="close-btn" (click)="closeInventorySheet()">✕</button>
   </div>
   <div class="sheet-content">
+    <div class="inventory-list-item manual-add" (click)="selectManualPart()" style="border-bottom: 2px solid #FEBE10; background: #fffcf0;">
+      <div class="item-info">
+        <strong style="color: #0f172a;">+ Add Manually</strong>
+        <span style="font-size:12px; color:#64748b;">Create a new part for this job</span>
+      </div>
+    </div>
     <div *ngIf="inventoryItems.length === 0" style="text-align:center; padding:20px; color:#64748b;">
       No parts in inventory. Please add stock first.
     </div>

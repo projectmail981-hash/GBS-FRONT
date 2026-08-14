@@ -16,7 +16,7 @@
           <tr>
             <th>Part Name</th>
             <th class="right-align">Qty</th>
-            <th class="right-align">MRP</th>
+            <th class="right-align">Unit Price</th>
             <th class="right-align">Selling Price</th>
             <th class="center-align">Action</th>
           </tr>
@@ -32,7 +32,7 @@
             <td class="right-align">
               <span class="qty-text" [class.danger]="item.stock_quantity < 5">{{ item.stock_quantity }}</span>
             </td>
-            <td class="right-align">₹{{ item.mrp || item.unit_price || 0 }}</td>
+            <td class="right-align">₹{{ item.unit_price || 0 }}</td>
             <td class="right-align">₹{{ item.selling_price || item.unit_price || 0 }}</td>
             <td class="center-align">
               <button class="edit-btn" (click)="openRestockModal(item)">✎</button>
@@ -62,16 +62,12 @@
           <input type="number" class="input" [(ngModel)]="formItem.stock_quantity" placeholder="0">
         </div>
         <div class="form-group flex-1">
-          <label>Unit Price (Buy)</label>
+          <label>Unit Price</label>
           <input type="number" class="input" [(ngModel)]="formItem.unit_price" placeholder="0">
         </div>
       </div>
 
       <div class="form-row">
-        <div class="form-group flex-1">
-          <label>MRP</label>
-          <input type="number" class="input" [(ngModel)]="formItem.mrp" placeholder="0">
-        </div>
         <div class="form-group flex-1">
           <label>Selling Price</label>
           <input type="number" class="input" [(ngModel)]="formItem.selling_price" placeholder="0">

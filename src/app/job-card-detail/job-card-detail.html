@@ -57,7 +57,7 @@
       <input type="text" [(ngModel)]="newServiceName" placeholder="Service Name" class="input">
       <div style="display:flex; gap:10px; margin-top:10px;">
         <input type="number" [(ngModel)]="newServiceQty" placeholder="Qty" class="input" style="flex:1">
-        <input type="number" [(ngModel)]="newServiceAmount" placeholder="Amount" class="input" style="flex:2">
+        <input type="text" [(ngModel)]="newServiceAmount" placeholder="Amount" class="input" style="flex:2" (focus)="newServiceAmount = newServiceAmount.replace('₹ ', '')" (blur)="newServiceAmount = newServiceAmount ? '₹ ' + newServiceAmount : ''">
       </div>
       <div style="display:flex; gap:10px; margin-top:10px;">
         <button class="btn btn-progress" style="padding: 8px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;" (click)="confirmService()">Save</button>
@@ -93,13 +93,31 @@
       <input type="text" [(ngModel)]="newPartName" placeholder="Part Name" class="input" readonly style="background: #f8fafc;">
       <div style="display:flex; gap:10px; margin-top:10px;">
         <input type="number" [(ngModel)]="newPartQty" (ngModelChange)="onPartQtyChange()" placeholder="Qty" class="input" style="flex:1">
-        <input type="number" [(ngModel)]="newPartAmount" placeholder="Amount" class="input" style="flex:2" readonly style="background: #f8fafc;">
+        <input type="text" [(ngModel)]="newPartAmount" placeholder="Amount" class="input" style="flex:2; background: #f8fafc;" readonly>
       </div>
       <div style="display:flex; gap:10px; margin-top:10px;">
         <button class="btn btn-progress" style="padding: 8px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;" (click)="confirmPart()">Save</button>
         <button class="btn btn-outline" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: #fff; border-radius: 8px; cursor: pointer;" (click)="showPartForm = false">Cancel</button>
       </div>
     </div>
+
+    @if (showManualPartForm) {
+        <div class="add-form" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+            <input type="text" placeholder="Part name" [(ngModel)]="newManualPartName" class="input">
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <input type="number" placeholder="Quantity" [(ngModel)]="newManualPartQty" (ngModelChange)="onManualPartCalc()" class="input" style="flex:1">
+                <input type="number" placeholder="Unit Price (Cost)" [(ngModel)]="newManualPartUnitPrice" class="input" style="flex:2">
+            </div>
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <input type="number" placeholder="Selling Price" [(ngModel)]="newManualPartSellingPrice" (ngModelChange)="onManualPartCalc()" class="input" style="flex:1">
+                <input type="text" placeholder="Amount" [(ngModel)]="newManualPartAmount" readonly class="input" style="flex:2; background: #f8fafc;">
+            </div>
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <button class="btn btn-progress" style="padding: 8px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;" (click)="confirmManualPart()">Save</button>
+                <button class="btn btn-outline" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: #fff; border-radius: 8px; cursor: pointer;" (click)="showManualPartForm = false">Cancel</button>
+            </div>
+        </div>
+    }
 
     <div class="item checklist-item" *ngFor="let part of job.parts">
       <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
@@ -202,6 +220,12 @@
     <button class="close-btn" (click)="closeInventorySheet()">✕</button>
   </div>
   <div class="sheet-content">
+    <div class="inventory-list-item manual-add" (click)="selectManualPart()" style="border-bottom: 2px solid #FEBE10; background: #fffcf0;">
+      <div class="item-info">
+        <strong style="color: #0f172a;">+ Add Manually</strong>
+        <span style="font-size:12px; color:#64748b;">Create a new part for this job</span>
+      </div>
+    </div>
     <div *ngIf="inventoryItems.length === 0" style="text-align:center; padding:20px; color:#64748b;">
       No parts in inventory. Please add stock first.
     </div>

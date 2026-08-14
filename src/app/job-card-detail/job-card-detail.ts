@@ -230,8 +230,8 @@ export class JobCardDetail implements OnInit {
   // Add Service Form
   showServiceForm = false;
   newServiceName = '';
-  newServiceQty = 1;
-  newServiceAmount = 0;
+  newServiceQty: number | null = null;
+  newServiceAmount: string = '';
 
   addService(): void {
     if (this.job && this.job.status === 'Ready') {
@@ -249,17 +249,17 @@ export class JobCardDetail implements OnInit {
     const payload = {
       job_id: this.job.job_id,
       service_name: this.newServiceName.trim(),
-      quantity: Math.max(1, this.newServiceQty),
-      labour_charge: Math.max(0, this.newServiceAmount) / Math.max(1, this.newServiceQty),
-      total_amount: Math.max(0, this.newServiceAmount)
+      quantity: Math.max(1, this.newServiceQty || 1),
+      labour_charge: Math.max(0, this.toNumber(this.newServiceAmount)) / Math.max(1, this.newServiceQty || 1),
+      total_amount: Math.max(0, this.toNumber(this.newServiceAmount))
     };
 
     this.jobCardService.addJobService(payload).subscribe({
       next: (res: any) => {
         this.ngOnInit();
         this.newServiceName = '';
-        this.newServiceQty = 1;
-        this.newServiceAmount = 0;
+        this.newServiceQty = null;
+        this.newServiceAmount = '';
         this.showServiceForm = false;
       },
       error: err => {
@@ -275,8 +275,15 @@ export class JobCardDetail implements OnInit {
   selectedInventoryItem: InventoryItem | null = null;
   
   newPartName = '';
-  newPartQty = 1;
-  newPartAmount = 0;
+  newPartQty: number | null = null;
+  newPartAmount: string = '';
+
+  showManualPartForm = false;
+  newManualPartName = '';
+  newManualPartQty: number | null = null;
+  newManualPartUnitPrice: number | null = null;
+  newManualPartSellingPrice: number | null = null;
+  newManualPartAmount: string = '';
 
   addPart(): void {
     if (this.job && this.job.status === 'Ready') {
@@ -309,13 +316,14 @@ export class JobCardDetail implements OnInit {
   
   updatePartAmount(): void {
     if (this.selectedInventoryItem) {
-      this.newPartAmount = this.selectedInventoryItem.selling_price * this.newPartQty;
+      const amount = this.selectedInventoryItem.selling_price * (this.newPartQty || 1);
+      this.newPartAmount = `₹ ${amount.toFixed(2)}`;
     }
   }
 
   onPartQtyChange(): void {
-    if (this.newPartQty < 1) this.newPartQty = 1;
-    if (this.selectedInventoryItem && this.newPartQty > this.selectedInventoryItem.stock_quantity) {
+    if (this.newPartQty !== null && this.newPartQty < 1) this.newPartQty = 1;
+    if (this.selectedInventoryItem && this.newPartQty !== null && this.newPartQty > this.selectedInventoryItem.stock_quantity) {
       alert("Quantity exceeds available stock!");
       this.newPartQty = this.selectedInventoryItem.stock_quantity;
     }
@@ -329,7 +337,7 @@ export class JobCardDetail implements OnInit {
       job_id: this.job.job_id,
       part_id: this.selectedInventoryItem.part_id,
       part_name: this.selectedInventoryItem.part_name,
-      quantity: Math.max(1, this.newPartQty),
+      quantity: Math.max(1, this.newPartQty || 1),
       unit_price: this.selectedInventoryItem.selling_price,
     };
 
@@ -338,14 +346,82 @@ export class JobCardDetail implements OnInit {
         // Refresh job card
         this.ngOnInit();
         this.newPartName = '';
-        this.newPartQty = 1;
-        this.newPartAmount = 0;
+        this.newPartQty = null;
+        this.newPartAmount = '';
         this.selectedInventoryItem = null;
         this.showPartForm = false;
       },
       error: err => {
         console.error("Failed to add part", err);
         alert("Failed to add part");
+      }
+    });
+  }
+
+  selectManualPart(): void {
+    this.closeInventorySheet();
+    this.showManualPartForm = true;
+    this.newManualPartName = '';
+    this.newManualPartQty = null;
+    this.newManualPartUnitPrice = null;
+    this.newManualPartSellingPrice = null;
+    this.newManualPartAmount = '';
+    this.cdr.detectChanges();
+  }
+
+  onManualPartCalc(): void {
+    const qty = Math.max(1, Number(this.newManualPartQty) || 0);
+    const price = Math.max(0, Number(this.newManualPartSellingPrice) || 0);
+    if (this.newManualPartQty !== null && this.newManualPartSellingPrice !== null) {
+      this.newManualPartAmount = `₹ ${(qty * price).toFixed(2)}`;
+    } else {
+      this.newManualPartAmount = '';
+    }
+  }
+
+  confirmManualPart(): void {
+    if (!this.job || !this.newManualPartName.trim()) return;
+
+    const qty = Math.max(1, Number(this.newManualPartQty) || 0);
+    const unitPrice = Math.max(0, Number(this.newManualPartUnitPrice) || 0);
+    const sellingPrice = Math.max(0, Number(this.newManualPartSellingPrice) || 0);
+    
+    const newItem: InventoryItem = {
+      part_name: this.newManualPartName.trim(),
+      category: 'General',
+      stock_quantity: qty,
+      unit_price: unitPrice,
+      mrp: sellingPrice,
+      selling_price: sellingPrice,
+      supplier: ''
+    };
+
+    this.inventoryService.addPart(newItem).subscribe({
+      next: (res: any) => {
+        const newPartId = res.part_id; 
+        const payload = {
+          job_id: this.job!.job_id,
+          part_id: newPartId,
+          part_name: newItem.part_name,
+          quantity: qty,
+          unit_price: sellingPrice,
+        };
+
+        this.jobCardService.addJobPart(payload).subscribe({
+          next: () => {
+            this.ngOnInit();
+            this.showManualPartForm = false;
+            this.loadInventory();
+          },
+          error: err => {
+            console.error("Failed to add manual part to job card", err);
+            alert("Failed to add part to job card");
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Unable to save manual part', err);
+        alert('Failed to save manual part to inventory.');
       }
     });
   }
@@ -369,5 +445,13 @@ export class JobCardDetail implements OnInit {
     const allServicesChecked = this.job.services ? this.job.services.every((s: any) => s.is_completed) : true;
     const allPartsChecked = this.job.parts ? this.job.parts.every((p: any) => p.is_completed) : true;
     return allServicesChecked && allPartsChecked;
+  }
+
+  private toNumber(value: unknown): number {
+    if (typeof value === 'string') {
+      value = value.replace(/[^\d.-]/g, '');
+    }
+    const numberValue = Number(value);
+    return Number.isFinite(numberValue) ? numberValue : 0;
   }
 }
