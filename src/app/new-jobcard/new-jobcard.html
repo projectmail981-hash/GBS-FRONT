@@ -111,10 +111,10 @@
 
     @if (showPartForm) {
         <div class="card item-form">
-            <input type="text" placeholder="Part name" [(ngModel)]="newPartName">
+            <input type="text" placeholder="Part name" [(ngModel)]="newPartName" readonly style="background: #f8fafc;">
             <div class="form-row-dual">
-                <input type="number" placeholder="Quantity" [(ngModel)]="newPartQty">
-                <input type="number" placeholder="Amount &#8377;" [(ngModel)]="newPartAmount">
+                <input type="number" placeholder="Quantity" [(ngModel)]="newPartQty" (ngModelChange)="onPartQtyChange()">
+                <input type="number" placeholder="Amount &#8377;" [(ngModel)]="newPartAmount" readonly style="background: #f8fafc;">
             </div>
             <div class="item-form-actions">
                 <button type="button" class="cancel-btn" (click)="showPartForm = false">Cancel</button>
@@ -149,4 +149,30 @@
     </div>
 
     <button type="button" class="save-btn" (click)="saveJobCard()">Save Job Card</button>
+</div>
+
+<!-- Bottom Sheet for Inventory -->
+<div class="bottom-sheet-backdrop" *ngIf="showInventorySheet" (click)="closeInventorySheet()"></div>
+<div class="bottom-sheet" [class.open]="showInventorySheet">
+  <div class="sheet-header">
+    <h3>Select Part from Inventory</h3>
+    <button class="close-btn" (click)="closeInventorySheet()">✕</button>
+  </div>
+  <div class="sheet-content">
+    <div *ngIf="inventoryItems.length === 0" style="text-align:center; padding:20px; color:#64748b;">
+      No parts in inventory. Please add stock first.
+    </div>
+    <div class="inventory-list-item" 
+         *ngFor="let item of inventoryItems" 
+         (click)="selectInventoryItem(item)"
+         [class.out-of-stock]="item.stock_quantity <= 0">
+      <div class="item-info">
+        <strong>{{ item.part_name }}</strong>
+        <span class="stock-badge" [class.danger]="item.stock_quantity <= 0">Stock: {{ item.stock_quantity }}</span>
+      </div>
+      <div class="item-price">
+        ₹{{ item.selling_price }}
+      </div>
+    </div>
+  </div>
 </div>

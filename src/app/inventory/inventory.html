@@ -1,0 +1,87 @@
+<div class="inventory-page">
+  <div class="header">
+    <button class="back-btn" (click)="goBack()">
+      ←
+    </button>
+    <h2>Inventory</h2>
+    <button class="restock-btn" (click)="openRestockModal()">+ Restock</button>
+  </div>
+
+  <div class="table-container card">
+    <div *ngIf="isLoading" class="loading">Loading inventory...</div>
+    
+    <div class="responsive-table-wrapper" *ngIf="!isLoading">
+      <table class="inventory-table">
+        <thead>
+          <tr>
+            <th>Part Name</th>
+            <th class="right-align">Qty</th>
+            <th class="right-align">MRP</th>
+            <th class="right-align">Selling Price</th>
+            <th class="center-align">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of inventoryItems" [class.low-stock]="item.stock_quantity < 5">
+            <td>
+              <div class="part-info">
+                <strong>{{ item.part_name }}</strong>
+                <span class="badge red" *ngIf="item.stock_quantity < 5">Low Stock</span>
+              </div>
+            </td>
+            <td class="right-align">
+              <span class="qty-text" [class.danger]="item.stock_quantity < 5">{{ item.stock_quantity }}</span>
+            </td>
+            <td class="right-align">₹{{ item.mrp || item.unit_price || 0 }}</td>
+            <td class="right-align">₹{{ item.selling_price || item.unit_price || 0 }}</td>
+            <td class="center-align">
+              <button class="edit-btn" (click)="openRestockModal(item)">✎</button>
+            </td>
+          </tr>
+          <tr *ngIf="inventoryItems.length === 0">
+            <td colspan="5" class="center-align empty-state">No items found in inventory.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Restock Modal -->
+  <div class="modal-backdrop" *ngIf="showRestockModal">
+    <div class="modal-card">
+      <h3 style="margin-top: 0;">{{ editingItem ? 'Update Stock' : 'Add New Stock' }}</h3>
+      
+      <div class="form-group">
+        <label>Part Name</label>
+        <input type="text" class="input" [(ngModel)]="formItem.part_name" placeholder="e.g. Engine Oil">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label>Quantity</label>
+          <input type="number" class="input" [(ngModel)]="formItem.stock_quantity" placeholder="0">
+        </div>
+        <div class="form-group flex-1">
+          <label>Unit Price (Buy)</label>
+          <input type="number" class="input" [(ngModel)]="formItem.unit_price" placeholder="0">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label>MRP</label>
+          <input type="number" class="input" [(ngModel)]="formItem.mrp" placeholder="0">
+        </div>
+        <div class="form-group flex-1">
+          <label>Selling Price</label>
+          <input type="number" class="input" [(ngModel)]="formItem.selling_price" placeholder="0">
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-outline" (click)="closeRestockModal()">Cancel</button>
+        <button class="btn btn-primary" (click)="saveRestock()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

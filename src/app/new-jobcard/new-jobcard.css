@@ -68,6 +68,102 @@
   white-space: nowrap;
 }
 
+.save-btn:hover {
+    background: #fbc02d;
+    box-shadow: 0 4px 12px rgba(254,190,16,.4);
+}
+
+/* Bottom Sheet */
+.bottom-sheet-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+.bottom-sheet {
+  position: fixed;
+  bottom: -100%;
+  left: 0; right: 0;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  z-index: 1000;
+  transition: bottom 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+}
+
+.bottom-sheet.open {
+  bottom: 0;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.sheet-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #17233a;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.sheet-content {
+  padding: 0 20px 20px;
+  overflow-y: auto;
+}
+
+.inventory-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.inventory-list-item:active {
+  background: #f8fafc;
+}
+
+.inventory-list-item.out-of-stock {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stock-badge {
+  font-size: 11px;
+  color: #10b981;
+  font-weight: 600;
+}
+
+.stock-badge.danger {
+  color: #ef4444;
+}
+
+.item-price {
+  font-weight: bold;
+  color: #17233a;
+}
+
 .remove-btn {
   background: #fee2e2;
   color: #dc2626;

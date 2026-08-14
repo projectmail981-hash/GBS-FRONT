@@ -64,18 +64,17 @@
                 <div class="vehicle-divider"></div>
             }
 
-            <label>Vehicle Registration Number</label>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                <label style="margin: 0;">Vehicle Registration Number</label>
+                @if (i > 0) {
+                    <button type="button" (click)="removeVehicle(i)" style="background: none; border: none; font-size: 16px; cursor: pointer; color: #ef4444;" title="Remove Vehicle">🗑️ Remove</button>
+                }
+            </div>
 
-            <div class="vehicle-number">
-
-                <input maxlength="2" placeholder="TN" [(ngModel)]="vehicle.state">
-
-                <input maxlength="2" placeholder="65" [(ngModel)]="vehicle.district">
-
-                <input maxlength="2" placeholder="AB" [(ngModel)]="vehicle.series">
-
-                <input maxlength="4" placeholder="1234" [(ngModel)]="vehicle.number">
-
+            <div class="field">
+                <input type="text" maxlength="10" placeholder="TN65AB1234" 
+                       [(ngModel)]="vehicle.registrationNumber"
+                       (input)="formatRegistrationNumber($event, vehicle)">
             </div>
 
             <div class="field">

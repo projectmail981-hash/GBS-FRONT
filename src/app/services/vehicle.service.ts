@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class VehicleService {
 
-  private apiUrl = 'https://garage-billing-backend-production.up.railway.app/vehicles';
+  private apiUrl = "https://garage-billing-backend-production.up.railway.app/vehicles";
 
   constructor(private http: HttpClient) {}
 

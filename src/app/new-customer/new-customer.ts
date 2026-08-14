@@ -6,10 +6,7 @@ import { CustomerService } from '../services/customer.service';
 
 interface Vehicle {
   id: number;
-  state: string;
-  district: string;
-  series: string;
-  number: string;
+  registrationNumber: string;
   type: string;
   fuel: string;
   brand: string;
@@ -54,6 +51,19 @@ export class NewCustomer {
     this.vehicles.push(this.createVehicle(this.nextVehicleId++));
   }
 
+  removeVehicle(index: number): void {
+    if (this.vehicles.length > 1) {
+      this.vehicles.splice(index, 1);
+    }
+  }
+
+  formatRegistrationNumber(event: any, vehicle: Vehicle): void {
+    let value = event.target.value;
+    value = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    vehicle.registrationNumber = value;
+    event.target.value = value;
+  }
+
   saveCustomer(): void {
 
     this.duplicateError = '';
@@ -90,11 +100,7 @@ export class NewCustomer {
 
       vehicles: this.vehicles.map(vehicle => ({
 
-        vehicle_number:
-          vehicle.state +
-          vehicle.district +
-          vehicle.series +
-          vehicle.number,
+        vehicle_number: vehicle.registrationNumber,
 
         vehicle_type: vehicle.type,
 
@@ -151,17 +157,8 @@ export class NewCustomer {
   private createVehicle(id: number): Vehicle {
 
     return {
-
       id,
-
-      state: '',
-
-      district: '',
-
-      series: '',
-
-      number: '',
-
+      registrationNumber: '',
       type: 'Car',
 
       fuel: 'Petrol',

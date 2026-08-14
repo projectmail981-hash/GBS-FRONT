@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CustomerService } from '../services/customer.service';
 import { VehicleService } from '../services/vehicle.service';
 import { JobCardService } from '../services/job-card.service';
+import { InventoryService, InventoryItem } from '../services/inventory.service';
 
 interface Customer {
   customer_id: number;
@@ -41,6 +42,7 @@ interface JobCardPayload {
     total_amount: number;
   }>;
   parts: Array<{
+    part_id?: number;
     part_name: string;
     quantity: number;
     unit_price: number;
@@ -92,12 +94,25 @@ export class NewJobcard implements OnInit {
     private customerService: CustomerService,
     private vehicleService: VehicleService,
     private jobCardService: JobCardService,
+    private inventoryService: InventoryService,
     private cdr: ChangeDetectorRef
   ) {}
+
+  inventoryItems: InventoryItem[] = [];
 
   ngOnInit(): void {
     this.serviceDate = new Date().toISOString().slice(0, 10);
     this.loadCustomers();
+    this.loadInventory();
+  }
+
+  loadInventory(): void {
+    this.inventoryService.getInventory().subscribe({
+      next: (data) => {
+        this.inventoryItems = data;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   get amount(): number {
@@ -200,13 +215,50 @@ export class NewJobcard implements OnInit {
     service.amount = service.qty * service.rate;
   }
 
+  showInventorySheet = false;
+  selectedInventoryItem: InventoryItem | null = null;
+
   addPart(): void {
+    this.showInventorySheet = true;
+  }
+
+  selectInventoryItem(item: InventoryItem): void {
+    if (item.stock_quantity <= 0) {
+      alert("This item is out of stock!");
+      return;
+    }
+    this.selectedInventoryItem = item;
+    this.newPartName = item.part_name;
+    this.newPartQty = 1;
+    this.updatePartAmount();
+    
+    this.showInventorySheet = false;
     this.showPartForm = true;
+    this.cdr.detectChanges();
+  }
+  
+  closeInventorySheet(): void {
+    this.showInventorySheet = false;
+  }
+  
+  updatePartAmount(): void {
+    if (this.selectedInventoryItem) {
+      this.newPartAmount = this.selectedInventoryItem.selling_price * this.newPartQty;
+    }
+  }
+
+  onPartQtyChange(): void {
+    if (this.newPartQty < 1) this.newPartQty = 1;
+    if (this.selectedInventoryItem && this.newPartQty > this.selectedInventoryItem.stock_quantity) {
+      alert("Quantity exceeds available stock!");
+      this.newPartQty = this.selectedInventoryItem.stock_quantity;
+    }
+    this.updatePartAmount();
   }
 
   confirmPart(): void {
     const name = this.newPartName.trim();
-    if (!name) {
+    if (!name || !this.selectedInventoryItem) {
       return;
     }
 
@@ -214,15 +266,17 @@ export class NewJobcard implements OnInit {
     const amount = this.nonNegative(this.newPartAmount);
     this.parts.push({
       id: `part-${Date.now()}-${this.parts.length}`,
+      part_id: this.selectedInventoryItem.part_id,
       name,
       type: 'Part',
       qty,
-      rate: amount / qty,
+      rate: this.selectedInventoryItem.selling_price,
       amount
-    });
+    } as any);
     this.newPartName = '';
     this.newPartQty = 1;
     this.newPartAmount = 0;
+    this.selectedInventoryItem = null;
     this.showPartForm = false;
   }
 
@@ -285,7 +339,8 @@ export class NewJobcard implements OnInit {
         labour_charge: this.nonNegative(service.rate),
         total_amount: this.nonNegative(service.amount)
       })),
-      parts: this.parts.map((part) => ({
+      parts: this.parts.map((part: any) => ({
+        part_id: part.part_id,
         part_name: part.name,
         quantity: this.validQuantity(part.qty),
         unit_price: this.nonNegative(part.rate),

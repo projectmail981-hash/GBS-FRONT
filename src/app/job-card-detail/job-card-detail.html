@@ -2,185 +2,226 @@
 
 
   <div class="header">
-
     <button class="back-btn" (click)="back()">
       ←
     </button>
-
     <div class="title">
       <h2>JOB-{{ job.job_id }}</h2>
       <p>{{ job.service_date | date:'dd-MM-yyyy' }}</p>
     </div>
-
     <div class="status">
       {{ job.status }}
     </div>
-
   </div>
 
-
-  <div class="card">
-
+  <div class="card no-print">
     <h3>Customer Details</h3>
-
     <div class="row">
       <span>Name</span>
       <strong>{{ job.customer_name }}</strong>
     </div>
-
     <div class="row">
       <span>Phone</span>
       <strong>{{ job.phone }}</strong>
     </div>
-
   </div>
 
-
-  <div class="card">
-
+  <div class="card no-print">
     <h3>Vehicle Details</h3>
-
     <div class="row">
       <span>Registration</span>
       <strong>{{ job.vehicle_number }}</strong>
     </div>
-
     <div class="row">
       <span>Brand</span>
       <strong>{{ job.brand }}</strong>
     </div>
-
     <div class="row">
       <span>Model</span>
       <strong>{{ job.model }}</strong>
     </div>
-
     <div class="row">
       <span>Odometer</span>
       <strong>{{ job.odometer_reading }} KM</strong>
     </div>
-
   </div>
 
 
   <div class="card">
-
-    <h3>Services</h3>
-
-    <div
-      class="item"
-      *ngFor="let service of job.services">
-
-      <div>
-
-        <strong>{{ service.service_name }}</strong>
-
-        <p>
-          Qty : {{ service.quantity }}
-        </p>
-
-      </div>
-
-      <div>
-
-        ₹{{ service.total_amount }}
-
-      </div>
-
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <h3 style="margin: 0;">{{ job.status === 'Open' ? 'Services' : 'Services Checklist' }}</h3>
+      <button class="add-btn" *ngIf="job.status === 'Open' || job.status === 'In Progress'" (click)="addService()">+ Add</button>
     </div>
 
-    <div class="total">
-
-      Total :
-      ₹{{ totalServices() }}
-
+    <div *ngIf="showServiceForm" class="add-form" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+      <input type="text" [(ngModel)]="newServiceName" placeholder="Service Name" class="input">
+      <div style="display:flex; gap:10px; margin-top:10px;">
+        <input type="number" [(ngModel)]="newServiceQty" placeholder="Qty" class="input" style="flex:1">
+        <input type="number" [(ngModel)]="newServiceAmount" placeholder="Amount" class="input" style="flex:2">
+      </div>
+      <div style="display:flex; gap:10px; margin-top:10px;">
+        <button class="btn btn-progress" style="padding: 8px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;" (click)="confirmService()">Save</button>
+        <button class="btn btn-outline" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: #fff; border-radius: 8px; cursor: pointer;" (click)="showServiceForm = false">Cancel</button>
+      </div>
     </div>
 
+    <div class="item checklist-item" *ngFor="let service of job.services">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <input type="checkbox" class="checklist-checkbox"
+               *ngIf="job.status !== 'Open'"
+               [checked]="service.is_completed" 
+               [disabled]="job.status !== 'In Progress'"
+               (change)="toggleService(service)">
+        <div>
+          <strong [class.completed-text]="service.is_completed">{{ service.service_name }}</strong>
+          <p>Qty : {{ service.quantity }}</p>
+        </div>
+      </div>
+      <div>₹{{ service.total_amount }}</div>
+    </div>
+    <div class="total">Total : ₹{{ totalServices() }}</div>
   </div>
 
 
   <div class="card">
-
-    <h3>Parts</h3>
-
-    <div
-      class="item"
-      *ngFor="let part of job.parts">
-
-      <div>
-
-        <strong>{{ part.part_name }}</strong>
-
-        <p>
-          Qty : {{ part.quantity }}
-        </p>
-
-      </div>
-
-      <div>
-
-        ₹{{ part.total_amount }}
-
-      </div>
-
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <h3 style="margin: 0;">{{ job.status === 'Open' ? 'Parts' : 'Parts Checklist' }}</h3>
+      <button class="add-btn" *ngIf="job.status === 'Open' || job.status === 'In Progress'" (click)="addPart()">+ Add</button>
     </div>
 
-    <div class="total">
-
-      Total :
-      ₹{{ totalParts() }}
-
+    <div *ngIf="showPartForm" class="add-form" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+      <input type="text" [(ngModel)]="newPartName" placeholder="Part Name" class="input" readonly style="background: #f8fafc;">
+      <div style="display:flex; gap:10px; margin-top:10px;">
+        <input type="number" [(ngModel)]="newPartQty" (ngModelChange)="onPartQtyChange()" placeholder="Qty" class="input" style="flex:1">
+        <input type="number" [(ngModel)]="newPartAmount" placeholder="Amount" class="input" style="flex:2" readonly style="background: #f8fafc;">
+      </div>
+      <div style="display:flex; gap:10px; margin-top:10px;">
+        <button class="btn btn-progress" style="padding: 8px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;" (click)="confirmPart()">Save</button>
+        <button class="btn btn-outline" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: #fff; border-radius: 8px; cursor: pointer;" (click)="showPartForm = false">Cancel</button>
+      </div>
     </div>
 
+    <div class="item checklist-item" *ngFor="let part of job.parts">
+      <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+        <input type="checkbox" class="checklist-checkbox"
+               *ngIf="job.status !== 'Open'"
+               [checked]="part.is_completed" 
+               [disabled]="job.status !== 'In Progress'"
+               (change)="togglePart(part)">
+        <div>
+          <strong [class.completed-text]="part.is_completed">{{ part.part_name }}</strong>
+          <p>Qty : {{ part.quantity }}</p>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div>₹{{ part.total_amount }}</div>
+        <button class="delete-btn no-print" *ngIf="job.status === 'Open' || job.status === 'In Progress'" (click)="deletePart(part)">🗑️</button>
+      </div>
+    </div>
+    <div class="total">Total : ₹{{ totalParts() }}</div>
   </div>
 
 
-  <div class="card">
-
+  <div class="card no-print">
     <h3>Notes</h3>
-
     <p>{{ job.notes || 'No Notes' }}</p>
-
   </div>
 
-
-  <div class="grand-total">
-
+  <div class="grand-total no-print">
     Grand Total
-
-    <span>
-      ₹{{ grandTotal() }}
-    </span>
-
+    <span>₹{{ grandTotal() }}</span>
   </div>
 
-  <div class="action-card" *ngIf="job.status === 'Open'">
+  <div class="action-card no-print" *ngIf="job.status === 'Open'">
       <button class="btn btn-progress" (click)="updateStatus('In Progress')">In Progress</button>
   </div>
 
-  <div class="action-card" *ngIf="job.status === 'In Progress'">
-      <button class="btn btn-completed" style="background:#2196F3" (click)="updateStatus('Ready')">Ready</button>
+  <div class="action-card no-print" *ngIf="job.status === 'In Progress'" style="flex-direction: column;">
+      <button class="btn btn-outline" (click)="printChecklist()">🖨️ Print Checklist</button>
+      <button class="btn btn-completed" style="background:#2196F3" [disabled]="!isAllChecked()" (click)="updateStatus('Ready')">Ready</button>
   </div>
 
-  <div class="action-card" *ngIf="job.status === 'Ready'">
-      <button class="btn btn-completed" (click)="updateStatus('Completed')">Completed</button>
+  <div class="action-card no-print" *ngIf="job.status === 'Ready'">
+      <button class="btn btn-completed" style="width: 100%;" (click)="updateStatus('Completed')">Completed</button>
   </div>
 
-  <div class="action-card" *ngIf="job.status === 'Completed'">
+  <div class="action-card no-print" *ngIf="job.status === 'Completed'">
       <button class="btn btn-progress" (click)="generateBill()" [disabled]="isBilled || isGenerating" [class.btn-completed]="isBilled">
         {{ isBilled ? 'Bill Generated' : (isGenerating ? 'Generating...' : 'Generate Bill') }}
       </button>
   </div>
 
+  <div class="printable-invoice" style="display: none;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 15px;">
+      <div>
+        <h2 style="margin: 0; font-size: 22px; color: #17233a;">Garage Billing System</h2>
+      </div>
+      <div style="text-align: right; font-size: 14px; color: #333; line-height: 1.5;">
+        <strong>Job-Card No:</strong> JOB-{{ job.job_id }}<br>
+        <strong>Customer Name:</strong> {{ job.customer_name }}<br>
+        <strong>Vehicle Number:</strong> {{ job.vehicle_number }}
+      </div>
+    </div>
+    
+    <h3>WORK DONE / PARTS REPLACED</h3>
+    <table class="invoice-table">
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th>Description</th>
+          <th>Qty</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of job.services; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>
+            <input type="checkbox" [checked]="s.is_completed" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 8px;">
+            {{ s.service_name }}
+          </td>
+          <td>{{ s.quantity }}</td>
+        </tr>
+        <tr *ngFor="let p of job.parts; let i = index">
+          <td>{{ job.services.length + i + 1 }}</td>
+          <td>
+            <input type="checkbox" [checked]="p.is_completed" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 8px;">
+            {{ p.part_name }}
+          </td>
+          <td>{{ p.quantity }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
+<!-- Bottom Sheet for Inventory -->
+<div class="bottom-sheet-backdrop" *ngIf="showInventorySheet" (click)="closeInventorySheet()"></div>
+<div class="bottom-sheet" [class.open]="showInventorySheet">
+  <div class="sheet-header">
+    <h3>Select Part from Inventory</h3>
+    <button class="close-btn" (click)="closeInventorySheet()">✕</button>
+  </div>
+  <div class="sheet-content">
+    <div *ngIf="inventoryItems.length === 0" style="text-align:center; padding:20px; color:#64748b;">
+      No parts in inventory. Please add stock first.
+    </div>
+    <div class="inventory-list-item" 
+         *ngFor="let item of inventoryItems" 
+         (click)="selectInventoryItem(item)"
+         [class.out-of-stock]="item.stock_quantity <= 0">
+      <div class="item-info">
+        <strong>{{ item.part_name }}</strong>
+        <span class="stock-badge" [class.danger]="item.stock_quantity <= 0">Stock: {{ item.stock_quantity }}</span>
+      </div>
+      <div class="item-price">
+        ₹{{ item.selling_price }}
+      </div>
+    </div>
+  </div>
+</div>
 
 <ng-template #loading>
-
   <div class="loading">
-
     Loading Job Card...
-
   </div>
-
 </ng-template>
