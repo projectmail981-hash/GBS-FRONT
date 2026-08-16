@@ -10,6 +10,8 @@ import { InvoicePrint } from './invoice-print/invoice-print';
 import { JobCardDetail } from './job-card-detail/job-card-detail';
 import { MoreOptions } from './more-options/more-options';
 import { Inventory } from './inventory/inventory';
+import { Reports } from './reports/reports';
+import { Expenses } from './expenses/expenses';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -23,5 +25,7 @@ export const routes: Routes = [
   { path: 'invoices/:id', component: InvoiceDetail },
   { path: 'invoices/:id/print', component: InvoicePrint },
   { path: 'more-options', component: MoreOptions },
-  { path: 'inventory', component: Inventory }
+  { path: 'inventory', component: Inventory },
+  { path: 'reports', component: Reports },
+  { path: 'expenses', component: Expenses }
 ];

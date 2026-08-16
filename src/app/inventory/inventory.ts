@@ -19,6 +19,10 @@ export class Inventory implements OnInit {
   showRestockModal = false;
   editingItem: InventoryItem | null = null;
   
+  // Delete Modal State
+  showDeleteModal = false;
+  itemToDelete: InventoryItem | null = null;
+  
   // Form Model
   formItem: InventoryItem = this.getDefaultItem();
 
@@ -104,14 +108,41 @@ export class Inventory implements OnInit {
     }
   }
 
+  deletePart(item: InventoryItem): void {
+    if (!item.part_id) return;
+    this.itemToDelete = item;
+    this.showDeleteModal = true;
+  }
+
+  cancelDelete(): void {
+    this.showDeleteModal = false;
+    this.itemToDelete = null;
+  }
+
+  confirmDelete(): void {
+    if (!this.itemToDelete || !this.itemToDelete.part_id) return;
+    
+    this.inventoryService.deletePart(this.itemToDelete.part_id).subscribe({
+      next: () => {
+        this.showDeleteModal = false;
+        this.itemToDelete = null;
+        this.loadInventory();
+      },
+      error: (err) => {
+        console.error('Error deleting part', err);
+        alert('Error deleting part. It might be in use.');
+      }
+    });
+  }
+
   private getDefaultItem(): InventoryItem {
     return {
       part_name: '',
       category: 'General',
-      stock_quantity: 0,
-      unit_price: 0,
-      mrp: 0,
-      selling_price: 0,
+      stock_quantity: null as any,
+      unit_price: null as any,
+      mrp: null as any,
+      selling_price: null as any,
       supplier: ''
     };
   }

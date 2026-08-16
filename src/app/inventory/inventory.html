@@ -34,8 +34,9 @@
             </td>
             <td class="right-align">₹{{ item.unit_price || 0 }}</td>
             <td class="right-align">₹{{ item.selling_price || item.unit_price || 0 }}</td>
-            <td class="center-align">
-              <button class="edit-btn" (click)="openRestockModal(item)">✎</button>
+            <td class="center-align action-cell">
+              <button class="edit-btn" (click)="openRestockModal(item)" title="Edit">✎</button>
+              <button class="delete-btn" (click)="deletePart(item)" title="Delete"><span class="material-icons">delete</span></button>
             </td>
           </tr>
           <tr *ngIf="inventoryItems.length === 0">
@@ -77,6 +78,20 @@
       <div class="modal-actions">
         <button class="btn btn-outline" (click)="closeRestockModal()">Cancel</button>
         <button class="btn btn-primary" (click)="saveRestock()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-backdrop" *ngIf="showDeleteModal">
+    <div class="modal-card">
+      <h3 style="margin-top: 0; color: #ef4444;">Delete Item</h3>
+      <p style="margin: 15px 0; font-size: 15px; color: #334155;">
+        Are you sure you want to delete <strong>"{{ itemToDelete?.part_name }}"</strong>? This action cannot be undone.
+      </p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" (click)="cancelDelete()">Cancel</button>
+        <button class="btn btn-danger" (click)="confirmDelete()">Delete</button>
       </div>
     </div>
   </div>

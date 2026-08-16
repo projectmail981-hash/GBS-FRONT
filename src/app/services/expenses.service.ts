@@ -5,14 +5,12 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardService {
-
-  private apiUrl = 'https://garage-billing-backend-production.up.railway.app/dashboard';
+export class ExpensesService {
+  private apiUrl = 'https://garage-billing-backend-production.up.railway.app/expenses';
 
   constructor(private http: HttpClient) {}
 
-  getDashboard(): Observable<any> {
+  getExpenses(): Observable<any> {
     return this.http.get<any>(this.apiUrl);
   }
-
 }

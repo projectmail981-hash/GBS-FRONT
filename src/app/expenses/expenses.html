@@ -1,0 +1,50 @@
+<div class="expenses-page">
+  <div class="header">
+    <button class="back-btn" (click)="goBack()">←</button>
+    <h2>Expenses (Inventory)</h2>
+  </div>
+
+  <div class="summary-cards" *ngIf="!isLoading">
+    <div class="card weekly-card">
+      <span class="card-title">Weekly Expenses</span>
+      <h3 class="card-value">₹{{ summary.weeklyExpenses }}</h3>
+    </div>
+    <div class="card monthly-card">
+      <span class="card-title">Monthly Expenses</span>
+      <h3 class="card-value">₹{{ summary.monthlyExpenses }}</h3>
+    </div>
+  </div>
+
+  <div class="table-container card">
+    <div *ngIf="isLoading" class="loading">Loading expenses...</div>
+    
+    <div class="responsive-table-wrapper" *ngIf="!isLoading">
+      <table class="expenses-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Part Name</th>
+            <th class="right-align">Qty</th>
+            <th class="right-align">Unit Price</th>
+            <th class="right-align">Total Expense</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items">
+            <td>{{ item.created_at | date:'dd MMM yyyy, hh:mm a' }}</td>
+            <td>
+              <strong>{{ item.part_name }}</strong>
+              <div style="font-size: 12px; color: #64748b;">{{ item.category }}</div>
+            </td>
+            <td class="right-align">{{ item.stock_quantity }}</td>
+            <td class="right-align">₹{{ item.unit_price }}</td>
+            <td class="right-align" style="font-weight: 600; color: #ef4444;">₹{{ item.total_expense }}</td>
+          </tr>
+          <tr *ngIf="items.length === 0">
+            <td colspan="5" class="center-align empty-state">No expenses found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

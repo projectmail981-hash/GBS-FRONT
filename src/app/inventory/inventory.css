@@ -123,6 +123,29 @@ tr.low-stock {
   cursor: pointer;
 }
 
+.delete-btn {
+  background: transparent;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: #ef4444;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn .material-icons {
+  font-size: 22px;
+}
+
+.action-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
 /* Modal Styles */
 .modal-backdrop {
   position: fixed;
@@ -192,6 +215,11 @@ tr.low-stock {
 .btn-primary {
   background: #FEBE10;
   color: #17233a;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
 }
 
 .btn-outline {
