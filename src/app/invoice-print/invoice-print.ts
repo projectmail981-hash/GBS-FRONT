@@ -114,6 +114,14 @@ export class InvoicePrint implements OnInit {
     }
   }
 
+  async printInvoice(): Promise<void> {
+    if (Capacitor.isNativePlatform()) {
+      await this.savePDF();
+    } else {
+      window.print();
+    }
+  }
+
 amountInWords = amountInWords;
 formatCurrency = formatCurrency;
 formatDisplayDate = formatDisplayDate;
