@@ -3,6 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Invoice, amountInWords, formatCurrency, formatDisplayDate } from '../models/invoice.model';
 import { InvoiceService } from '../services/invoice.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
 
 interface ServiceItem {
 
@@ -56,9 +61,58 @@ interface InvoicePrintModel {
 export class InvoicePrint implements OnInit {
   job: any;
   jobCardService: any;
-print(): void {
-  window.print();
-}
+  
+  async savePDF(): Promise<void> {
+
+    const element = document.getElementById('invoice-content');
+
+    if (!element) return;
+
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+
+      const pdf = new jsPDF('p', 'mm', 'a4');
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight =
+        (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(
+        imgData,
+        'PNG',
+        0,
+        0,
+        pdfWidth,
+        pdfHeight
+      );
+
+      const fileName = `${this.invoice?.invoice_number}.pdf`;
+
+      if (Capacitor.isNativePlatform()) {
+        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+        const savedFile = await Filesystem.writeFile({
+          path: fileName,
+          data: pdfBase64,
+          directory: Directory.Cache
+        });
+
+        await Share.share({
+          title: fileName,
+          url: savedFile.uri,
+        });
+      } else {
+        pdf.save(fileName);
+      }
+    } catch (err) {
+      console.error('Error generating PDF', err);
+      alert('Failed to generate PDF');
+    }
+  }
 
 amountInWords = amountInWords;
 formatCurrency = formatCurrency;

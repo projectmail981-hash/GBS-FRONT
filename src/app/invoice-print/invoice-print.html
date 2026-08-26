@@ -24,7 +24,7 @@
   </div>
 
   <!-- Printable Paper -->
-  <div class="paper">
+  <div id="invoice-content" class="paper">
 
     <div class="paper-header">
 
@@ -347,7 +347,7 @@
 
     <button
       class="pdf"
-      (click)="print()">
+      (click)="savePDF()">
 
       Save PDF
 
@@ -355,7 +355,7 @@
 
     <button
       class="print"
-      (click)="print()">
+      (click)="savePDF()">
 
       Print
 
