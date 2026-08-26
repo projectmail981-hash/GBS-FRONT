@@ -250,7 +250,7 @@ export class JobCardDetail implements OnInit {
         const savedFile = await Filesystem.writeFile({
           path: fileName,
           data: pdfBase64,
-          directory: Directory.Cache
+          directory: Directory.Data
         });
 
         await Share.share({
@@ -258,9 +258,9 @@ export class JobCardDetail implements OnInit {
           url: savedFile.uri,
         });
 
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error sharing PDF', err);
-        alert('Failed to print/share PDF');
+        alert('Failed to print/share PDF: ' + (err?.message || JSON.stringify(err)));
       } finally {
         element.style.display = originalDisplay;
       }

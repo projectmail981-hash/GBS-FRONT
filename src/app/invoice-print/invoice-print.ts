@@ -98,7 +98,7 @@ export class InvoicePrint implements OnInit {
         const savedFile = await Filesystem.writeFile({
           path: fileName,
           data: pdfBase64,
-          directory: Directory.Cache
+          directory: Directory.Data
         });
 
         await Share.share({
@@ -108,9 +108,9 @@ export class InvoicePrint implements OnInit {
       } else {
         pdf.save(fileName);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error generating PDF', err);
-      alert('Failed to generate PDF');
+      alert('Failed to generate PDF: ' + (err?.message || JSON.stringify(err)));
     }
   }
 
