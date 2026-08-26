@@ -98,7 +98,7 @@ export class InvoicePrint implements OnInit {
         const savedFile = await Filesystem.writeFile({
           path: fileName,
           data: pdfBase64,
-          directory: Directory.Data
+          directory: Directory.Cache
         });
 
         await Share.share({
