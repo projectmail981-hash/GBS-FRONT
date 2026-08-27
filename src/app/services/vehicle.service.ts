@@ -10,6 +10,10 @@ export class VehicleService {
 
   constructor(private http: HttpClient) {}
 
+  getAllVehicles() {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
   getVehiclesByCustomer(customerId: number) {
     return this.http.get<any[]>(`${this.apiUrl}/customer/${customerId}`);
   }

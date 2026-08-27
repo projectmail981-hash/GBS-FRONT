@@ -62,8 +62,10 @@ export class NewJobcard implements OnInit {
   vehicles: Vehicle[] = [];
 
   selectedCustomer = '';
+  selectedCustomerName = '';
   selectedCustomerId?: number;
   selectedVehicleId?: number;
+  allVehicles: any[] = [];
 
   serviceDate = '';
   odometer = '';
@@ -110,6 +112,7 @@ export class NewJobcard implements OnInit {
   ngOnInit(): void {
     this.serviceDate = new Date().toISOString().slice(0, 10);
     this.loadCustomers();
+    this.loadAllVehicles();
     this.loadInventory();
   }
 
@@ -146,44 +149,37 @@ export class NewJobcard implements OnInit {
     });
   }
 
-  onCustomerChange(customerName: string): void {
-    this.selectedCustomer = customerName;
-    const customer = this.customers.find(
-      (item) => item.customer_name === customerName
-    );
-
-    this.selectedCustomerId = customer?.customer_id;
-    this.selectedVehicleId = undefined;
-    this.vehicles = [];
-    this.vehicleReg = '';
-    this.vehicleModel = '';
-    this.vehicleRegError = '';
-
-    if (!customer) {
-      return;
-    }
-
-    this.vehicleService.getVehiclesByCustomer(customer.customer_id).subscribe({
-      next: (data: Vehicle[]) => {
-        this.vehicles = Array.isArray(data) ? data : [];
-        const vehicle = this.vehicles[0];
-
-        if (!vehicle) {
-          return;
-        }
-
-        this.selectedVehicleId = vehicle.vehicle_id;
-        this.vehicleReg = (vehicle.vehicle_number || '').toUpperCase();
-        this.vehicleModel = [vehicle.brand, vehicle.model]
-          .filter(Boolean)
-          .join(' ');
-        this.cdr.detectChanges(); // <-- Added ChangeDetection!
+  loadAllVehicles(): void {
+    this.vehicleService.getAllVehicles().subscribe({
+      next: (data) => {
+        this.allVehicles = data || [];
       },
-      error: (error: unknown) => {
-        console.error('Unable to load vehicles', error);
-        alert('Unable to load vehicles for this customer.');
-      }
+      error: (err) => console.error('Failed to load all vehicles', err)
     });
+  }
+
+  onVehicleRegInput(event: any): void {
+    const inputStr = event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    this.vehicleReg = inputStr;
+    event.target.value = inputStr;
+    
+    // Auto-fill logic
+    const vehicle = this.allVehicles.find(v => v.vehicle_number === inputStr);
+    if (vehicle) {
+      this.selectedVehicleId = vehicle.vehicle_id;
+      this.selectedCustomerId = vehicle.customer_id;
+      this.vehicleModel = [vehicle.brand, vehicle.model].filter(Boolean).join(' ');
+      
+      const customer = this.customers.find(c => c.customer_id === vehicle.customer_id);
+      if (customer) {
+        this.selectedCustomerName = customer.customer_name;
+      }
+    } else {
+      this.selectedVehicleId = undefined;
+      this.selectedCustomerId = undefined;
+      this.vehicleModel = '';
+      this.selectedCustomerName = '';
+    }
   }
 
   addService(): void {

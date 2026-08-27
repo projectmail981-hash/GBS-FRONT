@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Garage Billing</string>
-    <string name="title_activity_main">Garage Billing</string>
+    <string name="app_name">NK MOTORS</string>
+    <string name="title_activity_main">NK MOTORS</string>
     <string name="package_name">com.Garage.app</string>
     <string name="custom_url_scheme">com.Garage.app</string>
 </resources>
