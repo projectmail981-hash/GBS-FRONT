@@ -162,11 +162,7 @@
   </div>
 
   <div class="action-card no-print" *ngIf="job.status === 'Ready'">
-      <button class="btn btn-completed" style="width: 100%;" (click)="updateStatus('Completed')">Completed</button>
-  </div>
-
-  <div class="action-card no-print" *ngIf="job.status === 'Completed'">
-      <button class="btn btn-progress" (click)="generateBill()" [disabled]="isBilled || isGenerating" [class.btn-completed]="isBilled">
+      <button class="btn btn-progress" (click)="generateBill()" [disabled]="isBilled || isGenerating" [class.btn-completed]="isBilled" style="width: 100%;">
         {{ isBilled ? 'Bill Generated' : (isGenerating ? 'Generating...' : 'Generate Bill') }}
       </button>
   </div>

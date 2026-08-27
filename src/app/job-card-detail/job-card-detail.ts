@@ -61,8 +61,7 @@ export class JobCardDetail implements OnInit {
   readonly stages = [
     'Open',
     'In Progress',
-    'Ready',
-    'Delivered'
+    'Ready'
   ];
 
   constructor(

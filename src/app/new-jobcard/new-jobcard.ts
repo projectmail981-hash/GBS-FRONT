@@ -33,7 +33,7 @@ interface JobCardPayload {
   vehicle_id: number;
   service_date: string;
   odometer_reading: number;
-  status: 'Open' | 'In Progress' | 'Completed';
+  status: 'Open' | 'In Progress' | 'Ready';
   notes: string;
   services: Array<{
     service_name: string;
@@ -75,7 +75,7 @@ export class NewJobcard implements OnInit {
   // Retained for the current template's invoice-status binding; job cards use
   // jobCardStatus when they are sent to the backend.
   status: 'Unpaid' | 'Paid' | 'Partial' = 'Unpaid';
-  jobCardStatus: 'Open' | 'In Progress' | 'Completed' = 'Open';
+  jobCardStatus: 'Open' | 'In Progress' | 'Ready' = 'Open';
   notes = '';
 
   services: LineItem[] = [];
