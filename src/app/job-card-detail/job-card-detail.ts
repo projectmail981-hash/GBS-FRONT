@@ -9,6 +9,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
+import { Printer } from '@capgo/capacitor-printer';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -230,39 +231,10 @@ export class JobCardDetail implements OnInit {
 
   async printChecklist(): Promise<void> {
     if (Capacitor.isNativePlatform()) {
-      const element = document.querySelector('.printable-invoice') as HTMLElement;
-      if (!element) return;
-
-      const originalDisplay = element.style.display;
-      element.style.display = 'block';
-
       try {
-        const canvas = await html2canvas(element, { scale: 2, useCORS: true });
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        
-        const pdfBase64 = pdf.output('datauristring').split(',')[1];
-        const fileName = `JOB-${this.job?.job_id}.pdf`;
-
-        const savedFile = await Filesystem.writeFile({
-          path: fileName,
-          data: pdfBase64,
-          directory: Directory.Cache
-        });
-
-        await Share.share({
-          title: fileName,
-          url: savedFile.uri,
-        });
-
-      } catch (err: any) {
-        console.error('Error sharing PDF', err);
-        alert('Failed to print/share PDF: ' + (err?.message || JSON.stringify(err)));
-      } finally {
-        element.style.display = originalDisplay;
+        await Printer.printWebView();
+      } catch (e: any) {
+        alert('Failed to print: ' + (e?.message || JSON.stringify(e)));
       }
     } else {
       window.print();

@@ -8,6 +8,7 @@ import html2canvas from 'html2canvas';
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
+import { Printer } from '@capgo/capacitor-printer';
 
 interface ServiceItem {
 
@@ -71,7 +72,16 @@ export class InvoicePrint implements OnInit {
     try {
       const canvas = await html2canvas(element, {
         scale: 2,
-        useCORS: true
+        useCORS: true,
+        windowWidth: 1024,
+        onclone: (clonedDoc) => {
+          const el = clonedDoc.getElementById('invoice-content');
+          if (el) {
+            el.style.width = '850px';
+            el.style.margin = '0';
+            el.style.padding = '40px';
+          }
+        }
       });
 
       const imgData = canvas.toDataURL('image/png');
@@ -116,7 +126,11 @@ export class InvoicePrint implements OnInit {
 
   async printInvoice(): Promise<void> {
     if (Capacitor.isNativePlatform()) {
-      await this.savePDF();
+      try {
+        await Printer.printWebView();
+      } catch (e: any) {
+        alert('Failed to print: ' + (e?.message || JSON.stringify(e)));
+      }
     } else {
       window.print();
     }

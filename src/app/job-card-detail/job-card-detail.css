@@ -182,6 +182,33 @@
 /* Print Styles */
 .printable-invoice {
   display: none;
+  background: white;
+  padding: 20px;
+}
+
+.printable-invoice h3 {
+  margin-bottom: 20px;
+  font-size: 18px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-bottom: 1px solid #ddd;
+}
+
+.invoice-table th, .invoice-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.invoice-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
 }
 
 @media print {
@@ -204,47 +231,14 @@
     top: 0;
     width: 100%;
     margin: 0;
-    padding: 20px;
-    background: white;
   }
-
-  .printable-invoice h3 {
-    margin-bottom: 20px;
-    font-size: 18px;
-    text-transform: uppercase;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-  }
-
-  .invoice-table {
-    width: 100%;
-    border-collapse: collapse;
-    border-bottom: 1px solid #ddd;
-  }
-
-.invoice-table th, .invoice-table td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-}
-
-
 
   .invoice-table th {
     background-color: #f8f9fa !important;
     -webkit-print-color-adjust: exact;
-    font-weight: 600;
   }
 
-  .print-checkbox {
-    width: 16px;
-    height: 16px;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 8px;
-  }
-
-  .no-print, .no-print * {
+  .no-print, .no-print *, .bottom-sheet, .bottom-sheet-backdrop {
     display: none !important;
   }
 }
