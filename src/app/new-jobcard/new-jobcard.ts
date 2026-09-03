@@ -182,6 +182,30 @@ export class NewJobcard implements OnInit {
     }
   }
 
+  onCustomerNameInput(event: any): void {
+    const inputStr = event.target.value;
+    this.selectedCustomerName = inputStr;
+    
+    // Auto-fill logic
+    const customer = this.customers.find(c => c.customer_name.toLowerCase() === inputStr.toLowerCase());
+    if (customer) {
+      this.selectedCustomerId = customer.customer_id;
+      
+      // Find the first vehicle for this customer
+      const vehicle = this.allVehicles.find(v => v.customer_id === customer.customer_id);
+      if (vehicle) {
+        this.selectedVehicleId = vehicle.vehicle_id;
+        this.vehicleReg = vehicle.vehicle_number;
+        this.vehicleModel = [vehicle.brand, vehicle.model].filter(Boolean).join(' ');
+      }
+    } else {
+      this.selectedCustomerId = undefined;
+      this.selectedVehicleId = undefined;
+      this.vehicleReg = '';
+      this.vehicleModel = '';
+    }
+  }
+
   addService(): void {
     this.showServiceForm = true;
   }

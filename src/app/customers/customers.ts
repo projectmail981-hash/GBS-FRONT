@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CustomerService } from '../services/customer.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -35,10 +35,15 @@ export class Customers implements OnInit {
 
   constructor(
   private customerService: CustomerService,
-  private cdr: ChangeDetectorRef
+  private cdr: ChangeDetectorRef,
+  private router: Router
 ) {
   
 }
+
+  viewCustomer(id: number): void {
+    this.router.navigate(['/customers', id]);
+  }
 
   get totalPages(): number {
     return Math.max(1, Math.ceil(this.customers.length / this.itemsPerPage));

@@ -64,42 +64,72 @@ export class InvoicePrint implements OnInit {
   jobCardService: any;
   
   async savePDF(): Promise<void> {
+    const originalElement = document.getElementById('invoice-content');
+    if (!originalElement) return;
 
-    const element = document.getElementById('invoice-content');
+    const printWrapper = document.createElement('div');
+    printWrapper.style.position = 'absolute';
+    printWrapper.style.left = '-9999px';
+    printWrapper.style.top = '0';
+    printWrapper.style.width = '850px';
+    printWrapper.style.backgroundColor = '#fff';
+    printWrapper.style.padding = '20px';
+    printWrapper.style.boxSizing = 'border-box';
+    printWrapper.style.color = '#17233a';
+    printWrapper.style.fontFamily = 'Arial, Helvetica, sans-serif';
+    
+    printWrapper.innerHTML = originalElement.innerHTML;
 
-    if (!element) return;
+    const style = document.createElement('style');
+    style.innerHTML = `
+      * { font-family: Arial, Helvetica, sans-serif; box-sizing: border-box; }
+      .paper-header, .info-grid {
+        display: flex !important;
+        justify-content: space-between !important;
+        gap: 25px !important;
+      }
+      .paper-header h1 { font-size: 20px !important; letter-spacing: 1px; margin: 0; }
+      .paper-header h2 { font-size: 16px !important; margin: 0; }
+      p { margin: 2px 0; font-size: 11px; }
+      hr { margin: 8px 0; border: 0; border-top: 2px solid #febe10; }
+      .info-grid { margin: 8px 0 !important; }
+      .info-grid > div {
+        flex: 1 !important;
+        border: 0 !important;
+        border-right: 1px solid #e5e7eb !important;
+        padding-right: 12px !important;
+      }
+      .info-grid > div:last-child { border-right: 0 !important; }
+      .info-grid span { font-size: 10px; color: #64748b; display: block; margin-bottom: 2px; }
+      .info-grid strong { display: block; font-size: 11px; }
+      .section h3 { font-size: 12px; margin-bottom: 4px; margin-top: 8px; }
+      .hidden-heading { visibility: hidden; }
+      .table-scroll { width: 100% !important; margin: 0 !important; overflow: visible !important; }
+      table { width: 100% !important; border-collapse: collapse; margin-top: 5px !important; font-size: 11px; }
+      th, td { padding: 4px 6px !important; border: 1px solid #d9dee5; text-align: left; }
+      th { background: #febe10; color: #fff; }
+      .summary { width: 42% !important; margin: 8px 0 0 auto !important; }
+      .summary .row { display: flex; justify-content: space-between; padding: 4px; border-bottom: 1px solid #cbd5e1; font-size: 11px; }
+      .summary .grand { font-size: 14px; border: 0; }
+      .footer { display: flex !important; justify-content: space-between !important; margin-top: 15px !important; font-size: 10px; border-top: 1px solid #e5e7eb; padding-top: 6px; }
+    `;
+    printWrapper.appendChild(style);
+
+    document.body.appendChild(printWrapper);
 
     try {
-      const canvas = await html2canvas(element, {
+      const canvas = await html2canvas(printWrapper, {
         scale: 2,
         useCORS: true,
-        windowWidth: 1024,
-        onclone: (clonedDoc) => {
-          const el = clonedDoc.getElementById('invoice-content');
-          if (el) {
-            el.style.width = '850px';
-            el.style.margin = '0';
-            el.style.padding = '40px';
-          }
-        }
+        width: 850
       });
 
       const imgData = canvas.toDataURL('image/png');
-
       const pdf = new jsPDF('p', 'mm', 'a4');
-
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight =
-        (canvas.height * pdfWidth) / canvas.width;
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-      pdf.addImage(
-        imgData,
-        'PNG',
-        0,
-        0,
-        pdfWidth,
-        pdfHeight
-      );
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
 
       const fileName = `${this.invoice?.invoice_number}.pdf`;
 
@@ -121,6 +151,8 @@ export class InvoicePrint implements OnInit {
     } catch (err: any) {
       console.error('Error generating PDF', err);
       alert('Failed to generate PDF: ' + (err?.message || JSON.stringify(err)));
+    } finally {
+      document.body.removeChild(printWrapper);
     }
   }
 

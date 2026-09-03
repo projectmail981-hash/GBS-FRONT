@@ -8,7 +8,10 @@
     <div class="card">
         <div class="row">
             <label>&#128663; Vehicle Reg No</label>
-            <input type="text" placeholder="TN10YJ1234" [(ngModel)]="vehicleReg" (input)="onVehicleRegInput($event)" (blur)="validateVehicleReg()">
+            <input type="text" list="vehicleRegList" placeholder="TN10YJ1234" [(ngModel)]="vehicleReg" (input)="onVehicleRegInput($event)" (blur)="validateVehicleReg()">
+            <datalist id="vehicleRegList">
+                <option *ngFor="let v of allVehicles" [value]="v.vehicle_number"></option>
+            </datalist>
             @if (vehicleRegError) {
                 <span class="error-message">{{ vehicleRegError }}</span>
             }
@@ -16,7 +19,10 @@
 
         <div class="row">
             <label>&#128100; Customer</label>
-            <input type="text" placeholder="Auto-filled Customer Name" [(ngModel)]="selectedCustomerName" readonly style="background: #f8fafc;">
+            <input type="text" list="customerNameList" placeholder="Enter Customer Name" [(ngModel)]="selectedCustomerName" (input)="onCustomerNameInput($event)">
+            <datalist id="customerNameList">
+                <option *ngFor="let c of customers" [value]="c.customer_name"></option>
+            </datalist>
         </div>
 
         <div class="row">

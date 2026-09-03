@@ -1,0 +1,61 @@
+<div class="container" *ngIf="!loading && customer">
+    <div class="header">
+        <button class="back-btn" (click)="goBack()">&#8592;</button>
+        <h2>Customer Details</h2>
+    </div>
+
+    <div class="customer-info-card">
+        <div class="avatar-large">{{ customer.customer_name.charAt(0).toUpperCase() }}</div>
+        <h3>{{ customer.customer_name }}</h3>
+        <p class="phone">&#128222; {{ customer.phone }}</p>
+        <p class="address" *ngIf="customer.address">&#127968; {{ customer.address }}</p>
+    </div>
+
+    <div class="section-container">
+        <h3 class="section-title">Vehicles ({{ vehicles.length }})</h3>
+        <div class="card-list">
+            @if (vehicles.length > 0) {
+                @for (vehicle of vehicles; track vehicle.vehicle_id) {
+                    <div class="item-card">
+                        <div class="item-icon">&#128663;</div>
+                        <div class="item-details">
+                            <h4>{{ vehicle.vehicle_number }}</h4>
+                            <p>{{ vehicle.brand }} {{ vehicle.model }}</p>
+                        </div>
+                    </div>
+                }
+            } @else {
+                <p class="empty-text">No vehicles found.</p>
+            }
+        </div>
+    </div>
+
+    <div class="section-container">
+        <h3 class="section-title">Job Cards ({{ jobCards.length }})</h3>
+        <div class="card-list">
+            @if (jobCards.length > 0) {
+                @for (jobCard of jobCards; track jobCard.job_id) {
+                    <div class="item-card clickable" (click)="viewJobCard(jobCard.job_id)">
+                        <div class="item-icon">&#128295;</div>
+                        <div class="item-details">
+                            <h4>{{ jobCard.vehicle_number }} <span class="badge {{jobCard.status.toLowerCase().replace(' ', '-')}}">{{ jobCard.status }}</span></h4>
+                            <p>Date: {{ jobCard.service_date | date:'mediumDate' }}</p>
+                        </div>
+                        <div class="arrow">&#10095;</div>
+                    </div>
+                }
+            } @else {
+                <p class="empty-text">No job cards found.</p>
+            }
+        </div>
+    </div>
+
+    <div class="card-actions">
+        <a [href]="'tel:' + customer.phone" class="action-btn call-btn">
+            Call {{ customer.customer_name }}
+        </a>
+    </div>
+</div>
+<div class="loading" *ngIf="loading">
+    <p>Loading customer details...</p>
+</div>

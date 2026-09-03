@@ -12,6 +12,7 @@ import { MoreOptions } from './more-options/more-options';
 import { Inventory } from './inventory/inventory';
 import { Reports } from './reports/reports';
 import { Expenses } from './expenses/expenses';
+import { CustomerDetail } from './customer-detail/customer-detail';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'new-customer', component: NewCustomer },
   { path: 'new-job-card', component: NewJobcard },
   { path: 'customers', component: Customers },
+  { path: 'customers/:id', component: CustomerDetail },
   { path: 'job-cards', component: JobCards },
   { path: 'job-cards/:id', component: JobCardDetail },
   { path: 'invoices', component: Invoices },

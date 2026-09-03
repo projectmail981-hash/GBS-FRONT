@@ -30,7 +30,7 @@
 
     @if (customers.length > 0) {
         @for (customer of paginatedCustomers; track customer.phone) {
-            <div class="customer-card">
+            <div class="customer-card" (click)="viewCustomer(customer.customer_id)" style="cursor: pointer;">
                 <div class="avatar">{{ customer.customer_name.charAt(0).toUpperCase() }}</div>
                 <div class="customer-info">
                     <h3>{{ customer.customer_name }}</h3>
