@@ -3084,9 +3084,9 @@ body{
 .invoice-container .header,
 .reports-page .header,
 .more-options-page .header,
-.inventory-container .header,
-.expenses-container .header,
-.invoice-detail-container .header,
+.inventory-page .header,
+.expenses-page .header,
+.invoice-detail .header,
 .job-card-detail .header,
 .customer-detail .header {
     padding-top: calc(env(safe-area-inset-top, 0px) + 24px) !important;
