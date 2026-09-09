@@ -10,7 +10,7 @@
       <p style="color: #64748b; margin-bottom: 20px;">Please enter the password to view reports.</p>
       <input type="password" [(ngModel)]="passwordInput" placeholder="Password" class="input" style="margin-bottom: 15px; width: 100%;">
       <div class="error-msg" *ngIf="passwordError" style="color: #ef4444; font-size: 14px; margin-bottom: 15px;">Incorrect password</div>
-      <button class="btn btn-primary" (click)="login()" style="width: 100%;">Login</button>
+      <button class="login-btn" (click)="login()" style="width: 100%;">Login</button>
     </div>
   </div>
 

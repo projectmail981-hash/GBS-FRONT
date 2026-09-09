@@ -117,3 +117,27 @@
   max-width: 400px;
   text-align: center;
 }
+
+.login-btn {
+  background-color: #febe10;
+  color: #1e293b;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.login-btn:hover {
+  background-color: #eab308;
+}
+
+.login-card .input {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
