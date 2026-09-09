@@ -3078,6 +3078,26 @@ body{
 }
 .bottom-nav a:hover{background:transparent;color:#7d7d7d;transform:none}.bottom-nav a.active:hover{background:rgba(254,190,16,.08);color:#FEBE10}.bottom-nav a .material-icons{font-family:inherit;font-style:normal}
 
+/* Global Safe Area Fixes for Android Status Bar / Notch */
+.customers-header,
+.job-container .header,
+.invoice-container .header,
+.reports-page .header,
+.more-options-page .header,
+.inventory-container .header,
+.expenses-container .header,
+.invoice-detail-container .header,
+.job-card-detail .header,
+.customer-detail .header {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 24px) !important;
+}
+
+.bottom-nav {
+    height: calc(65px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+}
+
+
 /* Pagination Controls */
 .pagination-controls {
     display: flex;
