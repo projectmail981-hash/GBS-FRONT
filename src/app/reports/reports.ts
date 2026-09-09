@@ -1,17 +1,22 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { DashboardService } from '../services/dashboard.service';
 import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './reports.html',
   styleUrl: './reports.css'
 })
 export class Reports implements OnInit {
+  isLoggedIn = false;
+  passwordInput = '';
+  passwordError = false;
+
   isLoading = true;
   summary: any = null;
   weeklyChart: any;
@@ -20,6 +25,21 @@ export class Reports implements OnInit {
   constructor(private dashboardService: DashboardService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    // Only load if logged in, handled by login()
+  }
+
+  login(): void {
+    if (this.passwordInput === '9988') {
+      this.isLoggedIn = true;
+      this.passwordError = false;
+      this.fetchData();
+    } else {
+      this.passwordError = true;
+    }
+  }
+
+  fetchData(): void {
+    this.isLoading = true;
     this.dashboardService.getDashboard().subscribe({
       next: (data: any) => {
         this.summary = data;

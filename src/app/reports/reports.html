@@ -4,60 +4,72 @@
     <h2>Reports & Analytics</h2>
   </div>
 
-  <div *ngIf="isLoading" class="loading">Loading reports...</div>
-
-  <div class="reports-container" *ngIf="!isLoading && summary">
-    <div class="report-section charts-section">
-      <div class="chart-card">
-        <h3>Weekly Income</h3>
-        <canvas id="weeklyChart"></canvas>
-      </div>
-      <div class="chart-card">
-        <h3>Monthly Income</h3>
-        <canvas id="monthlyChart"></canvas>
-      </div>
-    </div>
-
-    <div class="report-section">
-      <h3>Revenue Overview</h3>
-      <div class="reports-grid">
-        <div class="report-card green-border">
-          <span class="report-title">Weekly Revenue</span>
-          <h3 class="report-value">₹{{ summary.weekRevenue }}</h3>
-        </div>
-        <div class="report-card blue-border">
-          <span class="report-title">Monthly Revenue</span>
-          <h3 class="report-value">₹{{ summary.monthRevenue }}</h3>
-        </div>
-      </div>
-    </div>
-
-    <div class="report-section">
-      <h3>Profit Breakdown</h3>
-      <div class="reports-grid">
-        <div class="report-card purple-border">
-          <span class="report-title">Labour Revenue</span>
-          <h3 class="report-value">₹{{ summary.labourRevenue }}</h3>
-        </div>
-        <div class="report-card orange-border">
-          <span class="report-title">Parts Profit</span>
-          <h3 class="report-value">₹{{ summary.partsRevenue }}</h3>
-        </div>
-      </div>
-    </div>
-
-    <div class="report-section">
-      <h3>Business Metrics</h3>
-      <div class="reports-grid">
-        <div class="report-card gray-border">
-          <span class="report-title">Active Jobs</span>
-          <h3 class="report-value">{{ summary.activeJobs }}</h3>
-        </div>
-        <div class="report-card gray-border">
-          <span class="report-title">Total Customers</span>
-          <h3 class="report-value">{{ summary.totalCustomers }}</h3>
-        </div>
-      </div>
+  <div class="login-container" *ngIf="!isLoggedIn">
+    <div class="login-card">
+      <h3 style="margin-top: 0;">Enter Password</h3>
+      <p style="color: #64748b; margin-bottom: 20px;">Please enter the password to view reports.</p>
+      <input type="password" [(ngModel)]="passwordInput" placeholder="Password" class="input" style="margin-bottom: 15px; width: 100%;">
+      <div class="error-msg" *ngIf="passwordError" style="color: #ef4444; font-size: 14px; margin-bottom: 15px;">Incorrect password</div>
+      <button class="btn btn-primary" (click)="login()" style="width: 100%;">Login</button>
     </div>
   </div>
+
+  <ng-container *ngIf="isLoggedIn">
+    <div *ngIf="isLoading" class="loading">Loading reports...</div>
+
+    <div class="reports-container" *ngIf="!isLoading && summary">
+      <div class="report-section charts-section">
+        <div class="chart-card">
+          <h3>Weekly Income</h3>
+          <canvas id="weeklyChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Monthly Income</h3>
+          <canvas id="monthlyChart"></canvas>
+        </div>
+      </div>
+
+      <div class="report-section">
+        <h3>Revenue Overview</h3>
+        <div class="reports-grid">
+          <div class="report-card green-border">
+            <span class="report-title">Weekly Revenue</span>
+            <h3 class="report-value">₹{{ summary.weekRevenue }}</h3>
+          </div>
+          <div class="report-card blue-border">
+            <span class="report-title">Monthly Revenue</span>
+            <h3 class="report-value">₹{{ summary.monthRevenue }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-section">
+        <h3>Profit Breakdown</h3>
+        <div class="reports-grid">
+          <div class="report-card purple-border">
+            <span class="report-title">Labour Revenue</span>
+            <h3 class="report-value">₹{{ summary.labourRevenue }}</h3>
+          </div>
+          <div class="report-card orange-border">
+            <span class="report-title">Parts Profit</span>
+            <h3 class="report-value">₹{{ summary.partsRevenue }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-section">
+        <h3>Business Metrics</h3>
+        <div class="reports-grid">
+          <div class="report-card gray-border">
+            <span class="report-title">Active Jobs</span>
+            <h3 class="report-value">{{ summary.activeJobs }}</h3>
+          </div>
+          <div class="report-card gray-border">
+            <span class="report-title">Total Customers</span>
+            <h3 class="report-value">{{ summary.totalCustomers }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>
