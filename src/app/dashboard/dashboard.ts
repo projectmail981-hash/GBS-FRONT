@@ -18,6 +18,7 @@ export class Dashboard implements OnInit {
   displayRecentInvoices: Invoice[] = [];
   pendingInvoices: Invoice[] = [];
   searchQuery: string = '';
+  currentDate: number = Date.now();
 
   constructor(
     private invoiceService: InvoiceService,
