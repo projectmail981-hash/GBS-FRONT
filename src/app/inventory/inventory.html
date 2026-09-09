@@ -13,8 +13,8 @@
     <div class="responsive-table-wrapper" *ngIf="!isLoading">
       <table class="inventory-table">
         <thead>
-          <tr>
             <th>Part Name</th>
+            <th class="center-align">Date</th>
             <th class="right-align">Qty</th>
             <th class="right-align">Unit Price</th>
             <th class="right-align">Selling Price</th>
@@ -29,6 +29,7 @@
                 <span class="badge red" *ngIf="item.stock_quantity < 5">Low Stock</span>
               </div>
             </td>
+            <td class="center-align">{{ item.date | date:'dd/MM/yyyy' }}</td>
             <td class="right-align">
               <span class="qty-text" [class.danger]="item.stock_quantity < 5">{{ item.stock_quantity }}</span>
             </td>
@@ -72,6 +73,10 @@
         <div class="form-group flex-1">
           <label>Selling Price</label>
           <input type="number" class="input" [(ngModel)]="formItem.selling_price" placeholder="0">
+        </div>
+        <div class="form-group flex-1">
+          <label>Date</label>
+          <input type="date" class="input" [(ngModel)]="formItem.date">
         </div>
       </div>
 

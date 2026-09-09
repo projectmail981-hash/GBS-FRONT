@@ -60,6 +60,12 @@ export class Inventory implements OnInit {
     if (item) {
       this.editingItem = item;
       this.formItem = { ...item };
+      if (this.formItem.date) {
+        const d = new Date(this.formItem.date);
+        if (!isNaN(d.getTime())) {
+          this.formItem.date = d.toISOString().split('T')[0];
+        }
+      }
     } else {
       this.editingItem = null;
       this.formItem = this.getDefaultItem();
@@ -143,7 +149,8 @@ export class Inventory implements OnInit {
       unit_price: null as any,
       mrp: null as any,
       selling_price: null as any,
-      supplier: ''
+      supplier: '',
+      date: new Date().toISOString().split('T')[0]
     };
   }
 }
