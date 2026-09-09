@@ -13,6 +13,7 @@
     <div class="responsive-table-wrapper" *ngIf="!isLoading">
       <table class="inventory-table">
         <thead>
+          <tr>
             <th>Part Name</th>
             <th class="center-align">Date</th>
             <th class="right-align">Qty</th>
@@ -41,7 +42,7 @@
             </td>
           </tr>
           <tr *ngIf="inventoryItems.length === 0">
-            <td colspan="5" class="center-align empty-state">No items found in inventory.</td>
+            <td colspan="6" class="center-align empty-state">No items found in inventory.</td>
           </tr>
         </tbody>
       </table>
