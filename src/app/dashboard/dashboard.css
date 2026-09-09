@@ -7,7 +7,7 @@
 
 .header-bg {
   background-color: #eab308;
-  height: 170px;
+  height: calc(170px + env(safe-area-inset-top, 0px));
   position: absolute;
   top: 0;
   left: 0;
@@ -18,8 +18,8 @@
 .header-content {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  padding: 48px 24px 0 24px;
+  align-items: center;
+  padding: calc(20px + env(safe-area-inset-top, 0px)) 24px 0 24px;
 }
 
 .header-text h1 {
@@ -55,7 +55,7 @@
   position: relative;
   z-index: 2;
   background-color: #ffffff;
-  margin-top: 110px;
+  margin-top: calc(110px + env(safe-area-inset-top, 0px));
   border-top-left-radius: 32px;
   border-top-right-radius: 32px;
   padding: 30px 24px 110px 24px;
