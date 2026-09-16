@@ -8,12 +8,16 @@
         <div class="avatar-large">{{ customer.customer_name.charAt(0).toUpperCase() }}</div>
         <h3>{{ customer.customer_name }}</h3>
         <p class="phone">&#128222; {{ customer.phone }}</p>
+        <p class="created-date" style="font-size: 12px; color: #6b7280; margin-top: 4px;" *ngIf="customer.created_at">Created on: {{ customer.created_at | date:'mediumDate' }}</p>
         <p class="address" *ngIf="customer.address">&#127968; {{ customer.address }}</p>
     </div>
 
     <div class="section-container">
-        <h3 class="section-title">Vehicles ({{ vehicles.length }})</h3>
-        <div class="card-list">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 class="section-title" style="margin: 0;">Vehicles ({{ vehicles.length }})</h3>
+            <button class="add-vehicle-btn" (click)="showAddVehicleDialog = true" style="background: none; border: none; color: #febe10; font-weight: 700; cursor: pointer;">+add vehicle</button>
+        </div>
+        <div class="card-list" style="margin-top: 10px;">
             @if (vehicles.length > 0) {
                 @for (vehicle of vehicles; track vehicle.vehicle_id) {
                     <div class="item-card">
@@ -54,6 +58,51 @@
         <a [href]="'tel:' + customer.phone" class="action-btn call-btn">
             Call {{ customer.customer_name }}
         </a>
+    </div>
+
+    <div class="dialog-backdrop" *ngIf="showAddVehicleDialog" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+        <div class="dialog-card" style="background: white; border-radius: 12px; padding: 20px; width: 90%; max-width: 400px; text-align: left;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin: 0; font-size: 18px;">Add Vehicle</h3>
+                <button (click)="showAddVehicleDialog = false" style="background: none; border: none; font-size: 24px; cursor: pointer; line-height: 1;">&times;</button>
+            </div>
+            
+            <div class="field" style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; color: #374151;">Registration Number</label>
+                <input type="text" maxlength="10" placeholder="TN65AB1234" 
+                       [(ngModel)]="newVehicle.registrationNumber"
+                       (input)="formatRegistrationNumber($event)"
+                       style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+            </div>
+            
+            <div class="field" style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; color: #374151;">Brand</label>
+                <input type="text" placeholder="Honda" [(ngModel)]="newVehicle.brand"
+                       style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+            </div>
+
+            <div class="field" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; color: #374151;">Model</label>
+                <input type="text" placeholder="Activa 6G" [(ngModel)]="newVehicle.model"
+                       style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+            </div>
+
+            <div class="dialog-actions" style="display: flex; gap: 10px;">
+                <button type="button" (click)="showAddVehicleDialog = false" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #d1d5db; background: white; cursor: pointer; font-weight: 600;">Cancel</button>
+                <button type="button" (click)="saveNewVehicle()" style="flex: 1; padding: 10px; border-radius: 8px; border: none; background: #febe10; color: #111827; font-weight: 700; cursor: pointer;">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="dialog-backdrop" *ngIf="showSuccessDialog" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+        <div class="dialog-card" style="background: white; border-radius: 12px; padding: 20px; width: 90%; max-width: 400px; text-align: center;">
+            <h3 style="margin-top: 0;">Vehicle Created Successfully</h3>
+            <p style="margin-bottom: 20px; color: #4b5563;">Would you like to create a job card for this vehicle now?</p>
+            <div class="dialog-actions" style="display: flex; gap: 10px;">
+                <button type="button" (click)="cancelReturn()" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #d1d5db; background: white; cursor: pointer; font-weight: 600;">Cancel</button>
+                <button type="button" (click)="goToNewJobCard()" style="flex: 1; padding: 10px; border-radius: 8px; border: none; background: #febe10; color: #111827; font-weight: 700; cursor: pointer;">Create Job Card</button>
+            </div>
+        </div>
     </div>
 </div>
 <div class="loading" *ngIf="loading">

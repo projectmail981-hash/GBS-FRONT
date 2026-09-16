@@ -10,7 +10,7 @@
             <label>&#128663; Vehicle Reg No</label>
             <input type="text" list="vehicleRegList" placeholder="TN10YJ1234" [(ngModel)]="vehicleReg" (input)="onVehicleRegInput($event)" (blur)="validateVehicleReg()">
             <datalist id="vehicleRegList">
-                <option *ngFor="let v of allVehicles" [value]="v.vehicle_number"></option>
+                <option *ngFor="let v of filteredVehicles" [value]="v.vehicle_number"></option>
             </datalist>
             @if (vehicleRegError) {
                 <span class="error-message">{{ vehicleRegError }}</span>

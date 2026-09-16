@@ -31,7 +31,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of items">
-            <td>{{ item.created_at | date:'dd MMM yyyy, hh:mm a' }}</td>
+            <td style="white-space: nowrap;">{{ (item.created_at || item.date) | date:'dd/MM/yyyy' }}</td>
             <td>
               <strong>{{ item.part_name }}</strong>
               <div style="font-size: 12px; color: #64748b;">{{ item.category }}</div>

@@ -63,6 +63,14 @@ export class Reports implements OnInit {
     const ctx = document.getElementById('weeklyChart') as HTMLCanvasElement;
     if (!ctx) return;
     
+    if (this.weeklyChart) {
+      this.weeklyChart.destroy();
+    }
+    const existingChart = Chart.getChart(ctx);
+    if (existingChart) {
+      existingChart.destroy();
+    }
+    
     // Format dates (e.g. '2023-10-01T00:00:00.000Z' to 'Oct 01')
     const labels = data.map(d => {
       const date = new Date(d.date);
@@ -96,6 +104,14 @@ export class Reports implements OnInit {
   renderMonthlyChart(data: any[]): void {
     const ctx = document.getElementById('monthlyChart') as HTMLCanvasElement;
     if (!ctx) return;
+    
+    if (this.monthlyChart) {
+      this.monthlyChart.destroy();
+    }
+    const existingChart = Chart.getChart(ctx);
+    if (existingChart) {
+      existingChart.destroy();
+    }
     
     const labels = data.map(d => `Week ${d.week}`);
     const values = data.map(d => Number(d.total));

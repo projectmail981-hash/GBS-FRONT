@@ -81,7 +81,23 @@ export class NewCustomer {
       return;
     }
 
-    this.showConfirmBottom = true;
+    this.customerService.getCustomers().subscribe({
+      next: (customers: any[]) => {
+        const existing = customers.find(c => c.customer_name.toLowerCase() === name.toLowerCase() && c.phone === phone);
+        if (existing) {
+          alert('customer already exists');
+          this.router.navigate(['/customers', existing.customer_id]);
+        } else {
+          this.showConfirmBottom = true;
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.showConfirmBottom = true;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   cancelCreateCustomer(): void {

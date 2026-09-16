@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CustomerService } from '../services/customer.service';
 import { VehicleService } from '../services/vehicle.service';
 import { JobCardService } from '../services/job-card.service';
@@ -98,8 +98,11 @@ export class NewJobcard implements OnInit {
   newManualPartSellingPrice: number | null = null;
   newManualPartAmount: string = '';
 
+  queryVehicleReg: string = '';
+
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private customerService: CustomerService,
     private vehicleService: VehicleService,
     private jobCardService: JobCardService,
@@ -109,8 +112,36 @@ export class NewJobcard implements OnInit {
 
   inventoryItems: InventoryItem[] = [];
 
+  filteredVehicles: any[] = [];
+
+  updateFilteredVehicles(): void {
+    if (this.selectedCustomerId) {
+      const list = this.allVehicles.filter(v => v.customer_id === this.selectedCustomerId);
+      if (list.length > 0) {
+        this.filteredVehicles = list;
+        return;
+      }
+    }
+    this.filteredVehicles = this.allVehicles;
+  }
+
   ngOnInit(): void {
     this.serviceDate = new Date().toISOString().slice(0, 10);
+    this.route.queryParams.subscribe(params => {
+      if (params['vehicleReg'] && params['customerId'] && params['customerName']) {
+        this.vehicleReg = params['vehicleReg'];
+        this.selectedCustomerId = Number(params['customerId']);
+        this.selectedCustomerName = params['customerName'];
+        this.vehicleModel = params['vehicleModel'] || '';
+        if (params['vehicleId']) {
+          this.selectedVehicleId = Number(params['vehicleId']);
+        }
+        this.updateFilteredVehicles();
+        this.cdr.detectChanges();
+      } else if (params['vehicleReg']) {
+        this.queryVehicleReg = params['vehicleReg'];
+      }
+    });
     this.loadCustomers();
     this.loadAllVehicles();
     this.loadInventory();
@@ -137,13 +168,11 @@ export class NewJobcard implements OnInit {
   }
 
   loadCustomers(): void {
-    
     this.customerService.getCustomers().subscribe({
       next: (data: Customer[]) => {
-
         this.customers = data || [];
-        this.cdr.detectChanges(); // <-- Added ChangeDetection!
-        
+        this.cdr.detectChanges();
+        this.checkAutoFill();
       },
       error: (err) => console.error(err)
     });
@@ -153,9 +182,20 @@ export class NewJobcard implements OnInit {
     this.vehicleService.getAllVehicles().subscribe({
       next: (data) => {
         this.allVehicles = data || [];
+        this.updateFilteredVehicles();
+        this.checkAutoFill();
       },
       error: (err) => console.error('Failed to load all vehicles', err)
     });
+  }
+
+  checkAutoFill(): void {
+    if (this.queryVehicleReg && this.allVehicles.length > 0 && this.customers.length > 0) {
+      const event = { target: { value: this.queryVehicleReg } };
+      this.onVehicleRegInput(event);
+      this.queryVehicleReg = ''; // Clear it after auto-filling
+      this.cdr.detectChanges();
+    }
   }
 
   onVehicleRegInput(event: any): void {
@@ -180,6 +220,7 @@ export class NewJobcard implements OnInit {
       this.vehicleModel = '';
       this.selectedCustomerName = '';
     }
+    this.updateFilteredVehicles();
   }
 
   onCustomerNameInput(event: any): void {
@@ -191,12 +232,17 @@ export class NewJobcard implements OnInit {
     if (customer) {
       this.selectedCustomerId = customer.customer_id;
       
-      // Find the first vehicle for this customer
-      const vehicle = this.allVehicles.find(v => v.customer_id === customer.customer_id);
-      if (vehicle) {
+      const customerVehicles = this.allVehicles.filter(v => v.customer_id === customer.customer_id);
+      if (customerVehicles.length === 1) {
+        const vehicle = customerVehicles[0];
         this.selectedVehicleId = vehicle.vehicle_id;
-        this.vehicleReg = vehicle.vehicle_number;
+        this.vehicleReg = vehicle.vehicle_number || '';
         this.vehicleModel = [vehicle.brand, vehicle.model].filter(Boolean).join(' ');
+      } else {
+        // More than 1 vehicle (or 0): leave vehicleReg and vehicleModel blank so user selects from filtered list
+        this.selectedVehicleId = undefined;
+        this.vehicleReg = '';
+        this.vehicleModel = '';
       }
     } else {
       this.selectedCustomerId = undefined;
@@ -204,6 +250,8 @@ export class NewJobcard implements OnInit {
       this.vehicleReg = '';
       this.vehicleModel = '';
     }
+    this.updateFilteredVehicles();
+    this.cdr.detectChanges();
   }
 
   addService(): void {

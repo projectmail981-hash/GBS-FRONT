@@ -18,4 +18,8 @@ export class VehicleService {
     return this.http.get<any[]>(`${this.apiUrl}/customer/${customerId}`);
   }
 
+  addVehicle(data: any) {
+    return this.http.post<any>(this.apiUrl, data);
+  }
+
 }
