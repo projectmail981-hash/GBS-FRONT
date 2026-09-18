@@ -133,7 +133,7 @@ td {
   left: 0;
   right: 0;
   background: #17233a;
-  padding: 18px;
+  padding: 18px 18px calc(18px + env(safe-area-inset-bottom, 0px)) 18px;
   display: flex;
   gap: 15px;
   justify-content: center;
@@ -209,9 +209,9 @@ td {
     padding-bottom: 82px;
   }
   .screen-header {
-    height: 62px;
+    min-height: calc(62px + env(safe-area-inset-top, 0px));
     gap: 12px;
-    padding: 0 14px;
+    padding: calc(env(safe-area-inset-top, 0px) + 14px) 14px 14px 14px !important;
   }
   .screen-header h1 {
     font-size: 20px;
@@ -220,6 +220,8 @@ td {
   .screen-header button {
     font-size: 29px;
     padding: 4px;
+    min-width: 44px;
+    min-height: 44px;
   }
   .paper {
     width: calc(100% - 16px);
