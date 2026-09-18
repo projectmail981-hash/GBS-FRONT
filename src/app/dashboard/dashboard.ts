@@ -31,6 +31,12 @@ export class Dashboard implements OnInit {
     this.loadDashboard();
   }
 
+  openInvoice(id: number | string): void {
+    if (id) {
+      this.router.navigate(['/invoices', id]);
+    }
+  }
+
   onQuickSearch(): void {
  if (!this.searchQuery.trim()) {
     return;

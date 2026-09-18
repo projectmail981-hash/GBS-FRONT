@@ -4,13 +4,13 @@
   padding-bottom: 110px;
 }
 .screen-header {
-  height: 86px;
+  min-height: calc(70px + env(safe-area-inset-top, 0px));
+  padding: calc(env(safe-area-inset-top, 0px) + 16px) 24px 16px 24px !important;
   background: #febe10;
-  color: #fff;
+  color: #17233a;
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 0 28px;
 }
 .screen-header h1 {
   font-size: 27px;

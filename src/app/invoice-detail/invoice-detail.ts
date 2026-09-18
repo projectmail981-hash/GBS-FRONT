@@ -47,6 +47,8 @@ interface InvoiceDetailModel {
   parts: PartItem[];
 }
 
+import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-invoice-detail',
   standalone: true,
@@ -62,7 +64,8 @@ export class InvoiceDetail implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private invoiceService: InvoiceService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -93,7 +96,7 @@ export class InvoiceDetail implements OnInit {
 
   back(){
 
-    this.router.navigate(['/invoices']);
+    this.location.back();
 
   }
 
