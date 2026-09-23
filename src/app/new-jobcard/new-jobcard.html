@@ -6,6 +6,16 @@
     </div>
 
     <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 16px; color: #f59e0b;">&#128100; Customer Details</h3>
+        
+        <div class="row">
+            <label>&#128100; Customer Name</label>
+            <input type="text" list="customerNameList" placeholder="Enter Customer Name" [(ngModel)]="selectedCustomerName" (input)="onCustomerNameInput($event)">
+            <datalist id="customerNameList">
+                <option *ngFor="let c of customers" [value]="c.customer_name"></option>
+            </datalist>
+        </div>
+
         <div class="row">
             <label>&#128663; Vehicle Reg No</label>
             <input type="text" list="vehicleRegList" placeholder="TN10YJ1234" [(ngModel)]="vehicleReg" (input)="onVehicleRegInput($event)" (blur)="validateVehicleReg()">
@@ -18,12 +28,18 @@
         </div>
 
         <div class="row">
-            <label>&#128100; Customer</label>
-            <input type="text" list="customerNameList" placeholder="Enter Customer Name" [(ngModel)]="selectedCustomerName" (input)="onCustomerNameInput($event)">
-            <datalist id="customerNameList">
-                <option *ngFor="let c of customers" [value]="c.customer_name"></option>
-            </datalist>
+            <label>&#128222; Phone Number</label>
+            <input type="tel" placeholder="Enter phone number" [(ngModel)]="customerPhone">
         </div>
+
+        <div class="row">
+            <label>&#128203; Address</label>
+            <textarea placeholder="Enter address" [(ngModel)]="customerAddress" rows="2"></textarea>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 16px;">
+        <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 16px; color: #f59e0b;">&#128663; Vehicle Details</h3>
 
         <div class="row">
             <label>&#128663; Vehicle Model</label>

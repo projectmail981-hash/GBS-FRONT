@@ -10,6 +10,8 @@ import { InventoryService, InventoryItem } from '../services/inventory.service';
 interface Customer {
   customer_id: number;
   customer_name: string;
+  phone?: string;
+  address?: string;
 }
 
 interface Vehicle {
@@ -63,6 +65,8 @@ export class NewJobcard implements OnInit {
 
   selectedCustomer = '';
   selectedCustomerName = '';
+  customerPhone = '';
+  customerAddress = '';
   selectedCustomerId?: number;
   selectedVehicleId?: number;
   allVehicles: any[] = [];
@@ -213,12 +217,12 @@ export class NewJobcard implements OnInit {
       const customer = this.customers.find(c => c.customer_id === vehicle.customer_id);
       if (customer) {
         this.selectedCustomerName = customer.customer_name;
+        this.customerPhone = customer.phone || '';
+        this.customerAddress = customer.address || '';
       }
     } else {
       this.selectedVehicleId = undefined;
-      this.selectedCustomerId = undefined;
-      this.vehicleModel = '';
-      this.selectedCustomerName = '';
+      // We don't reset customer details here so user can enter new vehicle for new/existing customer
     }
     this.updateFilteredVehicles();
   }
@@ -231,24 +235,19 @@ export class NewJobcard implements OnInit {
     const customer = this.customers.find(c => c.customer_name.toLowerCase() === inputStr.toLowerCase());
     if (customer) {
       this.selectedCustomerId = customer.customer_id;
+      this.customerPhone = customer.phone || '';
+      this.customerAddress = customer.address || '';
       
       const customerVehicles = this.allVehicles.filter(v => v.customer_id === customer.customer_id);
-      if (customerVehicles.length === 1) {
+      if (customerVehicles.length === 1 && !this.selectedVehicleId) {
         const vehicle = customerVehicles[0];
         this.selectedVehicleId = vehicle.vehicle_id;
         this.vehicleReg = vehicle.vehicle_number || '';
         this.vehicleModel = [vehicle.brand, vehicle.model].filter(Boolean).join(' ');
-      } else {
-        // More than 1 vehicle (or 0): leave vehicleReg and vehicleModel blank so user selects from filtered list
-        this.selectedVehicleId = undefined;
-        this.vehicleReg = '';
-        this.vehicleModel = '';
       }
     } else {
       this.selectedCustomerId = undefined;
-      this.selectedVehicleId = undefined;
-      this.vehicleReg = '';
-      this.vehicleModel = '';
+      // We don't reset vehicle details here so user can enter new customer for new vehicle
     }
     this.updateFilteredVehicles();
     this.cdr.detectChanges();
@@ -450,8 +449,8 @@ export class NewJobcard implements OnInit {
       return;
     }
 
-    if (!this.selectedCustomerId || !this.selectedVehicleId || !this.serviceDate) {
-      alert('Please select a customer with a registered vehicle and service date.');
+    if (!this.selectedCustomerName || !this.vehicleReg || !this.serviceDate) {
+      alert('Please provide customer name, vehicle reg number and service date.');
       return;
     }
 
@@ -466,9 +465,69 @@ export class NewJobcard implements OnInit {
       return;
     }
 
-    const payload: JobCardPayload = {
+    this.isSaving = true;
+
+    if (!this.selectedCustomerId) {
+      if (!this.customerPhone || !/^[0-9]{10}$/.test(this.customerPhone.trim())) {
+        alert('Please provide a valid 10-digit phone number for the new customer.');
+        this.isSaving = false;
+        return;
+      }
+      
+      // Create customer, then create vehicle, then job card
+      const customerData = {
+        customer_name: this.selectedCustomerName,
+        phone: this.customerPhone.trim(),
+        address: this.customerAddress.trim(),
+        vehicles: []
+      };
+      
+      this.customerService.addCustomer(customerData).subscribe({
+        next: (res: any) => {
+          this.selectedCustomerId = res.customer_id;
+          this.registerVehicleAndProceed();
+        },
+        error: (err) => {
+          console.error('Unable to create customer', err);
+          this.isSaving = false;
+          alert('Failed to register new customer.');
+        }
+      });
+    } else if (!this.selectedVehicleId) {
+      this.registerVehicleAndProceed();
+    } else {
+      this.createJobCard();
+    }
+  }
+
+  private registerVehicleAndProceed(): void {
+    const vehicleData = {
       customer_id: this.selectedCustomerId,
-      vehicle_id: this.selectedVehicleId,
+      vehicle_number: this.vehicleReg,
+      vehicle_type: 'Car',
+      fuel_type: 'Petrol',
+      brand: '',
+      model: this.vehicleModel || '',
+      manufacture_year: new Date().getFullYear()
+    };
+    
+    this.vehicleService.addVehicle(vehicleData).subscribe({
+      next: (res: any) => {
+        this.selectedVehicleId = res.vehicle_id;
+        this.createJobCard();
+      },
+      error: (err) => {
+        console.error('Unable to create vehicle', err);
+        this.isSaving = false;
+        alert('Failed to register new vehicle.');
+      }
+    });
+  }
+
+  private createJobCard(): void {
+    const payload: JobCardPayload = {
+      customer_id: this.selectedCustomerId!,
+      vehicle_id: this.selectedVehicleId!,
       service_date: this.serviceDate,
       odometer_reading: this.nonNegative(this.odometer),
       status: this.jobCardStatus,
@@ -488,7 +547,6 @@ export class NewJobcard implements OnInit {
       }))
     };
 
-    this.isSaving = true;
     this.jobCardService.createJobCard(payload).subscribe({
       next: () => this.router.navigate(['/job-cards']),
       error: (error: unknown) => {
