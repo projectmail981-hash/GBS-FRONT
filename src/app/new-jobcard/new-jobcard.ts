@@ -104,6 +104,9 @@ export class NewJobcard implements OnInit {
 
   queryVehicleReg: string = '';
 
+  showCustomerDropdown = false;
+  showVehicleDropdown = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -117,6 +120,44 @@ export class NewJobcard implements OnInit {
   inventoryItems: InventoryItem[] = [];
 
   filteredVehicles: any[] = [];
+
+  get displayCustomers(): Customer[] {
+    const term = this.selectedCustomerName.toLowerCase();
+    return this.customers.filter(c => c.customer_name.toLowerCase().includes(term));
+  }
+
+  get displayVehicles(): any[] {
+    const term = this.vehicleReg.toLowerCase();
+    return this.filteredVehicles.filter(v => (v.vehicle_number || '').toLowerCase().includes(term));
+  }
+
+  selectCustomer(c: Customer): void {
+    this.selectedCustomerName = c.customer_name;
+    this.showCustomerDropdown = false;
+    this.onCustomerNameInput({ target: { value: c.customer_name } });
+  }
+
+  selectVehicle(v: any): void {
+    this.vehicleReg = v.vehicle_number;
+    this.showVehicleDropdown = false;
+    this.onVehicleRegInput({ target: { value: v.vehicle_number } });
+  }
+
+  hideCustomerDropdown(): void {
+    setTimeout(() => this.showCustomerDropdown = false, 200);
+  }
+
+  hideVehicleDropdown(): void {
+    setTimeout(() => this.showVehicleDropdown = false, 200);
+  }
+
+  toggleCustomerDropdown(): void {
+    this.showCustomerDropdown = !this.showCustomerDropdown;
+  }
+
+  toggleVehicleDropdown(): void {
+    this.showVehicleDropdown = !this.showVehicleDropdown;
+  }
 
   updateFilteredVehicles(): void {
     if (this.selectedCustomerId) {
