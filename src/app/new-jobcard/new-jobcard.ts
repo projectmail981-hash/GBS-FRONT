@@ -133,14 +133,14 @@ export class NewJobcard implements OnInit {
 
   selectCustomer(c: Customer): void {
     this.selectedCustomerName = c.customer_name;
-    this.showCustomerDropdown = false;
     this.onCustomerNameInput({ target: { value: c.customer_name } });
+    this.showCustomerDropdown = false;
   }
 
   selectVehicle(v: any): void {
     this.vehicleReg = v.vehicle_number;
-    this.showVehicleDropdown = false;
     this.onVehicleRegInput({ target: { value: v.vehicle_number } });
+    this.showVehicleDropdown = false;
   }
 
   hideCustomerDropdown(): void {
@@ -247,6 +247,7 @@ export class NewJobcard implements OnInit {
     const inputStr = event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
     this.vehicleReg = inputStr;
     event.target.value = inputStr;
+    this.showVehicleDropdown = true;
     
     // Auto-fill logic
     const vehicle = this.allVehicles.find(v => v.vehicle_number === inputStr);
@@ -271,6 +272,7 @@ export class NewJobcard implements OnInit {
   onCustomerNameInput(event: any): void {
     const inputStr = event.target.value;
     this.selectedCustomerName = inputStr;
+    this.showCustomerDropdown = true;
     
     // Auto-fill logic
     const customer = this.customers.find(c => c.customer_name.toLowerCase() === inputStr.toLowerCase());

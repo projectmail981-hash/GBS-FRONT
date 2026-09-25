@@ -206,12 +206,13 @@
 
 .input-wrapper input {
   width: 100%;
-  padding-right: 30px;
+  padding-right: 40px;
 }
 
 .dropdown-arrow {
   position: absolute;
-  right: 12px;
+  right: 0;
+  width: 40px;
   cursor: pointer;
   color: #64748b;
   font-size: 12px;
