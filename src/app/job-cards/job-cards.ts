@@ -32,7 +32,7 @@ export class JobCards implements OnInit {
     | 'All'
     | 'Open'
     | 'In Progress'
-    | 'Ready' = 'All';
+    | 'Ready' = 'Open';
 
   currentPage = 1;
   itemsPerPage = 10;

@@ -9,12 +9,6 @@
     <div class="status-tabs">
 
       <button
-        [class.active]="selectedFilter==='All'"
-        (click)="selectFilter('All')">
-        All
-      </button>
-
-      <button
         [class.active]="selectedFilter==='Open'"
         (click)="selectFilter('Open')">
         Open
@@ -32,7 +26,11 @@
         Ready
       </button>
 
-
+      <button
+        [class.active]="selectedFilter==='All'"
+        (click)="selectFilter('All')">
+        All
+      </button>
 
     </div>
 
