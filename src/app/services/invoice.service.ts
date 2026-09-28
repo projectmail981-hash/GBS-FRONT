@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,21 @@ export class InvoiceService {
   constructor(private http: HttpClient) {}
 
   getInvoices() {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      map(invoices => invoices.map(inv => ({
+        ...inv,
+        invoice_number: String(inv.invoice_id).padStart(4, '0')
+      })))
+    );
   }
 
   getInvoice(id: number) {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(inv => ({
+        ...inv,
+        invoice_number: String(inv.invoice_id).padStart(4, '0')
+      }))
+    );
   }
 
   createInvoice(data: any) {
@@ -31,12 +42,7 @@ export class InvoiceService {
   }
 
   receivePayment(id:number,data:any){
-
-  return this.http.put(
-    `${this.apiUrl}/payment/${id}`,
-    data
-  );
-
-}
+    return this.http.put(`${this.apiUrl}/payment/${id}`, data);
+  }
 
 }

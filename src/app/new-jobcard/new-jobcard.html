@@ -8,7 +8,7 @@
     <div class="card">
         <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 16px; color: #f59e0b; display: flex; justify-content: space-between; align-items: center;">
             <span>&#128100; Customer Details</span>
-            <button type="button" (click)="resetForm()" style="background: none; border: none; font-size: 16px; cursor: pointer; color: #f59e0b;" title="Reset Form">&#8635;</button>
+            <button type="button" (click)="resetForm()" style="background: none; border: none; font-size: 22px; font-weight: bold; padding: 0 15px; cursor: pointer; color: #f59e0b;" title="Reset Form">&#8635;</button>
         </h3>
         
         <div class="row custom-dropdown-container">
@@ -95,42 +95,6 @@
     </div>
 
     <div class="section-title">
-        <h3>&#128295; Services</h3>
-        <button type="button" class="add-btn" (click)="addService()">+ Add</button>
-    </div>
-
-    @if (showServiceForm) {
-        <div class="card item-form">
-            <input type="text" placeholder="Service name" [(ngModel)]="newServiceName">
-            <div class="form-row-dual">
-                <input type="number" placeholder="Quantity" [(ngModel)]="newServiceQty">
-                <input type="text" placeholder="Amount &#8377;" [(ngModel)]="newServiceAmount" (focus)="newServiceAmount = newServiceAmount.replace('₹ ', '')" (blur)="newServiceAmount = newServiceAmount ? '₹ ' + newServiceAmount : ''">
-            </div>
-            <div class="item-form-actions">
-                <button type="button" class="cancel-btn" (click)="showServiceForm = false">Cancel</button>
-                <button type="button" class="confirm-btn" (click)="confirmService()">Add</button>
-            </div>
-        </div>
-    }
-
-    @if (services.length === 0 && !showServiceForm) {
-        <div class="card empty-card">
-            <h3>No Services Added</h3>
-            <p>Add labour/service tasks</p>
-        </div>
-    } @else {
-        @for (svc of services; track svc.id) {
-            <div class="card line-item-card">
-                <div class="line-item-info">
-                    <strong>{{ svc.name }}</strong>
-                    <span>Qty: {{ svc.qty }} &#215; &#8377;{{ svc.rate }} = &#8377;{{ svc.amount }}</span>
-                </div>
-                <button type="button" class="remove-btn" (click)="removeService(svc.id)">&#10005;</button>
-            </div>
-        }
-    }
-
-    <div class="section-title">
         <h3>&#128230; Parts & Inventory</h3>
         <button type="button" class="add-btn" (click)="addPart()">+ Add</button>
     </div>
@@ -180,6 +144,42 @@
                     <span>Qty: {{ part.qty }} &#215; &#8377;{{ part.rate }} = &#8377;{{ part.amount }}</span>
                 </div>
                 <button type="button" class="remove-btn" (click)="removePart(part.id)">&#10005;</button>
+            </div>
+        }
+    }
+
+    <div class="section-title">
+        <h3>&#128295; Services</h3>
+        <button type="button" class="add-btn" (click)="addService()">+ Add</button>
+    </div>
+
+    @if (showServiceForm) {
+        <div class="card item-form">
+            <input type="text" placeholder="Service name" [(ngModel)]="newServiceName">
+            <div class="form-row-dual">
+                <input type="number" placeholder="Quantity" [(ngModel)]="newServiceQty">
+                <input type="text" placeholder="Amount &#8377;" [(ngModel)]="newServiceAmount" (focus)="newServiceAmount = newServiceAmount.replace('₹ ', '')" (blur)="newServiceAmount = newServiceAmount ? '₹ ' + newServiceAmount : ''">
+            </div>
+            <div class="item-form-actions">
+                <button type="button" class="cancel-btn" (click)="showServiceForm = false">Cancel</button>
+                <button type="button" class="confirm-btn" (click)="confirmService()">Add</button>
+            </div>
+        </div>
+    }
+
+    @if (services.length === 0 && !showServiceForm) {
+        <div class="card empty-card">
+            <h3>No Services Added</h3>
+            <p>Add labour/service tasks</p>
+        </div>
+    } @else {
+        @for (svc of services; track svc.id) {
+            <div class="card line-item-card">
+                <div class="line-item-info">
+                    <strong>{{ svc.name }}</strong>
+                    <span>Qty: {{ svc.qty }} &#215; &#8377;{{ svc.rate }} = &#8377;{{ svc.amount }}</span>
+                </div>
+                <button type="button" class="remove-btn" (click)="removeService(svc.id)">&#10005;</button>
             </div>
         }
     }
