@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { NewJobcardStateService } from '../services/new-jobcard-state.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
@@ -59,7 +60,7 @@ interface JobCardPayload {
   templateUrl: './new-jobcard.html',
   styleUrl: './new-jobcard.css'
 })
-export class NewJobcard implements OnInit {
+export class NewJobcard implements OnInit, OnDestroy {
   customers: Customer[] = [];
   vehicles: Vehicle[] = [];
 
@@ -114,8 +115,58 @@ export class NewJobcard implements OnInit {
     private vehicleService: VehicleService,
     private jobCardService: JobCardService,
     private inventoryService: InventoryService,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private cdr: ChangeDetectorRef,
+    private stateService: NewJobcardStateService
+  ) {
+    const savedState = this.stateService.getState();
+    if (savedState) {
+      Object.assign(this, savedState);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (!this.isSaving) {
+      const stateToSave = {
+        selectedCustomerName: this.selectedCustomerName,
+        customerPhone: this.customerPhone,
+        customerAddress: this.customerAddress,
+        selectedCustomerId: this.selectedCustomerId,
+        selectedVehicleId: this.selectedVehicleId,
+        vehicleReg: this.vehicleReg,
+        vehicleModel: this.vehicleModel,
+        vehicleRegError: this.vehicleRegError,
+        status: this.status,
+        jobCardStatus: this.jobCardStatus,
+        notes: this.notes,
+        services: [...this.services],
+        parts: [...this.parts],
+        serviceDate: this.serviceDate,
+        odometer: this.odometer,
+        queryVehicleReg: this.queryVehicleReg
+      };
+      this.stateService.saveState(stateToSave);
+    }
+  }
+
+  resetForm(): void {
+    this.selectedCustomerName = '';
+    this.customerPhone = '';
+    this.customerAddress = '';
+    this.selectedCustomerId = undefined;
+    this.selectedVehicleId = undefined;
+    this.vehicleReg = '';
+    this.vehicleModel = '';
+    this.vehicleRegError = '';
+    this.status = 'Unpaid';
+    this.jobCardStatus = 'Open';
+    this.notes = '';
+    this.services = [];
+    this.parts = [];
+    this.serviceDate = new Date().toISOString().slice(0, 10);
+    this.odometer = '';
+    this.queryVehicleReg = '';
+    this.stateService.clearState();
+  }
 
   inventoryItems: InventoryItem[] = [];
 
@@ -171,7 +222,9 @@ export class NewJobcard implements OnInit {
   }
 
   ngOnInit(): void {
-    this.serviceDate = new Date().toISOString().slice(0, 10);
+    if (!this.serviceDate) {
+      this.serviceDate = new Date().toISOString().slice(0, 10);
+    }
     this.route.queryParams.subscribe(params => {
       if (params['vehicleReg'] && params['customerId'] && params['customerName']) {
         this.vehicleReg = params['vehicleReg'];
@@ -591,7 +644,10 @@ export class NewJobcard implements OnInit {
     };
 
     this.jobCardService.createJobCard(payload).subscribe({
-      next: () => this.router.navigate(['/job-cards']),
+      next: () => {
+        this.stateService.clearState();
+        this.router.navigate(['/job-cards']);
+      },
       error: (error: unknown) => {
         console.error('Unable to save job card', error);
         this.isSaving = false;

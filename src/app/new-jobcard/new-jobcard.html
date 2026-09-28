@@ -6,7 +6,10 @@
     </div>
 
     <div class="card">
-        <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 16px; color: #f59e0b;">&#128100; Customer Details</h3>
+        <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 16px; color: #f59e0b; display: flex; justify-content: space-between; align-items: center;">
+            <span>&#128100; Customer Details</span>
+            <button type="button" (click)="resetForm()" style="background: none; border: none; font-size: 16px; cursor: pointer; color: #f59e0b;" title="Reset Form">&#8635;</button>
+        </h3>
         
         <div class="row custom-dropdown-container">
             <label>&#128100; Customer Name</label>
