@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InvoiceService } from '../services/invoice.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-details',
@@ -21,7 +22,8 @@ export class ReportDetails implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -48,23 +50,38 @@ export class ReportDetails implements OnInit {
       next: (summaries) => {
         if (!summaries || summaries.length === 0) {
           this.isLoading = false;
+          this.cdr.detectChanges();
           return;
         }
-        const requests = summaries.map((s: any) => this.invoiceService.getInvoice(s.invoice_id));
+        
+        const requests = summaries.map((s: any) => 
+          this.invoiceService.getInvoice(s.invoice_id).pipe(
+            catchError(err => {
+              console.error(`Failed to fetch invoice ${s.invoice_id}`, err);
+              return of(null);
+            })
+          )
+        );
+
         forkJoin(requests).subscribe({
           next: (detailedInvoices: any) => {
-            this.processInvoices(detailedInvoices);
+            // Filter out any nulls that failed to fetch
+            const validInvoices = detailedInvoices.filter((inv: any) => inv !== null);
+            this.processInvoices(validInvoices);
             this.isLoading = false;
+            this.cdr.detectChanges();
           },
           error: (err: any) => {
             console.error(err);
             this.isLoading = false;
+            this.cdr.detectChanges();
           }
         });
       },
       error: (err) => {
         console.error(err);
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
