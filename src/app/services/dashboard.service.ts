@@ -17,7 +17,7 @@ export class DashboardService {
       map(data => {
         const formatInvoices = (invoices: any[]) => invoices?.map(inv => ({
           ...inv,
-          invoice_number: String(inv.invoice_id).padStart(4, '0')
+          invoice_number: `INV-${String(inv.invoice_id).padStart(4, '0')}`
         })) || [];
         
         return {

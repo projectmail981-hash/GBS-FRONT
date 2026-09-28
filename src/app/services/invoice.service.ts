@@ -15,7 +15,7 @@ export class InvoiceService {
     return this.http.get<any[]>(this.apiUrl).pipe(
       map(invoices => invoices.map(inv => ({
         ...inv,
-        invoice_number: String(inv.invoice_id).padStart(4, '0')
+        invoice_number: `INV-${String(inv.invoice_id).padStart(4, '0')}`
       })))
     );
   }
@@ -24,7 +24,7 @@ export class InvoiceService {
     return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
       map(inv => ({
         ...inv,
-        invoice_number: String(inv.invoice_id).padStart(4, '0')
+        invoice_number: `INV-${String(inv.invoice_id).padStart(4, '0')}`
       }))
     );
   }
