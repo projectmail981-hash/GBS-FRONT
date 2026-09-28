@@ -25,13 +25,17 @@ export class Reports implements OnInit {
   constructor(private dashboardService: DashboardService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    // Only load if logged in, handled by login()
+    if (sessionStorage.getItem('reports_logged_in') === 'true') {
+      this.isLoggedIn = true;
+      this.fetchData();
+    }
   }
 
   login(): void {
     if (this.passwordInput === '9988') {
       this.isLoggedIn = true;
       this.passwordError = false;
+      sessionStorage.setItem('reports_logged_in', 'true');
       this.fetchData();
     } else {
       this.passwordError = true;
