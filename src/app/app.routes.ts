@@ -11,6 +11,7 @@ import { JobCardDetail } from './job-card-detail/job-card-detail';
 import { MoreOptions } from './more-options/more-options';
 import { Inventory } from './inventory/inventory';
 import { Reports } from './reports/reports';
+import { ReportDetails } from './report-details/report-details';
 import { Expenses } from './expenses/expenses';
 import { CustomerDetail } from './customer-detail/customer-detail';
 
@@ -29,5 +30,6 @@ export const routes: Routes = [
   { path: 'more-options', component: MoreOptions },
   { path: 'inventory', component: Inventory },
   { path: 'reports', component: Reports },
+  { path: 'report-details', component: ReportDetails },
   { path: 'expenses', component: Expenses }
 ];

@@ -32,11 +32,11 @@
       <div class="report-section">
         <h3>Revenue Overview</h3>
         <div class="reports-grid">
-          <div class="report-card green-border">
+          <div class="report-card green-border" (click)="viewDetails('weekly')" style="cursor: pointer;">
             <span class="report-title">Weekly Revenue</span>
             <h3 class="report-value">₹{{ summary.weekRevenue }}</h3>
           </div>
-          <div class="report-card blue-border">
+          <div class="report-card blue-border" (click)="viewDetails('monthly')" style="cursor: pointer;">
             <span class="report-title">Monthly Revenue</span>
             <h3 class="report-value">₹{{ summary.monthRevenue }}</h3>
           </div>
@@ -46,11 +46,11 @@
       <div class="report-section">
         <h3>Profit Breakdown</h3>
         <div class="reports-grid">
-          <div class="report-card purple-border">
+          <div class="report-card purple-border" (click)="viewDetails('labour')" style="cursor: pointer;">
             <span class="report-title">Labour Revenue</span>
             <h3 class="report-value">₹{{ summary.labourRevenue }}</h3>
           </div>
-          <div class="report-card orange-border">
+          <div class="report-card orange-border" (click)="viewDetails('parts')" style="cursor: pointer;">
             <span class="report-title">Parts Profit</span>
             <h3 class="report-value">₹{{ summary.partsRevenue }}</h3>
           </div>

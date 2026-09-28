@@ -1,0 +1,43 @@
+<div class="reports-page">
+  <div class="header">
+    <button class="back-btn" (click)="goBack()">&#8592;</button>
+    <h2>{{ title }}</h2>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">Loading details...</div>
+
+  <div class="reports-container" *ngIf="!isLoading">
+    
+    <div class="summary-card">
+      <span class="report-title">Total {{ type === 'labour' ? 'Labour Charge' : type === 'parts' ? 'Parts Amount' : 'Revenue' }}</span>
+      <h2 class="report-value" style="margin-top: 10px; font-size: 28px;">&#8377;{{ totalValue.toFixed(2) }}</h2>
+    </div>
+
+    <div class="report-section">
+      <h3>Invoice Breakdowns</h3>
+      <div *ngIf="invoices.length === 0" style="padding: 20px; text-align: center; color: #64748b; background: white; border-radius: 12px; margin-top: 15px;">
+        No invoices found for this metric.
+      </div>
+      
+      <div class="invoice-list">
+        <div class="glass-card" *ngFor="let inv of invoices" style="margin-bottom: 15px;">
+          <div class="card-row" style="display: flex; justify-content: space-between;">
+            <div class="card-left">
+              <p class="invoice-no" style="font-weight: 600; color: #0f172a; margin-bottom: 5px;">{{ inv.invoice_number }}</p>
+              <h3 class="customer-name" style="font-size: 15px; color: #334155; margin: 0;">{{ inv.customer_name }}</h3>
+              <div class="card-icon-text" style="margin-top: 8px; color: #64748b; font-size: 13px;">
+                <span>{{ inv.date | date:'dd-MM-yyyy' }}</span>
+              </div>
+            </div>
+            <div class="card-right" style="text-align: right;">
+              <h3 class="amount" style="font-size: 18px; color: #0f172a; margin: 0;">&#8377;{{ inv.amount.toFixed(2) }}</h3>
+              <span style="font-size: 12px; color: #64748b;">
+                {{ type === 'labour' ? 'Labour Charge' : type === 'parts' ? 'Parts Total' : 'Total Amount' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

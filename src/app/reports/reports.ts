@@ -59,6 +59,10 @@ export class Reports implements OnInit {
     });
   }
 
+  viewDetails(type: string): void {
+    this.router.navigate(['/report-details'], { queryParams: { type } });
+  }
+
   renderWeeklyChart(data: any[]): void {
     const ctx = document.getElementById('weeklyChart') as HTMLCanvasElement;
     if (!ctx) return;
