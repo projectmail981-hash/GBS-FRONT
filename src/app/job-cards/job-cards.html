@@ -21,10 +21,12 @@
       </button>
 
       <button
-        [class.active]="selectedFilter==='Ready'"
-        (click)="selectFilter('Ready')">
-        Ready
+        [class.active]="selectedFilter==='Completed'"
+        (click)="selectFilter('Completed')">
+        Bill Generated
       </button>
+
+
 
       <button
         [class.active]="selectedFilter==='All'"

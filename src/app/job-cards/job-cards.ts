@@ -32,7 +32,7 @@ export class JobCards implements OnInit {
     | 'All'
     | 'Open'
     | 'In Progress'
-    | 'Ready' = 'Open';
+    | 'Completed' = 'Open';
 
   currentPage = 1;
   itemsPerPage = 10;
@@ -160,7 +160,7 @@ export class JobCards implements OnInit {
       | 'All'
       | 'Open'
       | 'In Progress'
-      | 'Ready'
+      | 'Completed'
   ): void {
 
     this.selectedFilter = filter;

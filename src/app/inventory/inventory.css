@@ -113,6 +113,10 @@ tr.low-stock {
   background-color: #fff9f9;
 }
 
+tr.out-of-stock td:not(:last-child) {
+  opacity: 0.5;
+}
+
 .edit-btn {
   background: #f1f5f9;
   border: none;

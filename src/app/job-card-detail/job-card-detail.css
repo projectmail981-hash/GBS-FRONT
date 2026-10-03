@@ -152,11 +152,12 @@
 .inventory-list-item:active {
   background: #f8fafc;
 }
-
-.inventory-list-item.out-of-stock {
+.item-info.out-of-stock,
+span.out-of-stock {
   opacity: 0.5;
-  cursor: not-allowed;
 }
+
+
 
 .item-info {
   display: flex;

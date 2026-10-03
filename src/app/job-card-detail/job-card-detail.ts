@@ -176,6 +176,12 @@ export class JobCardDetail implements OnInit {
     }
 
     this.isGenerating = true;
+    
+    // Update status to 'Completed' in the background if it's currently 'In Progress'
+    if (this.job.status === 'In Progress') {
+      this.jobCardService.updateJobCard(this.job.job_id, { status: 'Completed' }).subscribe();
+    }
+
     this.invoiceService.createInvoice({
       job_id: this.job.job_id,
       paid_amount: 0
@@ -309,10 +315,6 @@ export class JobCardDetail implements OnInit {
   }
 
   selectInventoryItem(item: InventoryItem): void {
-    if (item.stock_quantity <= 0) {
-      alert("This item is out of stock!");
-      return;
-    }
     this.selectedInventoryItem = item;
     this.newPartName = item.part_name;
     this.newPartQty = 1;
@@ -336,28 +338,36 @@ export class JobCardDetail implements OnInit {
 
   onPartQtyChange(): void {
     if (this.newPartQty !== null && this.newPartQty < 1) this.newPartQty = 1;
-    if (this.selectedInventoryItem && this.newPartQty !== null && this.newPartQty > this.selectedInventoryItem.stock_quantity) {
-      alert("Quantity exceeds available stock!");
-      this.newPartQty = this.selectedInventoryItem.stock_quantity;
-    }
     this.updatePartAmount();
   }
 
   confirmPart(): void {
     if (!this.job || !this.newPartName.trim() || !this.selectedInventoryItem) return;
 
+    const qty = Math.max(1, this.newPartQty || 1);
     const payload = {
       job_id: this.job.job_id,
       part_id: this.selectedInventoryItem.part_id,
       part_name: this.selectedInventoryItem.part_name,
-      quantity: Math.max(1, this.newPartQty || 1),
+      quantity: qty,
       unit_price: this.selectedInventoryItem.selling_price,
     };
 
     this.jobCardService.addJobPart(payload).subscribe({
       next: (res: any) => {
-        // Refresh job card
-        this.ngOnInit();
+        // Deduct inventory
+        const updatedItem = { ...this.selectedInventoryItem! };
+        updatedItem.stock_quantity = Math.max(0, updatedItem.stock_quantity - qty);
+        
+        if (updatedItem.part_id) {
+          this.inventoryService.updatePart(updatedItem.part_id, updatedItem).subscribe({
+            next: () => this.ngOnInit(),
+            error: () => this.ngOnInit() // reload anyway
+          });
+        } else {
+          this.ngOnInit();
+        }
+
         this.newPartName = '';
         this.newPartQty = null;
         this.newPartAmount = '';
@@ -367,6 +377,42 @@ export class JobCardDetail implements OnInit {
       error: err => {
         console.error("Failed to add part", err);
         alert("Failed to add part");
+      }
+    });
+  }
+
+  showRestockPrompt = false;
+  restockItem: InventoryItem | null = null;
+  restockQty: number = 1;
+
+  openRestockPrompt(item: InventoryItem, event: Event): void {
+    event.stopPropagation();
+    if (!this.job || !item.part_id) return;
+    this.restockItem = item;
+    this.restockQty = 1;
+    this.showRestockPrompt = true;
+  }
+
+  closeRestockPrompt(): void {
+    this.showRestockPrompt = false;
+    this.restockItem = null;
+  }
+
+  confirmRestock(): void {
+    if (!this.restockItem || !this.restockItem.part_id) return;
+
+    const updatedItem = { ...this.restockItem };
+    updatedItem.stock_quantity = updatedItem.stock_quantity + this.restockQty;
+
+    this.inventoryService.updatePart(updatedItem.part_id!, updatedItem).subscribe({
+      next: () => {
+        this.closeRestockPrompt();
+        this.loadInventory(); // reload inventory to show unblurred
+      },
+      error: err => {
+        console.error("Failed to update inventory", err);
+        alert("Failed to update inventory");
+        this.closeRestockPrompt();
       }
     });
   }
@@ -422,9 +468,20 @@ export class JobCardDetail implements OnInit {
 
         this.jobCardService.addJobPart(payload).subscribe({
           next: () => {
-            this.ngOnInit();
-            this.showManualPartForm = false;
-            this.loadInventory();
+            // Deduct the inventory to 0, since we used all of it
+            const updatedItem = { ...newItem, part_id: newPartId, stock_quantity: 0 };
+            this.inventoryService.updatePart(newPartId, updatedItem).subscribe({
+              next: () => {
+                this.ngOnInit();
+                this.showManualPartForm = false;
+                this.loadInventory();
+              },
+              error: () => {
+                this.ngOnInit();
+                this.showManualPartForm = false;
+                this.loadInventory();
+              }
+            });
           },
           error: err => {
             console.error("Failed to add manual part to job card", err);

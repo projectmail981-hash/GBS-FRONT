@@ -12,6 +12,7 @@ export interface InventoryItem {
   selling_price: number;
   supplier: string;
   date?: string;
+  created_at?: string;
 }
 
 @Injectable({

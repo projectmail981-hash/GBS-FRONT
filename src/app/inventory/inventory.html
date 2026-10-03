@@ -23,16 +23,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of inventoryItems" [class.low-stock]="item.stock_quantity < 5">
+          <tr *ngFor="let item of inventoryItems" [class.low-stock]="item.stock_quantity < 5" [class.out-of-stock]="item.stock_quantity <= 0">
             <td>
               <div class="part-info">
                 <strong>{{ item.part_name }}</strong>
                 <span class="badge red" *ngIf="item.stock_quantity < 5">Low Stock</span>
               </div>
             </td>
-            <td class="center-align">{{ item.date | date:'dd/MM/yyyy' }}</td>
+            <td class="center-align">{{ item.date ? (item.date | date:'dd/MM/yyyy') : (item.created_at ? (item.created_at | date:'dd/MM/yyyy') : 'N/A') }}</td>
             <td class="right-align">
-              <span class="qty-text" [class.danger]="item.stock_quantity < 5">{{ item.stock_quantity }}</span>
+              <span class="qty-text" [class.danger]="item.stock_quantity < 5">{{ item.stock_quantity < 0 ? 0 : item.stock_quantity }}</span>
             </td>
             <td class="right-align">₹{{ item.unit_price || 0 }}</td>
             <td class="right-align">₹{{ item.selling_price || item.unit_price || 0 }}</td>
