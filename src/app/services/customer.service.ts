@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class CustomerService {
 
-  private apiUrl = 'https://garage-billing-backend-production.up.railway.app/customers';
+  private apiUrl = 'https://garage-billing-backend-lyjb.onrender.com/customers';
 
   constructor(private http: HttpClient) { }
 

@@ -24,8 +24,12 @@ export class Expenses implements OnInit {
   fetchExpenses(): void {
     this.expensesService.getExpenses().subscribe({
       next: (data) => {
-        this.summary = data.summary || { weeklyExpenses: 0, monthlyExpenses: 0 };
-        this.items = data.items || [];
+        const rawSummary = data?.summary || {};
+        this.summary = {
+          weeklyExpenses: Number(rawSummary.weeklyExpenses ?? rawSummary.weeklyexpenses ?? 0),
+          monthlyExpenses: Number(rawSummary.monthlyExpenses ?? rawSummary.monthlyexpenses ?? 0)
+        };
+        this.items = data?.items || [];
         this.isLoading = false;
         this.cdr.detectChanges();
       },

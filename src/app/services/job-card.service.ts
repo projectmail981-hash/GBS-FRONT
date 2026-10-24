@@ -6,7 +6,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class JobCardService {
 
-  private apiUrl = "https://garage-billing-backend-production.up.railway.app/jobcards";
+  private baseUrl = "https://garage-billing-backend-lyjb.onrender.com";
+  private apiUrl = `${this.baseUrl}/jobcards`;
 
   constructor(private http: HttpClient) {}
 
@@ -32,23 +33,23 @@ export class JobCardService {
 
   // Checklists and modifications
   addJobService(service: any) {
-    return this.http.post('https://garage-billing-backend-production.up.railway.app/jobservices', service);
+    return this.http.post(`${this.baseUrl}/jobservices`, service);
   }
 
   addJobPart(part: any) {
-    return this.http.post('https://garage-billing-backend-production.up.railway.app/jobparts', part);
+    return this.http.post(`${this.baseUrl}/jobparts`, part);
   }
 
   toggleServiceStatus(id: number, isCompleted: boolean) {
-    return this.http.put(`https://garage-billing-backend-production.up.railway.app/jobservices/${id}/toggle-status`, { is_completed: isCompleted });
+    return this.http.put(`${this.baseUrl}/jobservices/${id}/toggle-status`, { is_completed: isCompleted });
   }
 
   togglePartStatus(id: number, isCompleted: boolean) {
-    return this.http.put(`https://garage-billing-backend-production.up.railway.app/jobparts/${id}/toggle-status`, { is_completed: isCompleted });
+    return this.http.put(`${this.baseUrl}/jobparts/${id}/toggle-status`, { is_completed: isCompleted });
   }
 
   deleteJobPart(id: number) {
-    return this.http.delete(`https://garage-billing-backend-production.up.railway.app/jobparts/${id}`);
+    return this.http.delete(`${this.baseUrl}/jobparts/${id}`);
   }
 
 }

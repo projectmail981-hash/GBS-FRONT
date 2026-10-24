@@ -77,13 +77,35 @@ export class JobCardDetail implements OnInit {
   isGenerating: boolean = false;
 
   ngOnInit(): void {
+    this.loadInventory();
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
+      this.checkIfBilled(id);
+
+      // Immediately show cached summary if available while full details load
+      this.jobCardService.getJobCards().subscribe({
+        next: (cards: any[]) => {
+          if (!this.job) {
+            const match = (cards || []).find(c => Number(c.job_id) === id);
+            if (match) {
+              this.job = {
+                ...match,
+                phone: match.phone || '',
+                brand: match.brand || '',
+                model: match.model || '',
+                services: [],
+                parts: []
+              };
+              this.cdr.detectChanges();
+            }
+          }
+        }
+      });
+
       this.jobCardService.getJobCard(id).subscribe({
         next: (data: JobCard) => {
           this.job = data;
-          this.checkIfBilled();
-          this.loadInventory();
+          this.cdr.detectChanges();
         },
         error: err => {
           console.error(err);
@@ -103,11 +125,12 @@ export class JobCardDetail implements OnInit {
     });
   }
 
-  checkIfBilled(): void {
-    if (!this.job) return;
+  checkIfBilled(jobId?: number): void {
+    const targetId = jobId ?? this.job?.job_id;
+    if (!targetId) return;
     this.invoiceService.getInvoices().subscribe({
       next: (invoices: any[]) => {
-        this.isBilled = invoices.some(inv => inv.job_id === this.job!.job_id);
+        this.isBilled = invoices.some(inv => Number(inv.job_id) === Number(targetId));
         this.cdr.detectChanges();
       }
     });
@@ -354,20 +377,9 @@ export class JobCardDetail implements OnInit {
     };
 
     this.jobCardService.addJobPart(payload).subscribe({
-      next: (res: any) => {
-        // Deduct inventory
-        const updatedItem = { ...this.selectedInventoryItem! };
-        updatedItem.stock_quantity = Math.max(0, updatedItem.stock_quantity - qty);
-        
-        if (updatedItem.part_id) {
-          this.inventoryService.updatePart(updatedItem.part_id, updatedItem).subscribe({
-            next: () => this.ngOnInit(),
-            error: () => this.ngOnInit() // reload anyway
-          });
-        } else {
-          this.ngOnInit();
-        }
-
+      next: () => {
+        // Backend addJobPart already deducts stock_quantity in inventory
+        this.ngOnInit();
         this.newPartName = '';
         this.newPartQty = null;
         this.newPartAmount = '';
@@ -468,20 +480,10 @@ export class JobCardDetail implements OnInit {
 
         this.jobCardService.addJobPart(payload).subscribe({
           next: () => {
-            // Deduct the inventory to 0, since we used all of it
-            const updatedItem = { ...newItem, part_id: newPartId, stock_quantity: 0 };
-            this.inventoryService.updatePart(newPartId, updatedItem).subscribe({
-              next: () => {
-                this.ngOnInit();
-                this.showManualPartForm = false;
-                this.loadInventory();
-              },
-              error: () => {
-                this.ngOnInit();
-                this.showManualPartForm = false;
-                this.loadInventory();
-              }
-            });
+            // Backend addJobPart already deducts stock_quantity to 0
+            this.ngOnInit();
+            this.showManualPartForm = false;
+            this.loadInventory();
           },
           error: err => {
             console.error("Failed to add manual part to job card", err);

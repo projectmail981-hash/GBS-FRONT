@@ -72,11 +72,29 @@ export class InvoiceDetail implements OnInit {
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
+    // Immediately populate summary fields from cached invoices list
+    this.invoiceService.getInvoices().subscribe({
+      next: (list: any[]) => {
+        if (!this.invoice) {
+          const match = (list || []).find(inv => Number(inv.invoice_id) === id);
+          if (match) {
+            this.invoice = {
+              ...match,
+              phone: match.phone || '',
+              brand: match.brand || '',
+              model: match.model || '',
+              services: [],
+              parts: []
+            };
+            this.cdr.detectChanges();
+          }
+        }
+      }
+    });
+
     this.invoiceService.getInvoice(id).subscribe({
 
       next: (data:any) => {
-
-       
 
         this.invoice = data;
 
@@ -131,17 +149,22 @@ export class InvoiceDetail implements OnInit {
 
   recordPayment(){
     if(!this.invoice) return;
-    this.paymentAmount = this.invoice.balance_amount || 0;
+    this.paymentAmount = Number(this.invoice.balance_amount) || 0;
     this.showPaymentModal = true;
   }
 
   confirmPayment(){
     if(!this.invoice || !this.paymentAmount) return;
 
-    this.invoiceService.receivePayment(
+    const totalAmount = Number(this.invoice.total_amount) || (this.totalServices() + this.totalParts());
+    const updatedPaid = (Number(this.invoice.paid_amount) || 0) + Number(this.paymentAmount);
+
+    this.invoiceService.updateInvoice(
       this.invoice.invoice_id,
       {
-        amount: Number(this.paymentAmount)
+        subtotal: totalAmount,
+        total_amount: totalAmount,
+        paid_amount: updatedPaid
       }
     ).subscribe(()=>{
       location.reload();

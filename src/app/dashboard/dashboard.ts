@@ -38,14 +38,12 @@ export class Dashboard implements OnInit {
   }
 
   onQuickSearch(): void {
- if (!this.searchQuery.trim()) {
-    return;
+    if (!this.searchQuery.trim()) {
+      return;
+    }
+
+    alert("Quick Search will be connected to the backend.");
   }
-
-  alert("Quick Search will be connected to the backend.");
-
-
-}
 
   weeklyIncome: number = 0;
   monthlyIncome: number = 0;
@@ -53,27 +51,23 @@ export class Dashboard implements OnInit {
   labourCharge: number = 0;
 
   private loadDashboard(): void {
-    this.dashboardService.getDashboard().subscribe({
-      next: (data: any) => {
-        
-
-        // Reports (note case sensitivity of labourRevenue)
-        this.weeklyIncome = Number(data.weekRevenue || 0);
-        this.monthlyIncome = Number(data.monthRevenue || 0);
-        this.partsProfit = Number(data.partsRevenue || 0);
-        this.labourCharge = Number(data.labourRevenue || 0);
-
-        // Lists (only take the absolute most recent invoice for recentInvoices)
-        this.displayRecentInvoices = (data.recentInvoices || []).slice(0, 1);
-        this.pendingInvoices = data.pendingInvoices || [];
-
-        // Force Angular to update the UI with the asynchronous data
+    // Load Pending Payments directly from InvoiceService so any Unpaid/Partial
+    // invoice in the Invoices section is guaranteed to display here immediately.
+    this.invoiceService.getInvoices().subscribe({
+      next: (invoices: any[]) => {
+        const list = invoices || [];
+        this.displayRecentInvoices = list.slice(0, 1);
+        this.pendingInvoices = list.filter(
+          inv =>
+            Number(inv.balance_amount) > 0 ||
+            inv.status === 'Unpaid' ||
+            inv.status === 'Partial'
+        );
         this.cdr.detectChanges();
       },
       error: err => {
-        console.error(err);
+        console.error('Error loading invoices for dashboard:', err);
       }
     });
   }
 }
-

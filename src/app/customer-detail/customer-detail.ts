@@ -48,17 +48,33 @@ export class CustomerDetail implements OnInit {
       return;
     }
 
+    this.loadVehicles(id);
+    this.loadJobCards(id);
+
+    // Immediately show customer from cached list if available
+    this.customerService.getCustomers().subscribe({
+      next: (customers: any[]) => {
+        if (!this.customer) {
+          const match = (customers || []).find(c => Number(c.customer_id) === id);
+          if (match) {
+            this.customer = match;
+            this.loading = false;
+            this.cdr.detectChanges();
+          }
+        }
+      }
+    });
+
     this.customerService.getCustomer(id).subscribe({
       next: (data) => {
         this.customer = data;
         this.loading = false;
-        this.loadVehicles(id);
-        this.loadJobCards(id);
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

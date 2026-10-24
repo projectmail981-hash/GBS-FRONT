@@ -1,8 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { InvoiceService } from '../services/invoice.service';
-import { forkJoin, of } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -19,10 +20,13 @@ export class ReportDetails implements OnInit {
   isLoading = true;
   totalValue = 0;
 
+  private baseUrl = 'https://garage-billing-backend-lyjb.onrender.com';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private invoiceService: InvoiceService,
+    private http: HttpClient,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -46,37 +50,15 @@ export class ReportDetails implements OnInit {
 
   loadData() {
     this.isLoading = true;
-    this.invoiceService.getInvoices().subscribe({
-      next: (summaries) => {
-        if (!summaries || summaries.length === 0) {
-          this.isLoading = false;
-          this.cdr.detectChanges();
-          return;
-        }
-        
-        const requests = summaries.map((s: any) => 
-          this.invoiceService.getInvoice(s.invoice_id).pipe(
-            catchError(err => {
-              console.error(`Failed to fetch invoice ${s.invoice_id}`, err);
-              return of(null);
-            })
-          )
-        );
 
-        forkJoin(requests).subscribe({
-          next: (detailedInvoices: any) => {
-            // Filter out any nulls that failed to fetch
-            const validInvoices = detailedInvoices.filter((inv: any) => inv !== null);
-            this.processInvoices(validInvoices);
-            this.isLoading = false;
-            this.cdr.detectChanges();
-          },
-          error: (err: any) => {
-            console.error(err);
-            this.isLoading = false;
-            this.cdr.detectChanges();
-          }
-        });
+    combineLatest({
+      summaries: this.invoiceService.getInvoices().pipe(catchError(() => of([]))),
+      jobParts: this.http.get<any[]>(`${this.baseUrl}/jobparts`).pipe(catchError(() => of([])))
+    }).subscribe({
+      next: ({ summaries, jobParts }) => {
+        this.processInvoices(summaries || [], jobParts || []);
+        this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
@@ -86,41 +68,55 @@ export class ReportDetails implements OnInit {
     });
   }
 
-  processInvoices(detailedInvoices: any[]) {
+  private getStartOfCurrentWeek(now: Date): Date {
+    const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate() - diffToMonday, 0, 0, 0, 0);
+  }
+
+  private getStartOfCurrentMonth(now: Date): Date {
+    return new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
+  }
+
+  processInvoices(summaries: any[], jobParts: any[]) {
     const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
+    const startOfWeek = this.getStartOfCurrentWeek(now);
+    const startOfMonth = this.getStartOfCurrentMonth(now);
 
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(now.getDate() - 7);
+    const partsByJobId = new Map<number, number>();
+    for (const jp of jobParts) {
+      const jId = Number(jp.job_id);
+      partsByJobId.set(jId, (partsByJobId.get(jId) || 0) + Number(jp.total_amount || 0));
+    }
 
-    let processed = [];
+    const processed = [];
     this.totalValue = 0;
 
-    for (const inv of detailedInvoices) {
+    for (const inv of summaries) {
       const invDate = new Date(inv.invoice_date);
-      
+      const partsSum = partsByJobId.get(Number(inv.job_id)) || 0;
+      const subtotal = Number(inv.subtotal ?? inv.total_amount ?? 0);
+      const labourSum = Math.max(0, subtotal - partsSum);
+
       let relevantAmount = 0;
       let include = false;
 
       if (this.type === 'weekly') {
-        if (invDate >= oneWeekAgo && invDate <= now) {
+        if (invDate >= startOfWeek && invDate <= now) {
           include = true;
           relevantAmount = Number(inv.total_amount) || 0;
         }
       } else if (this.type === 'monthly') {
-        if (invDate.getMonth() === currentMonth && invDate.getFullYear() === currentYear) {
+        if (invDate >= startOfMonth && invDate <= now) {
           include = true;
           relevantAmount = Number(inv.total_amount) || 0;
         }
       } else if (this.type === 'labour') {
-        const labourSum = (inv.services || []).reduce((sum: number, s: any) => sum + (Number(s.total_amount) || 0), 0);
         if (labourSum > 0) {
           include = true;
           relevantAmount = labourSum;
         }
       } else if (this.type === 'parts') {
-        const partsSum = (inv.parts || []).reduce((sum: number, p: any) => sum + (Number(p.total_amount) || 0), 0);
         if (partsSum > 0) {
           include = true;
           relevantAmount = partsSum;
